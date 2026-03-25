@@ -9,6 +9,39 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Clima & Río Uruguay | Concepción del Uruguay</title>
+  
+  <!-- PWA Meta Tags -->
+  <meta name="description" content="Dashboard de clima, altura del Río Uruguay, viento y feriados para Concepción del Uruguay, Entre Ríos">
+  <meta name="theme-color" content="#3B82F6">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Clima CdU">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="Clima CdU">
+  
+  <!-- Favicon emoji como SVG -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌤️</text></svg>">
+  
+  <!-- Apple Touch Icons -->
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%233B82F6' width='100' height='100' rx='20'/><text x='50' y='65' font-size='55' text-anchor='middle'>🌤️</text></svg>">
+  
+  <!-- Manifest para PWA -->
+  <link rel="manifest" href="data:application/json,{
+    &quot;name&quot;: &quot;Clima y Río Uruguay - CdU&quot;,
+    &quot;short_name&quot;: &quot;Clima CdU&quot;,
+    &quot;description&quot;: &quot;Clima, altura del río y feriados&quot;,
+    &quot;start_url&quot;: &quot;.&quot;,
+    &quot;display&quot;: &quot;standalone&quot;,
+    &quot;background_color&quot;: &quot;%23F8FAFC&quot;,
+    &quot;theme_color&quot;: &quot;%233B82F6&quot;,
+    &quot;icons&quot;: [{
+      &quot;src&quot;: &quot;data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%233B82F6' width='100' height='100' rx='20'/><text x='50' y='65' font-size='55' text-anchor='middle'>🌤️</text></svg>&quot;,
+      &quot;sizes&quot;: &quot;any&quot;,
+      &quot;type&quot;: &quot;image/svg+xml&quot;,
+      &quot;purpose&quot;: &quot;any maskable&quot;
+    }]
+  }">
+  
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -553,12 +586,12 @@
 
     .extended-day {
       display: grid;
-      grid-template-columns: 100px 40px 1fr 80px;
+      grid-template-columns: 100px 40px 1fr 80px 85px;
       align-items: center;
       padding: 14px 16px;
       background: var(--bg-main);
       border-radius: var(--radius-sm);
-      gap: 16px;
+      gap: 12px;
     }
 
     .extended-day-name {
@@ -598,6 +631,24 @@
 
     .extended-min {
       font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    .extended-rain {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.8rem;
+      min-width: 80px;
+      justify-content: flex-end;
+    }
+
+    .extended-rain.high {
+      color: var(--accent-blue);
+      font-weight: 600;
+    }
+
+    .extended-rain.low {
       color: var(--text-muted);
     }
 
@@ -1214,6 +1265,7 @@
               <span class="extended-max">32°</span>
               <span class="extended-min">22°</span>
             </div>
+            <div class="extended-rain high">💧 25%</div>
           </div>
           <div class="extended-day">
             <span class="extended-day-name">Domingo 29</span>
@@ -1225,6 +1277,7 @@
               <span class="extended-max">33°</span>
               <span class="extended-min">23°</span>
             </div>
+            <div class="extended-rain low">💧 0%</div>
           </div>
           <div class="extended-day">
             <span class="extended-day-name">Lunes 30</span>
@@ -1236,6 +1289,7 @@
               <span class="extended-max">34°</span>
               <span class="extended-min">24°</span>
             </div>
+            <div class="extended-rain low">💧 5%</div>
           </div>
           <div class="extended-day">
             <span class="extended-day-name">Martes 31</span>
@@ -1247,6 +1301,31 @@
               <span class="extended-max">33°</span>
               <span class="extended-min">24°</span>
             </div>
+            <div class="extended-rain low">💧 10%</div>
+          </div>
+          <div class="extended-day">
+            <span class="extended-day-name">Miérc 1 Abr</span>
+            <span class="extended-icon">🌧️</span>
+            <div class="extended-bar-container">
+              <div class="extended-bar" style="left: 38%; width: 40%;"></div>
+            </div>
+            <div class="extended-temps">
+              <span class="extended-max">30°</span>
+              <span class="extended-min">22°</span>
+            </div>
+            <div class="extended-rain high">💧 45% 8mm</div>
+          </div>
+          <div class="extended-day">
+            <span class="extended-day-name">Jueves 2 Abr</span>
+            <span class="extended-icon">⛈️</span>
+            <div class="extended-bar-container">
+              <div class="extended-bar" style="left: 35%; width: 38%;"></div>
+            </div>
+            <div class="extended-temps">
+              <span class="extended-max">28°</span>
+              <span class="extended-min">20°</span>
+            </div>
+            <div class="extended-rain high">💧 70% 15mm</div>
           </div>
         </div>
       </div>
