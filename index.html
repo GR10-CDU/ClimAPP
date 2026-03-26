@@ -764,72 +764,34 @@
     /* Webcam Card */
     .webcam-card {
       grid-column: span 6;
+      background: linear-gradient(145deg, #1E293B 0%, #0F172A 100%);
+      color: white;
     }
 
     .webcam-card .card-icon {
       background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
     }
 
-    .webcam-links {
+    .webcam-card .card-header {
       display: flex;
-      flex-direction: column;
+      align-items: center;
       gap: 12px;
-      margin-top: 16px;
     }
 
-    .webcam-link-item {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 14px 16px;
-      background: linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%);
-      border-radius: 14px;
-      text-decoration: none;
-      color: inherit;
-      transition: all 0.2s ease;
-      border: 1px solid var(--border-light);
-    }
-
-    .webcam-link-item:hover {
-      transform: translateX(4px);
-      box-shadow: var(--shadow-md);
-      background: white;
-    }
-
-    .webcam-link-icon {
-      font-size: 1.8rem;
-      width: 48px;
-      height: 48px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: white;
-      border-radius: 12px;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .webcam-link-info {
+    .webcam-card .card-header > div:nth-child(2) {
       flex: 1;
     }
 
-    .webcam-link-title {
-      font-weight: 700;
-      font-size: 1rem;
-      color: var(--text-primary);
+    .webcam-card .card-title,
+    .webcam-card .card-subtitle {
+      color: rgba(255,255,255,0.9);
     }
 
-    .webcam-link-desc {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      margin-top: 2px;
-    }
-
-    .webcam-link-badge {
+    .live-badge {
       display: flex;
       align-items: center;
       gap: 6px;
       background: #EF4444;
-      color: white;
       padding: 6px 12px;
       border-radius: 20px;
       font-size: 0.7rem;
@@ -850,22 +812,45 @@
       51%, 100% { opacity: 0.3; }
     }
 
-    .webcam-link-arrow {
-      font-size: 1.2rem;
-      color: var(--accent-blue);
-      font-weight: 700;
+    .webcam-container {
+      position: relative;
+      margin-top: 16px;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #000;
+      aspect-ratio: 16/9;
     }
 
-    .webcam-note {
+    .webcam-iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .webcam-footer {
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      gap: 8px;
-      margin-top: 14px;
-      padding: 10px 14px;
-      background: #F0F9FF;
-      border-radius: 10px;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .webcam-location {
       font-size: 0.8rem;
-      color: #0369A1;
+      color: #94A3B8;
+    }
+
+    .webcam-external-link {
+      font-size: 0.8rem;
+      color: #60A5FA;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+
+    .webcam-external-link:hover {
+      color: #93C5FD;
     }
 
     .river-stations .card-icon {
@@ -2386,44 +2371,29 @@
         <div class="card-header">
           <div class="card-icon">📹</div>
           <div>
-            <div class="card-title">Cámaras del Río</div>
-            <div class="card-subtitle">Enlaces a cámaras en vivo</div>
+            <div class="card-title">Cámara en Vivo</div>
+            <div class="card-subtitle">Puerto Colón · Río Uruguay</div>
+          </div>
+          <div class="live-badge">
+            <span class="live-dot"></span>
+            EN VIVO
           </div>
         </div>
-        <div class="webcam-links">
-          <a href="https://myearthcam.com/soportemunicoloner" target="_blank" class="webcam-link-item">
-            <div class="webcam-link-icon">🎥</div>
-            <div class="webcam-link-info">
-              <div class="webcam-link-title">Puerto Colón</div>
-              <div class="webcam-link-desc">Vista del puerto y río Uruguay</div>
-            </div>
-            <div class="webcam-link-badge">
-              <span class="live-dot"></span>
-              LIVE
-            </div>
-          </a>
-          <a href="https://myearthcam.com/coloner" target="_blank" class="webcam-link-item">
-            <div class="webcam-link-icon">🌊</div>
-            <div class="webcam-link-info">
-              <div class="webcam-link-title">Colón - Marina</div>
-              <div class="webcam-link-desc">Costanera y embarcadero</div>
-            </div>
-            <div class="webcam-link-badge">
-              <span class="live-dot"></span>
-              LIVE
-            </div>
-          </a>
-          <a href="https://www.windy.com/-Webcams/Argentina/Entre-R%C3%ADos/Col%C3%B3n/webcams/1340234898" target="_blank" class="webcam-link-item">
-            <div class="webcam-link-icon">🌤️</div>
-            <div class="webcam-link-info">
-              <div class="webcam-link-title">Colón - Windy</div>
-              <div class="webcam-link-desc">Webcam + pronóstico del tiempo</div>
-            </div>
-            <div class="webcam-link-arrow">↗</div>
-          </a>
+        <div class="webcam-container">
+          <iframe 
+            src="https://myearthcam.com/coloner" 
+            frameborder="0" 
+            allowfullscreen
+            loading="lazy"
+            class="webcam-iframe"
+            sandbox="allow-scripts allow-same-origin">
+          </iframe>
         </div>
-        <div class="webcam-note">
-          <span>💡</span> Las cámaras se abren en una nueva pestaña
+        <div class="webcam-footer">
+          <span class="webcam-location">📍 Puerto Colón, Entre Ríos</span>
+          <a href="https://myearthcam.com/coloner" target="_blank" class="webcam-external-link">
+            Abrir en EarthCam ↗
+          </a>
         </div>
       </div>
 
