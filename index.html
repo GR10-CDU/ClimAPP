@@ -764,39 +764,88 @@
     /* Webcam Card */
     .webcam-card {
       grid-column: span 6;
-      background: linear-gradient(145deg, #1E293B 0%, #0F172A 100%);
-      color: white;
     }
 
     .webcam-card .card-icon {
       background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
     }
 
-    .webcam-card .card-header {
+    .webcam-preview {
       display: flex;
       align-items: center;
-      gap: 12px;
+      justify-content: space-between;
+      margin-top: 16px;
+      padding: 20px;
+      background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
+      border-radius: 16px;
+      text-decoration: none;
+      color: white;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
     }
 
-    .webcam-card .card-header > div:nth-child(2) {
-      flex: 1;
+    .webcam-preview:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(239, 68, 68, 0.3);
+      border-color: #EF4444;
     }
 
-    .webcam-card .card-title,
-    .webcam-card .card-subtitle {
-      color: rgba(255,255,255,0.9);
+    .webcam-preview-content {
+      display: flex;
+      align-items: center;
+      gap: 16px;
     }
 
-    .live-badge {
+    .webcam-play-icon {
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      color: white;
+      box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+      transition: transform 0.2s;
+    }
+
+    .webcam-preview:hover .webcam-play-icon {
+      transform: scale(1.1);
+    }
+
+    .webcam-preview-text {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .webcam-preview-title {
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    .webcam-preview-desc {
+      font-size: 0.85rem;
+      color: #94A3B8;
+    }
+
+    .webcam-preview-badge {
       display: flex;
       align-items: center;
       gap: 6px;
       background: #EF4444;
-      padding: 6px 12px;
+      padding: 8px 14px;
       border-radius: 20px;
-      font-size: 0.7rem;
+      font-size: 0.75rem;
       font-weight: 700;
       letter-spacing: 0.5px;
+      animation: pulse-badge 2s infinite;
+    }
+
+    @keyframes pulse-badge {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+      50% { box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
     }
 
     .live-dot {
@@ -812,45 +861,18 @@
       51%, 100% { opacity: 0.3; }
     }
 
-    .webcam-container {
-      position: relative;
-      margin-top: 16px;
-      border-radius: 12px;
-      overflow: hidden;
-      background: #000;
-      aspect-ratio: 16/9;
-    }
-
-    .webcam-iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-
     .webcam-footer {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-top: 12px;
-      padding-top: 12px;
-      border-top: 1px solid rgba(255,255,255,0.15);
+      font-size: 0.8rem;
+      color: var(--text-muted);
     }
 
-    .webcam-location {
-      font-size: 0.8rem;
-      color: #94A3B8;
-    }
-
-    .webcam-external-link {
-      font-size: 0.8rem;
-      color: #60A5FA;
-      text-decoration: none;
+    .webcam-hint {
+      color: var(--accent-blue);
       font-weight: 600;
-      transition: color 0.2s;
-    }
-
-    .webcam-external-link:hover {
-      color: #93C5FD;
     }
 
     .river-stations .card-icon {
@@ -2372,28 +2394,25 @@
           <div class="card-icon">📹</div>
           <div>
             <div class="card-title">Cámara en Vivo</div>
-            <div class="card-subtitle">Puerto Colón · Río Uruguay</div>
+            <div class="card-subtitle">Río Uruguay · Colón</div>
           </div>
-          <div class="live-badge">
+        </div>
+        <a href="https://myearthcam.com/coloner" target="_blank" class="webcam-preview">
+          <div class="webcam-preview-content">
+            <div class="webcam-play-icon">▶</div>
+            <div class="webcam-preview-text">
+              <div class="webcam-preview-title">Puerto Colón - Marina</div>
+              <div class="webcam-preview-desc">Costanera y embarcadero del Río Uruguay</div>
+            </div>
+          </div>
+          <div class="webcam-preview-badge">
             <span class="live-dot"></span>
             EN VIVO
           </div>
-        </div>
-        <div class="webcam-container">
-          <iframe 
-            src="https://myearthcam.com/coloner" 
-            frameborder="0" 
-            allowfullscreen
-            loading="lazy"
-            class="webcam-iframe"
-            sandbox="allow-scripts allow-same-origin">
-          </iframe>
-        </div>
+        </a>
         <div class="webcam-footer">
-          <span class="webcam-location">📍 Puerto Colón, Entre Ríos</span>
-          <a href="https://myearthcam.com/coloner" target="_blank" class="webcam-external-link">
-            Abrir en EarthCam ↗
-          </a>
+          <span class="webcam-source">Fuente: EarthCam</span>
+          <span class="webcam-hint">Clic para ver en vivo ↗</span>
         </div>
       </div>
 
