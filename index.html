@@ -929,6 +929,203 @@ body {
   grid-column: span 3;
 }
 
+/* River History Chart */
+.river-history {
+  grid-column: span 4;
+}
+
+.river-history .card-icon {
+  background: linear-gradient(135deg, #14B8A6 0%, #0D9488 100%);
+}
+
+.river-chart {
+  margin-top: 16px;
+}
+
+.chart-container {
+  display: flex;
+  gap: 8px;
+}
+
+.chart-y-axis {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  padding: 4px 0;
+  min-width: 24px;
+}
+
+.chart-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.chart-svg {
+  width: 100%;
+  height: 100px;
+  background: linear-gradient(180deg, rgba(20, 184, 166, 0.05) 0%, transparent 100%);
+  border-radius: 8px;
+}
+
+.chart-x-axis {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin-top: 8px;
+  padding: 0 4px;
+}
+
+.chart-stats {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-light);
+}
+
+.chart-stat {
+  text-align: center;
+}
+
+.chart-stat-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  display: block;
+}
+
+.chart-stat-value {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.chart-stat-value.trend-down {
+  color: var(--accent-teal);
+}
+
+.chart-stat-value.trend-up {
+  color: var(--accent-rose);
+}
+
+/* Fishing Index */
+.fishing-index {
+  grid-column: span 4;
+}
+
+.fishing-index .card-icon {
+  background: linear-gradient(135deg, #22C55E 0%, #16A34A 100%);
+}
+
+.fishing-display {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.fishing-score {
+  text-align: center;
+}
+
+.fishing-circle {
+  position: relative;
+  width: 100px;
+  height: 100px;
+}
+
+.fishing-ring {
+  width: 100%;
+  height: 100%;
+}
+
+.fishing-value {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.fishing-number {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--accent-green);
+}
+
+.fishing-max {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.fishing-label {
+  margin-top: 8px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--accent-green);
+  letter-spacing: 0.5px;
+}
+
+.fishing-factors {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.factor-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+}
+
+.factor-item.good {
+  background: #DCFCE7;
+  color: #166534;
+}
+
+.factor-item.neutral {
+  background: #FEF3C7;
+  color: #92400E;
+}
+
+.factor-item.bad {
+  background: #FEE2E2;
+  color: #991B1B;
+}
+
+.factor-icon {
+  font-size: 1rem;
+}
+
+.factor-name {
+  flex: 1;
+}
+
+.factor-score {
+  font-weight: 700;
+}
+
+.fishing-tip {
+  margin-top: 16px;
+  padding: 12px 16px;
+  background: linear-gradient(90deg, #ECFDF5 0%, #D1FAE5 100%);
+  border-radius: 10px;
+  font-size: 0.85rem;
+  color: #065F46;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .sun-moon-card .card-icon {
   background: linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%);
 }
@@ -1056,6 +1253,8 @@ body {
   .forecast-3day { grid-column: span 6; }
   .forecast-extended { grid-column: span 6; }
   .river-stations { grid-column: span 6; }
+  .river-history { grid-column: span 3; }
+  .fishing-index { grid-column: span 3; }
   .holidays-section { grid-column: span 6; }
   .sun-moon-card { grid-column: span 3; }
   .air-quality-card { grid-column: span 3; }
@@ -1077,6 +1276,8 @@ body {
   .forecast-3day,
   .forecast-extended,
   .river-stations,
+  .river-history,
+  .fishing-index,
   .holidays-section,
   .sun-moon-card,
   .air-quality-card {
@@ -1388,6 +1589,48 @@ body {
   .data-source {
     flex-direction: column;
     gap: 8px;
+  }
+
+  /* River History mobile */
+  .chart-svg {
+    height: 80px;
+  }
+
+  .chart-stats {
+    gap: 8px;
+  }
+
+  .chart-stat-value {
+    font-size: 0.9rem;
+  }
+
+  /* Fishing Index mobile */
+  .fishing-display {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .fishing-circle {
+    width: 90px;
+    height: 90px;
+  }
+
+  .fishing-number {
+    font-size: 1.5rem;
+  }
+
+  .fishing-factors {
+    width: 100%;
+  }
+
+  .factor-item {
+    padding: 6px 10px;
+    font-size: 0.75rem;
+  }
+
+  .fishing-tip {
+    font-size: 0.8rem;
+    padding: 10px 12px;
   }
 }
 
@@ -1992,6 +2235,145 @@ body {
         <div class="station-unit">metros</div>
         <div class="station-status baja">↓ Baja</div>
       </div>
+    </div>
+  </div>
+
+  <!-- Gráfico Histórico del Río -->
+  <div class="card river-history">
+    <div class="card-header">
+      <div class="card-icon">📈</div>
+      <div>
+        <div class="card-title">Tendencia del Río</div>
+        <div class="card-subtitle">Últimos 7 días · CdU</div>
+      </div>
+    </div>
+    <div class="river-chart">
+      <div class="chart-container">
+        <div class="chart-y-axis">
+          <span>3m</span>
+          <span>2m</span>
+          <span>1m</span>
+          <span>0m</span>
+        </div>
+        <div class="chart-area">
+          <svg viewBox="0 0 300 100" preserveAspectRatio="none" class="chart-svg">
+            <!-- Línea de alerta -->
+            <line x1="0" y1="20" x2="300" y2="20" stroke="#FCD34D" stroke-width="1" stroke-dasharray="4"/>
+            <!-- Área bajo la curva -->
+            <path d="M0,70 L43,65 L86,60 L129,55 L172,52 L215,50 L258,48 L300,51 L300,100 L0,100 Z" fill="url(#riverGradient)" opacity="0.3"/>
+            <!-- Línea principal -->
+            <path d="M0,70 L43,65 L86,60 L129,55 L172,52 L215,50 L258,48 L300,51" fill="none" stroke="#14B8A6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <!-- Puntos -->
+            <circle cx="0" cy="70" r="4" fill="#14B8A6"/>
+            <circle cx="43" cy="65" r="4" fill="#14B8A6"/>
+            <circle cx="86" cy="60" r="4" fill="#14B8A6"/>
+            <circle cx="129" cy="55" r="4" fill="#14B8A6"/>
+            <circle cx="172" cy="52" r="4" fill="#14B8A6"/>
+            <circle cx="215" cy="50" r="4" fill="#14B8A6"/>
+            <circle cx="258" cy="48" r="4" fill="#14B8A6"/>
+            <circle cx="300" cy="51" r="5" fill="#0D9488" stroke="#fff" stroke-width="2"/>
+            <defs>
+              <linearGradient id="riverGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" style="stop-color:#14B8A6;stop-opacity:0.4"/>
+                <stop offset="100%" style="stop-color:#14B8A6;stop-opacity:0"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <div class="chart-x-axis">
+            <span>19</span>
+            <span>20</span>
+            <span>21</span>
+            <span>22</span>
+            <span>23</span>
+            <span>24</span>
+            <span>25</span>
+            <span>Hoy</span>
+          </div>
+        </div>
+      </div>
+      <div class="chart-stats">
+        <div class="chart-stat">
+          <span class="chart-stat-label">Máx 7d</span>
+          <span class="chart-stat-value">1.82m</span>
+        </div>
+        <div class="chart-stat">
+          <span class="chart-stat-label">Mín 7d</span>
+          <span class="chart-stat-value">1.44m</span>
+        </div>
+        <div class="chart-stat">
+          <span class="chart-stat-label">Tendencia</span>
+          <span class="chart-stat-value trend-down">↓ Bajando</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Índice de Pesca -->
+  <div class="card fishing-index">
+    <div class="card-header">
+      <div class="card-icon">🎣</div>
+      <div>
+        <div class="card-title">Índice de Pesca</div>
+        <div class="card-subtitle">Calculado en tiempo real</div>
+      </div>
+    </div>
+    <div class="fishing-display">
+      <div class="fishing-score">
+        <div class="fishing-circle">
+          <svg viewBox="0 0 100 100" class="fishing-ring">
+            <circle cx="50" cy="50" r="45" fill="none" stroke="#E2E8F0" stroke-width="8"/>
+            <circle cx="50" cy="50" r="45" fill="none" stroke="url(#fishGradient)" stroke-width="8" 
+                    stroke-dasharray="212" stroke-dashoffset="42" stroke-linecap="round"
+                    transform="rotate(-90 50 50)"/>
+            <defs>
+              <linearGradient id="fishGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" style="stop-color:#22C55E"/>
+                <stop offset="100%" style="stop-color:#14B8A6"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <div class="fishing-value">
+            <span class="fishing-number">7.5</span>
+            <span class="fishing-max">/10</span>
+          </div>
+        </div>
+        <div class="fishing-label">MUY BUENO</div>
+      </div>
+      <div class="fishing-factors">
+        <div class="factor-item good">
+          <span class="factor-icon">🌡️</span>
+          <span class="factor-name">Agua 24°C</span>
+          <span class="factor-score">✓</span>
+        </div>
+        <div class="factor-item good">
+          <span class="factor-icon">🌊</span>
+          <span class="factor-name">Río bajando</span>
+          <span class="factor-score">✓</span>
+        </div>
+        <div class="factor-item good">
+          <span class="factor-icon">🌗</span>
+          <span class="factor-name">Luna menguante</span>
+          <span class="factor-score">✓</span>
+        </div>
+        <div class="factor-item neutral">
+          <span class="factor-icon">💨</span>
+          <span class="factor-name">Viento 9km/h</span>
+          <span class="factor-score">●</span>
+        </div>
+        <div class="factor-item good">
+          <span class="factor-icon">🌤️</span>
+          <span class="factor-name">Presión estable</span>
+          <span class="factor-score">✓</span>
+        </div>
+        <div class="factor-item neutral">
+          <span class="factor-icon">☀️</span>
+          <span class="factor-name">Soleado</span>
+          <span class="factor-score">●</span>
+        </div>
+      </div>
+    </div>
+    <div class="fishing-tip">
+      <span>💡</span> Mejor horario: <strong>06:00 - 09:00</strong> y <strong>18:00 - 20:00</strong>
     </div>
   </div>
 
