@@ -357,24 +357,24 @@
     .river-level {
       display: flex;
       align-items: flex-end;
-      gap: 8px;
+      gap: 4px;
     }
 
     .river-value {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 3.5rem;
+      font-size: 6rem;
       font-weight: 700;
       line-height: 1;
     }
 
     .river-unit {
-      font-size: 1.5rem;
+      font-size: 2.5rem;
       font-weight: 500;
       margin-bottom: 12px;
       opacity: 0.85;
     }
 
-    .river-status {
+    .river-status-badge {
       display: inline-flex;
       align-items: center;
       gap: 8px;
@@ -385,14 +385,19 @@
       font-weight: 600;
     }
 
-    .river-status.bajando::before {
+    .river-status-badge.falling::before {
       content: '↓';
       font-size: 1.1rem;
     }
 
-    .river-status.subiendo::before {
+    .river-status-badge.rising::before {
       content: '↑';
       font-size: 1.1rem;
+    }
+
+    .river-status-badge.stable::before {
+      content: '●';
+      font-size: 0.8rem;
     }
 
     .river-variation {
@@ -417,36 +422,76 @@
 
     .gauge-bar {
       height: 10px;
-      background: rgba(255,255,255,0.2);
+      background: linear-gradient(90deg, #34D399 0%, #34D399 40%, #FCD34D 40%, #FCD34D 60%, #F87171 60%, #F87171 100%);
       border-radius: 5px;
-      overflow: hidden;
       position: relative;
+      overflow: visible;
     }
 
-    .gauge-fill {
+    .river-gauge-fill {
       height: 100%;
-      background: linear-gradient(90deg, #34D399 0%, #FCD34D 50%, #F87171 100%);
-      border-radius: 6px;
+      background: rgba(255,255,255,0.4);
+      border-radius: 5px;
       position: relative;
     }
 
-    .gauge-marker {
+    .river-gauge-fill::after {
+      content: '';
       position: absolute;
+      right: -2px;
       top: -4px;
-      width: 4px;
-      height: 20px;
+      width: 6px;
+      height: 18px;
       background: white;
-      border-radius: 2px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      border-radius: 3px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
     }
 
     .gauge-legend {
       display: flex;
       justify-content: space-between;
-      margin-top: 8px;
       font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+      margin-top: 8px;
+      font-weight: 600;
+    }
+
+    .gauge-legend .normal { color: #34D399; }
+    .gauge-legend .alerta { color: #FCD34D; }
+    .gauge-legend .evac { color: #F87171; }
+
+    .river-temp {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .river-temp-icon {
+      font-size: 1.8rem;
+    }
+
+    .river-temp-info {
+      flex: 1;
+    }
+
+    .river-temp-label {
+      font-size: 0.75rem;
+      opacity: 0.8;
+    }
+
+    .water-temp-value {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+    }
+
+    .river-timestamp {
+      font-size: 0.75rem;
+      text-align: right;
+      opacity: 0.8;
+      line-height: 1.4;
     }
 
     /* Wind Card */
@@ -1923,17 +1968,17 @@
           <div class="card-icon">🌊</div>
           <div>
             <div class="card-title">Río Uruguay</div>
-            <div class="card-subtitle">Puerto CdU • 12:00 hs</div>
+            <div class="card-subtitle river-subtitle">Puerto CdU • Cargando...</div>
           </div>
         </div>
         <div class="river-main">
           <div class="river-level">
-            <span class="river-value">1.46</span>
+            <span class="river-value">--</span>
             <span class="river-unit">m</span>
           </div>
           <div>
-            <div class="river-status bajando">Bajando</div>
-            <div class="river-variation">-0.14m en 12hs</div>
+            <div class="river-status-badge">Cargando</div>
+            <div class="river-variation">-- en 12hs</div>
           </div>
         </div>
         <div class="river-gauge">
@@ -1943,24 +1988,23 @@
             <span>10m</span>
           </div>
           <div class="gauge-bar">
-            <div class="gauge-fill" style="width: 100%;">
-              <div class="gauge-marker" style="left: 14.6%;"></div>
+            <div class="river-gauge-fill" style="width: 15%;">
             </div>
           </div>
           <div class="gauge-legend">
-            <span style="color: #34D399;">Normal</span>
-            <span style="color: #FCD34D;">Alerta 4m</span>
-            <span style="color: #F87171;">Evac. 6m</span>
+            <span class="normal">NORMAL</span>
+            <span class="alerta">ALERTA 4M</span>
+            <span class="evac">EVAC. 6M</span>
           </div>
         </div>
         <div class="river-temp">
           <span class="river-temp-icon">🌡️</span>
           <div class="river-temp-info">
             <div class="river-temp-label">Temp. del agua</div>
-            <div class="river-temp-value">24.2°C</div>
+            <div class="water-temp-value">--°C</div>
           </div>
-          <div class="river-update-time">
-            Actualizado<br>25/03 12:00
+          <div class="river-timestamp">
+            Actualizado<br>--/-- --:--
           </div>
         </div>
       </div>
@@ -2640,7 +2684,9 @@
     }
 
     function getDayName(dateStr, short = false) {
-      const date = new Date(dateStr);
+      // dateStr viene como "2026-03-26" de Open-Meteo
+      const parts = dateStr.split('-');
+      const date = new Date(parts[0], parts[1] - 1, parts[2]);
       const days = short 
         ? ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb']
         : ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
@@ -2648,8 +2694,11 @@
     }
 
     function formatDate(dateStr) {
-      const date = new Date(dateStr);
-      return date.getDate();
+      // dateStr viene como "2026-03-26" de Open-Meteo
+      const date = new Date(dateStr + 'T12:00:00'); // Agregar hora para evitar problemas de timezone
+      const day = date.getDate();
+      const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+      return `${day} ${months[date.getMonth()]}`;
     }
 
     // ============================================
@@ -2706,16 +2755,18 @@
     // ACTUALIZAR UI DEL RÍO
     // ============================================
     function updateRiverUI() {
-      // Card principal del río
-      const nivelEl = document.querySelector('.river-level');
+      // Nivel del río (número grande)
+      const nivelEl = document.querySelector('.river-value');
       if (nivelEl) nivelEl.textContent = DATOS_RIO.nivel?.toFixed(2) || '--';
       
+      // Variación
       const varEl = document.querySelector('.river-variation');
       if (varEl) {
         const signo = DATOS_RIO.variacion > 0 ? '+' : '';
         varEl.textContent = `${signo}${DATOS_RIO.variacion?.toFixed(2) || '0'}m en 12hs`;
       }
       
+      // Estado (badge)
       const statusEl = document.querySelector('.river-status-badge');
       if (statusEl) {
         statusEl.innerHTML = `${DATOS_RIO.estado === 'Subiendo' ? '↑' : DATOS_RIO.estado === 'Bajando' ? '↓' : '●'} ${DATOS_RIO.estado}`;
@@ -2726,9 +2777,13 @@
       const tempAguaEl = document.querySelector('.water-temp-value');
       if (tempAguaEl) tempAguaEl.textContent = `${DATOS_RIO.tempAgua?.toFixed(1) || '--'}°C`;
       
-      // Timestamp
+      // Subtítulo con fecha/hora completa
+      const subtitleEl = document.querySelector('.river-subtitle');
+      if (subtitleEl) subtitleEl.textContent = `Puerto CdU • ${DATOS_RIO.ultimaActualizacion}`;
+      
+      // Timestamp abajo
       const timestampEl = document.querySelector('.river-timestamp');
-      if (timestampEl) timestampEl.textContent = `Actualizado ${DATOS_RIO.ultimaActualizacion}`;
+      if (timestampEl) timestampEl.innerHTML = `Actualizado<br>${DATOS_RIO.ultimaActualizacion}`;
       
       // Gauge del río
       updateRiverGauge(DATOS_RIO.nivel);
@@ -2935,13 +2990,20 @@
       
       // Pronóstico 3 días
       const forecastDays = document.querySelectorAll('.forecast-day');
+      const today = new Date();
+      const todayStr = today.toISOString().split('T')[0]; // "2026-03-26"
+      
       for (let i = 0; i < 3 && i < forecastDays.length; i++) {
         const day = forecastDays[i];
-        const dayName = i === 0 ? 'HOY' : getDayName(daily.time[i]).toUpperCase();
-        const dateNum = formatDate(daily.time[i]);
+        const apiDate = daily.time[i]; // "2026-03-26"
+        
+        // Verificar si es hoy comparando strings
+        const isToday = apiDate === todayStr;
+        const dayName = isToday ? 'HOY' : getDayName(apiDate).toUpperCase();
+        const dateFormatted = formatDate(apiDate);
         
         day.querySelector('.forecast-day-name').textContent = dayName;
-        day.querySelector('.forecast-day-date').textContent = `${dateNum} Mar`;
+        day.querySelector('.forecast-day-date').textContent = dateFormatted;
         day.querySelector('.forecast-icon').textContent = getWeatherIcon(daily.weather_code[i]);
         day.querySelector('.forecast-temp-max').textContent = `${Math.round(daily.temperature_2m_max[i])}°`;
         day.querySelector('.forecast-temp-min').textContent = `${Math.round(daily.temperature_2m_min[i])}°`;
