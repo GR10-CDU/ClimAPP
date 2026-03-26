@@ -764,35 +764,77 @@
     /* Webcam Card */
     .webcam-card {
       grid-column: span 6;
-      background: linear-gradient(145deg, #1E293B 0%, #0F172A 100%);
-      color: white;
     }
 
     .webcam-card .card-icon {
       background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
     }
 
-    .webcam-card .card-header {
+    .webcam-links {
       display: flex;
-      align-items: center;
+      flex-direction: column;
       gap: 12px;
+      margin-top: 16px;
     }
 
-    .webcam-card .card-header > div:first-of-type {
+    .webcam-link-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 16px;
+      background: linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%);
+      border-radius: 14px;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.2s ease;
+      border: 1px solid var(--border-light);
+    }
+
+    .webcam-link-item:hover {
+      transform: translateX(4px);
+      box-shadow: var(--shadow-md);
+      background: white;
+    }
+
+    .webcam-link-icon {
+      font-size: 1.8rem;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: white;
+      border-radius: 12px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .webcam-link-info {
       flex: 1;
     }
 
-    .live-badge {
+    .webcam-link-title {
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--text-primary);
+    }
+
+    .webcam-link-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .webcam-link-badge {
       display: flex;
       align-items: center;
       gap: 6px;
       background: #EF4444;
+      color: white;
       padding: 6px 12px;
       border-radius: 20px;
       font-size: 0.7rem;
       font-weight: 700;
       letter-spacing: 0.5px;
-      animation: pulse-live 2s infinite;
     }
 
     .live-dot {
@@ -808,92 +850,22 @@
       51%, 100% { opacity: 0.3; }
     }
 
-    @keyframes pulse-live {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
-      50% { box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
+    .webcam-link-arrow {
+      font-size: 1.2rem;
+      color: var(--accent-blue);
+      font-weight: 700;
     }
 
-    .webcam-container {
-      position: relative;
-      margin-top: 16px;
-      border-radius: 12px;
-      overflow: hidden;
-      background: #000;
-      aspect-ratio: 16/9;
-    }
-
-    .webcam-iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-      position: relative;
-      z-index: 2;
-    }
-
-    .webcam-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
+    .webcam-note {
       display: flex;
       align-items: center;
-      justify-content: center;
-      z-index: 1;
-      transition: opacity 0.5s;
-    }
-
-    .webcam-overlay.hidden {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .webcam-loading {
-      text-align: center;
-      color: #94A3B8;
-    }
-
-    .webcam-loading span {
-      font-size: 3rem;
-      display: block;
-      margin-bottom: 12px;
-      animation: pulse 1.5s infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.1); opacity: 0.7; }
-    }
-
-    .webcam-loading p {
-      font-size: 0.9rem;
-    }
-
-    .webcam-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 12px;
-      padding-top: 12px;
-      border-top: 1px solid rgba(255,255,255,0.1);
-    }
-
-    .webcam-location {
+      gap: 8px;
+      margin-top: 14px;
+      padding: 10px 14px;
+      background: #F0F9FF;
+      border-radius: 10px;
       font-size: 0.8rem;
-      color: #94A3B8;
-    }
-
-    .webcam-link {
-      font-size: 0.8rem;
-      color: #60A5FA;
-      text-decoration: none;
-      font-weight: 600;
-      transition: color 0.2s;
-    }
-
-    .webcam-link:hover {
-      color: #93C5FD;
+      color: #0369A1;
     }
 
     .river-stations .card-icon {
@@ -2414,34 +2386,44 @@
         <div class="card-header">
           <div class="card-icon">📹</div>
           <div>
-            <div class="card-title">Cámara en Vivo</div>
-            <div class="card-subtitle">Puerto Colón · Río Uruguay</div>
-          </div>
-          <div class="live-badge">
-            <span class="live-dot"></span>
-            EN VIVO
+            <div class="card-title">Cámaras del Río</div>
+            <div class="card-subtitle">Enlaces a cámaras en vivo</div>
           </div>
         </div>
-        <div class="webcam-container">
-          <iframe 
-            src="https://www.windy.com/webcams/1340234898?embed" 
-            frameborder="0" 
-            allowfullscreen
-            loading="lazy"
-            class="webcam-iframe">
-          </iframe>
-          <div class="webcam-overlay" id="webcamOverlay">
-            <div class="webcam-loading">
-              <span>📹</span>
-              <p>Cargando cámara...</p>
+        <div class="webcam-links">
+          <a href="https://myearthcam.com/soportemunicoloner" target="_blank" class="webcam-link-item">
+            <div class="webcam-link-icon">🎥</div>
+            <div class="webcam-link-info">
+              <div class="webcam-link-title">Puerto Colón</div>
+              <div class="webcam-link-desc">Vista del puerto y río Uruguay</div>
             </div>
-          </div>
-        </div>
-        <div class="webcam-footer">
-          <span class="webcam-location">📍 Puerto Colón, Entre Ríos</span>
-          <a href="https://www.windy.com/webcams/1340234898" target="_blank" class="webcam-link">
-            Ver en Windy ↗
+            <div class="webcam-link-badge">
+              <span class="live-dot"></span>
+              LIVE
+            </div>
           </a>
+          <a href="https://myearthcam.com/coloner" target="_blank" class="webcam-link-item">
+            <div class="webcam-link-icon">🌊</div>
+            <div class="webcam-link-info">
+              <div class="webcam-link-title">Colón - Marina</div>
+              <div class="webcam-link-desc">Costanera y embarcadero</div>
+            </div>
+            <div class="webcam-link-badge">
+              <span class="live-dot"></span>
+              LIVE
+            </div>
+          </a>
+          <a href="https://www.windy.com/-Webcams/Argentina/Entre-R%C3%ADos/Col%C3%B3n/webcams/1340234898" target="_blank" class="webcam-link-item">
+            <div class="webcam-link-icon">🌤️</div>
+            <div class="webcam-link-info">
+              <div class="webcam-link-title">Colón - Windy</div>
+              <div class="webcam-link-desc">Webcam + pronóstico del tiempo</div>
+            </div>
+            <div class="webcam-link-arrow">↗</div>
+          </a>
+        </div>
+        <div class="webcam-note">
+          <span>💡</span> Las cámaras se abren en una nueva pestaña
         </div>
       </div>
 
@@ -3431,20 +3413,6 @@
       setInterval(() => fetchRiverData(false), 30 * 60 * 1000);
       
       checkAlerts();
-      
-      // Ocultar overlay de webcam cuando carga
-      const webcamIframe = document.querySelector('.webcam-iframe');
-      if (webcamIframe) {
-        webcamIframe.addEventListener('load', () => {
-          const overlay = document.getElementById('webcamOverlay');
-          if (overlay) overlay.classList.add('hidden');
-        });
-        // Fallback: ocultar después de 5 segundos
-        setTimeout(() => {
-          const overlay = document.getElementById('webcamOverlay');
-          if (overlay) overlay.classList.add('hidden');
-        }, 5000);
-      }
     });
   </script>
 
