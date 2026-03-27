@@ -936,6 +936,256 @@ body {
   text-decoration: underline;
 }
 
+/* Stat clickeable */
+.stat-clickable {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-radius: 10px;
+}
+
+.stat-clickable:hover {
+  background: rgba(255,255,255,0.1);
+  transform: scale(1.05);
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 400px;
+  max-height: 80vh;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  transform: translateY(20px);
+  transition: transform 0.3s ease;
+}
+
+.modal-overlay.active .modal-content {
+  transform: translateY(0);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 20px;
+  background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
+  color: white;
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.modal-close {
+  background: rgba(255,255,255,0.2);
+  border: none;
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.modal-close:hover {
+  background: rgba(255,255,255,0.3);
+}
+
+.modal-body {
+  padding: 16px 20px;
+  max-height: 50vh;
+  overflow-y: auto;
+}
+
+.rain-day {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.rain-day:last-child {
+  border-bottom: none;
+}
+
+.rain-day-date {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.rain-day-amount {
+  font-weight: 700;
+  color: var(--accent-blue);
+}
+
+.rain-day-amount.heavy {
+  color: #EF4444;
+}
+
+.rain-day-amount.moderate {
+  color: #F59E0B;
+}
+
+.rain-day-amount.light {
+  color: #10B981;
+}
+
+.rain-day-amount.none {
+  color: var(--text-muted);
+}
+
+.rain-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 0;
+  margin-top: 10px;
+  border-top: 2px solid var(--border-light);
+  font-weight: 700;
+}
+
+.rain-total-label {
+  font-size: 1rem;
+}
+
+.rain-total-value {
+  font-size: 1.2rem;
+  color: var(--accent-blue);
+}
+
+.modal-footer {
+  padding: 12px 20px;
+  background: var(--bg-secondary);
+  text-align: center;
+}
+
+.modal-source {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* Finance Card */
+.finance-card {
+  grid-column: span 4;
+  background: linear-gradient(145deg, #1E293B 0%, #0F172A 100%);
+  color: white;
+}
+
+.finance-card .card-icon {
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+}
+
+.finance-card .card-title,
+.finance-card .card-subtitle {
+  color: rgba(255,255,255,0.9);
+}
+
+.finance-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.finance-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 14px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 12px;
+  transition: background 0.2s;
+}
+
+.finance-item:hover {
+  background: rgba(255,255,255,0.12);
+}
+
+.finance-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.finance-flag {
+  font-size: 1.3rem;
+}
+
+.finance-values {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.finance-buy {
+  color: #10B981;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.finance-sep {
+  color: rgba(255,255,255,0.4);
+  font-size: 0.9rem;
+}
+
+.finance-sell {
+  color: #F59E0B;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.btc-item {
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding-top: 14px;
+  margin-top: 4px;
+}
+
+.btc-value {
+  color: #F7931A;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.btc-currency {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.6);
+  margin-left: 4px;
+}
+
 .river-stations .card-icon {
   background: linear-gradient(135deg, var(--accent-teal) 0%, #0D9488 100%);
 }
@@ -2136,10 +2386,26 @@ body {
         <div class="stat-value">0%</div>
         <div class="stat-label">Prob. hoy</div>
       </div>
-      <div class="stat-item">
+      <div class="stat-item stat-clickable" id="acumMesBtn" title="Ver desglose de lluvias">
         <div class="stat-icon">🗓️</div>
         <div class="stat-value">8.8 mm</div>
-        <div class="stat-label">Acum. mes</div>
+        <div class="stat-label">Acum. mes ℹ️</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Desglose Lluvias -->
+  <div class="modal-overlay" id="rainModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>🌧️ Lluvias del mes</h3>
+        <button class="modal-close" id="rainModalClose">✕</button>
+      </div>
+      <div class="modal-body" id="rainBreakdown">
+        <p>Cargando...</p>
+      </div>
+      <div class="modal-footer">
+        <span class="modal-source">Fuente: Open-Meteo</span>
       </div>
     </div>
   </div>
@@ -2819,6 +3085,51 @@ body {
     </div>
   </div>
 
+  <!-- Sección Financiera -->
+  <div class="card finance-card">
+    <div class="card-header">
+      <div class="card-icon">💵</div>
+      <div>
+        <div class="card-title">Cotizaciones</div>
+        <div class="card-subtitle finance-timestamp">Cargando...</div>
+      </div>
+    </div>
+    <div class="finance-grid">
+      <div class="finance-item">
+        <div class="finance-label">
+          <span class="finance-flag">🇺🇸</span>
+          Dólar Oficial
+        </div>
+        <div class="finance-values">
+          <span class="finance-buy" id="dolarOficialCompra">--</span>
+          <span class="finance-sep">/</span>
+          <span class="finance-sell" id="dolarOficialVenta">--</span>
+        </div>
+      </div>
+      <div class="finance-item">
+        <div class="finance-label">
+          <span class="finance-flag">💸</span>
+          Dólar Blue
+        </div>
+        <div class="finance-values">
+          <span class="finance-buy" id="dolarBlueCompra">--</span>
+          <span class="finance-sep">/</span>
+          <span class="finance-sell" id="dolarBlueVenta">--</span>
+        </div>
+      </div>
+      <div class="finance-item btc-item">
+        <div class="finance-label">
+          <span class="finance-flag">₿</span>
+          Bitcoin
+        </div>
+        <div class="finance-values btc-value">
+          <span id="btcPrice">--</span>
+          <span class="btc-currency">USD</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <!-- Footer -->
@@ -2857,10 +3168,13 @@ body {
       nivel: null,
       variacion: null,
       estado: 'Cargando...',
-      tempAgua: null,
+      tempAgua: 24, // Valor por defecto si no hay data
       ultimaActualizacion: 'Cargando...',
       estaciones: {}
     };
+    
+    // Último valor conocido de temp del agua (para cuando la API devuelve null)
+    let LAST_KNOWN_WATER_TEMP = 24;
 
     // ============================================
     // FUNCIONES DE UTILIDAD
@@ -2942,8 +3256,56 @@ body {
     }
 
     // ============================================
+    // CARGAR DATOS FINANCIEROS
+    // ============================================
+    async function fetchFinanceData() {
+      try {
+        // Cargar dólar oficial y blue desde DolarAPI
+        const [oficialRes, blueRes, btcRes] = await Promise.all([
+          fetch('https://dolarapi.com/v1/dolares/oficial').catch(() => null),
+          fetch('https://dolarapi.com/v1/dolares/blue').catch(() => null),
+          fetch('https://blockchain.info/ticker').catch(() => null)
+        ]);
+
+        // Dólar Oficial
+        if (oficialRes && oficialRes.ok) {
+          const oficial = await oficialRes.json();
+          document.getElementById('dolarOficialCompra').textContent = `$${oficial.compra?.toFixed(0) || '--'}`;
+          document.getElementById('dolarOficialVenta').textContent = `$${oficial.venta?.toFixed(0) || '--'}`;
+        }
+
+        // Dólar Blue
+        if (blueRes && blueRes.ok) {
+          const blue = await blueRes.json();
+          document.getElementById('dolarBlueCompra').textContent = `$${blue.compra?.toFixed(0) || '--'}`;
+          document.getElementById('dolarBlueVenta').textContent = `$${blue.venta?.toFixed(0) || '--'}`;
+        }
+
+        // Bitcoin
+        if (btcRes && btcRes.ok) {
+          const btc = await btcRes.json();
+          const btcPrice = btc.USD?.last;
+          if (btcPrice) {
+            document.getElementById('btcPrice').textContent = `$${btcPrice.toLocaleString('en-US', { maximumFractionDigits: 0 })}`;
+          }
+        }
+
+        // Timestamp
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });
+        document.querySelector('.finance-timestamp').textContent = `Actualizado ${timeStr}`;
+
+        console.log('✅ Datos financieros cargados');
+      } catch (error) {
+        console.error('❌ Error cargando datos financieros:', error);
+      }
+    }
+
+    // ============================================
     // CARGAR ACUMULADO MENSUAL (Open-Meteo con past_days)
     // ============================================
+    let RAIN_BREAKDOWN = []; // Guardar desglose para el modal
+    
     async function fetchMonthlyPrecip() {
       try {
         const now = new Date();
@@ -2964,14 +3326,22 @@ body {
           const currentYear = now.getFullYear();
           
           let totalPrecip = 0;
+          RAIN_BREAKDOWN = []; // Reset
           
           // Sumar solo los días que pertenecen al mes actual Y que ya pasaron (hasta hoy inclusive)
           for (let i = 0; i < times.length; i++) {
-            const date = new Date(times[i]);
+            const date = new Date(times[i] + 'T12:00:00');
             if (date.getMonth() === currentMonth && 
                 date.getFullYear() === currentYear && 
                 date.getDate() <= dayOfMonth) {
-              totalPrecip += precips[i] || 0;
+              const precip = precips[i] || 0;
+              totalPrecip += precip;
+              
+              // Guardar para el desglose
+              RAIN_BREAKDOWN.push({
+                date: date,
+                amount: precip
+              });
             }
           }
           
@@ -2986,6 +3356,64 @@ body {
       } catch (error) {
         console.error('❌ Error cargando acumulado mensual:', error);
       }
+    }
+    
+    // Mostrar modal con desglose
+    function showRainBreakdown() {
+      const modal = document.getElementById('rainModal');
+      const body = document.getElementById('rainBreakdown');
+      
+      if (RAIN_BREAKDOWN.length === 0) {
+        body.innerHTML = '<p>No hay datos disponibles</p>';
+        modal.classList.add('active');
+        return;
+      }
+      
+      // Filtrar solo días con lluvia y ordenar
+      const rainyDays = RAIN_BREAKDOWN.filter(d => d.amount > 0).sort((a, b) => b.amount - a.amount);
+      const total = RAIN_BREAKDOWN.reduce((sum, d) => sum + d.amount, 0);
+      
+      let html = '';
+      
+      if (rainyDays.length === 0) {
+        html = '<p style="text-align:center; color: var(--text-muted);">No llovió este mes 🌞</p>';
+      } else {
+        // Mostrar días con lluvia (ordenados por cantidad)
+        rainyDays.forEach(day => {
+          const dateStr = day.date.toLocaleDateString('es-AR', { weekday: 'short', day: 'numeric', month: 'short' });
+          let amountClass = 'none';
+          let icon = '';
+          
+          if (day.amount >= 30) {
+            amountClass = 'heavy';
+            icon = '⛈️';
+          } else if (day.amount >= 10) {
+            amountClass = 'moderate';
+            icon = '🌧️';
+          } else if (day.amount > 0) {
+            amountClass = 'light';
+            icon = '🌦️';
+          }
+          
+          html += `
+            <div class="rain-day">
+              <span class="rain-day-date">${icon} ${dateStr}</span>
+              <span class="rain-day-amount ${amountClass}">${day.amount.toFixed(1)} mm</span>
+            </div>
+          `;
+        });
+      }
+      
+      // Total
+      html += `
+        <div class="rain-total">
+          <span class="rain-total-label">📊 Total del mes</span>
+          <span class="rain-total-value">${total.toFixed(1)} mm</span>
+        </div>
+      `;
+      
+      body.innerHTML = html;
+      modal.classList.add('active');
     }
 
     // ============================================
@@ -3002,11 +3430,18 @@ body {
           
           // Actualizar DATOS_RIO global
           const cdu = data.puertos?.concepcion || {};
+          
+          // Guardar tempAgua solo si tiene un valor válido, sino usar el último conocido
+          const newTempAgua = data.tempAgua;
+          if (newTempAgua && newTempAgua > 0) {
+            LAST_KNOWN_WATER_TEMP = newTempAgua;
+          }
+          
           DATOS_RIO = {
             nivel: cdu.nivel || 0,
             variacion: cdu.variacion || 0,
             estado: cdu.estado === 'crece' ? 'Subiendo' : cdu.estado === 'baja' ? 'Bajando' : 'Estable',
-            tempAgua: data.tempAgua || 24,
+            tempAgua: LAST_KNOWN_WATER_TEMP,
             ultimaActualizacion: cdu.fechaHora || new Date().toLocaleString('es-AR'),
             estaciones: {
               concordia: data.puertos?.concordia || {},
@@ -3480,10 +3915,11 @@ body {
       document.getElementById('lastUpdate').textContent = 'actualizando...';
       
       try {
-        // Cargar ambos en paralelo
+        // Cargar todos en paralelo
         await Promise.all([
           fetchWeatherData(),
-          fetchRiverData(true) // true = forzar refresh
+          fetchRiverData(true), // true = forzar refresh
+          fetchFinanceData()
         ]);
         
         document.getElementById('lastUpdate').textContent = 'ahora mismo';
@@ -3533,7 +3969,8 @@ body {
       await Promise.all([
         fetchWeatherData(),
         fetchRiverData(),
-        fetchMonthlyPrecip()
+        fetchMonthlyPrecip(),
+        fetchFinanceData()
       ]);
       
       document.getElementById('lastUpdate').textContent = 'ahora mismo';
@@ -3545,6 +3982,17 @@ body {
       setInterval(() => fetchRiverData(false), 30 * 60 * 1000);
       
       checkAlerts();
+      
+      // Modal de lluvias
+      document.getElementById('acumMesBtn')?.addEventListener('click', showRainBreakdown);
+      document.getElementById('rainModalClose')?.addEventListener('click', () => {
+        document.getElementById('rainModal').classList.remove('active');
+      });
+      document.getElementById('rainModal')?.addEventListener('click', (e) => {
+        if (e.target === e.currentTarget) {
+          document.getElementById('rainModal').classList.remove('active');
+        }
+      });
     });
   </script>
 
