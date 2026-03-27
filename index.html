@@ -1,19 +1,16 @@
 <!DOCTYPE html>
-
 <!--
   CLIMA & RÍO - Concepción del Uruguay
   2026-03-25 15:30 ARG
   Dashboard completo: clima, río Uruguay, viento, feriados
 -->
-
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Clima & Río Uruguay | Concepción del Uruguay</title>
-
+  
   <!-- PWA Meta Tags -->
-
   <meta name="description" content="Dashboard de clima, altura del Río Uruguay, viento y feriados para Concepción del Uruguay, Entre Ríos">
   <meta name="theme-color" content="#3B82F6">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -21,17 +18,14 @@
   <meta name="apple-mobile-web-app-title" content="Clima CdU">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="application-name" content="Clima CdU">
-
+  
   <!-- Favicon emoji como SVG -->
-
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌤️</text></svg>">
-
+  
   <!-- Apple Touch Icons -->
-
   <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%233B82F6' width='100' height='100' rx='20'/><text x='50' y='65' font-size='55' text-anchor='middle'>🌤️</text></svg>">
-
+  
   <!-- Manifest para PWA -->
-
   <link rel="manifest" href="data:application/json,{
     &quot;name&quot;: &quot;Clima y Río Uruguay - CdU&quot;,
     &quot;short_name&quot;: &quot;Clima CdU&quot;,
@@ -47,7 +41,7 @@
       &quot;purpose&quot;: &quot;any maskable&quot;
     }]
   }">
-
+  
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -75,2284 +69,2375 @@
       --radius-xl: 36px;
     }
 
-```
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-  background: var(--bg-main);
-  color: var(--text-primary);
-  min-height: 100vh;
-  line-height: 1.6;
-}
-
-.app-container {
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: 24px;
-}
-
-/* Header */
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 32px;
-  padding: 20px 28px;
-  background: var(--bg-card);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
-}
-
-.header-left {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.location-icon {
-  width: 48px;
-  height: 48px;
-  background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-teal) 100%);
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
-}
-
-.location-info h1 {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  letter-spacing: -0.02em;
-}
-
-.location-info p {
-  font-size: 0.9rem;
-  color: var(--text-secondary);
-}
-
-.header-right {
-  text-align: right;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 4px;
-}
-
-.current-date {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
-.current-time {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 2rem;
-  font-weight: 700;
-  background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-purple) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.last-update {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.8rem;
-  color: var(--text-muted);
-}
-
-.refresh-btn {
-  background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-purple) 100%);
-  border: none;
-  color: white;
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-}
-
-.refresh-btn:hover {
-  transform: rotate(180deg) scale(1.1);
-}
-
-.refresh-btn:active {
-  transform: rotate(360deg) scale(0.95);
-}
-
-/* Grid Layout */
-.dashboard-grid {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: 24px;
-}
-
-/* Cards Base */
-.card {
-  background: var(--bg-card);
-  border-radius: var(--radius-lg);
-  padding: 24px;
-  box-shadow: var(--shadow-md);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
-}
-
-.card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
-}
-
-.card-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 20px;
-}
-
-.card-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-}
-
-.card-title {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
-.card-subtitle {
-  font-size: 0.8rem;
-  color: var(--text-muted);
-}
-
-/* Current Weather Card - Clima Actual */
-.weather-current {
-  grid-column: span 5;
-  background: linear-gradient(145deg, #3B82F6 0%, #1D4ED8 50%, #1E40AF 100%);
-  color: white;
-  padding: 28px;
-}
-
-.weather-current .card-icon {
-  background: rgba(255,255,255,0.2);
-}
-
-.weather-current .card-title,
-.weather-current .card-subtitle {
-  color: rgba(255,255,255,0.9);
-}
-
-.weather-main {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 24px 0;
-}
-
-.temp-display {
-  display: flex;
-  align-items: flex-start;
-}
-
-.temp-value {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 6rem;
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: -0.04em;
-}
-
-.temp-unit {
-  font-size: 2rem;
-  font-weight: 500;
-  margin-top: 12px;
-  opacity: 0.8;
-}
-
-.weather-icon-large {
-  font-size: 5rem;
-  filter: drop-shadow(0 8px 24px rgba(0,0,0,0.2));
-}
-
-.weather-condition {
-  font-size: 1.4rem;
-  font-weight: 500;
-  margin-bottom: 8px;
-}
-
-.weather-feels {
-  font-size: 0.95rem;
-  opacity: 0.85;
-}
-
-.weather-stats {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  margin-top: 24px;
-  padding-top: 24px;
-  border-top: 1px solid rgba(255,255,255,0.2);
-}
-
-.stat-item {
-  text-align: center;
-}
-
-.stat-icon {
-  font-size: 1.3rem;
-  margin-bottom: 4px;
-  opacity: 0.9;
-}
-
-.stat-value {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.1rem;
-  font-weight: 700;
-}
-
-.stat-label {
-  font-size: 0.75rem;
-  opacity: 0.7;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-/* Río Uruguay Card */
-.river-card {
-  grid-column: span 4;
-  background: linear-gradient(145deg, #14B8A6 0%, #0D9488 50%, #0F766E 100%);
-  color: white;
-  padding: 24px;
-}
-
-.river-card .card-icon {
-  background: rgba(255,255,255,0.2);
-}
-
-.river-card .card-title,
-.river-card .card-subtitle {
-  color: rgba(255,255,255,0.9);
-}
-
-.river-main {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  margin: 14px 0;
-}
-
-.river-level {
-  display: flex;
-  align-items: flex-end;
-  gap: 4px;
-}
-
-.river-value {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 6rem;
-  font-weight: 700;
-  line-height: 1;
-}
-
-.river-unit {
-  font-size: 2.5rem;
-  font-weight: 500;
-  margin-bottom: 12px;
-  opacity: 0.85;
-}
-
-.river-status-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(255,255,255,0.2);
-  padding: 8px 16px;
-  border-radius: 50px;
-  font-size: 0.9rem;
-  font-weight: 600;
-}
-
-.river-status-badge.falling::before {
-  content: '↓';
-  font-size: 1.1rem;
-}
-
-.river-status-badge.rising::before {
-  content: '↑';
-  font-size: 1.1rem;
-}
-
-.river-status-badge.stable::before {
-  content: '●';
-  font-size: 0.8rem;
-}
-
-.river-variation {
-  font-size: 0.9rem;
-  opacity: 0.85;
-  margin-top: 8px;
-}
-
-.river-gauge {
-  margin-top: 16px;
-  padding-top: 14px;
-  border-top: 1px solid rgba(255,255,255,0.2);
-}
-
-.gauge-labels {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.7rem;
-  margin-bottom: 6px;
-  opacity: 0.8;
-}
-
-.gauge-bar {
-  height: 10px;
-  background: linear-gradient(90deg, #34D399 0%, #34D399 40%, #FCD34D 40%, #FCD34D 60%, #F87171 60%, #F87171 100%);
-  border-radius: 5px;
-  position: relative;
-  overflow: visible;
-}
-
-.river-gauge-fill {
-  height: 100%;
-  background: rgba(255,255,255,0.4);
-  border-radius: 5px;
-  position: relative;
-}
-
-.river-gauge-fill::after {
-  content: '';
-  position: absolute;
-  right: -2px;
-  top: -4px;
-  width: 6px;
-  height: 18px;
-  background: white;
-  border-radius: 3px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-}
-
-.gauge-legend {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.7rem;
-  margin-top: 8px;
-  font-weight: 600;
-}
-
-.gauge-legend .normal { color: #34D399; }
-.gauge-legend .alerta { color: #FCD34D; }
-.gauge-legend .evac { color: #F87171; }
-
-.river-temp {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-top: 16px;
-  padding-top: 14px;
-  border-top: 1px solid rgba(255,255,255,0.2);
-}
-
-.river-temp-icon {
-  font-size: 1.8rem;
-}
-
-.river-temp-info {
-  flex: 1;
-}
-
-.river-temp-label {
-  font-size: 0.75rem;
-  opacity: 0.8;
-}
-
-.water-temp-value {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.3rem;
-  font-weight: 700;
-}
-
-.river-timestamp {
-  font-size: 0.75rem;
-  text-align: right;
-  opacity: 0.8;
-  line-height: 1.4;
-}
-
-/* Wind Card */
-.wind-card {
-  grid-column: span 3;
-  background: linear-gradient(145deg, #8B5CF6 0%, #7C3AED 50%, #6D28D9 100%);
-  color: white;
-}
-
-.wind-card .card-icon {
-  background: rgba(255,255,255,0.2);
-}
-
-.wind-card .card-title,
-.wind-card .card-subtitle {
-  color: rgba(255,255,255,0.9);
-}
-
-.wind-main {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 16px 0;
-}
-
-.wind-speed {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 3rem;
-  font-weight: 700;
-}
-
-.wind-compass {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.15);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-}
-
-.compass-arrow {
-  width: 0;
-  height: 0;
-  border-left: 8px solid transparent;
-  border-right: 8px solid transparent;
-  border-bottom: 30px solid white;
-  transform: rotate(90deg);
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
-}
-
-.wind-direction {
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin-top: 12px;
-}
-
-.wind-gusts {
-  font-size: 0.85rem;
-  opacity: 0.8;
-  margin-top: 4px;
-}
-
-.wind-details {
-  margin-top: 16px;
-  padding-top: 16px;
-  border-top: 1px solid rgba(255,255,255,0.2);
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.wind-detail-item {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.85rem;
-}
-
-.wind-detail-label {
-  opacity: 0.7;
-}
-
-.wind-detail-value {
-  font-family: 'Space Grotesk', sans-serif;
-  font-weight: 600;
-}
-
-/* 3-Day Forecast - Grande */
-.forecast-3day {
-  grid-column: span 7;
-}
-
-.forecast-3day .card-icon {
-  background: linear-gradient(135deg, var(--accent-amber) 0%, var(--accent-orange) 100%);
-}
-
-.forecast-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  margin-top: 20px;
-}
-
-.forecast-day {
-  background: linear-gradient(145deg, #FEF3C7 0%, #FDE68A 100%);
-  border-radius: var(--radius-md);
-  padding: 24px;
-  text-align: center;
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.forecast-day:hover {
-  transform: scale(1.02);
-}
-
-.forecast-day.today {
-  background: linear-gradient(145deg, var(--accent-amber) 0%, var(--accent-orange) 100%);
-  color: white;
-}
-
-.forecast-day-name {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 1rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 4px;
-}
-
-.forecast-day-date {
-  font-size: 0.8rem;
-  opacity: 0.7;
-  margin-bottom: 16px;
-}
-
-.forecast-icon {
-  font-size: 3.5rem;
-  margin: 12px 0;
-}
-
-.forecast-temps {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  margin-top: 16px;
-}
-
-.forecast-temp-max {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 2rem;
-  font-weight: 700;
-}
-
-.forecast-temp-min {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.3rem;
-  font-weight: 500;
-  opacity: 0.6;
-  align-self: flex-end;
-  margin-bottom: 4px;
-}
-
-.forecast-condition {
-  font-size: 0.85rem;
-  margin-top: 12px;
-  opacity: 0.8;
-}
-
-.forecast-rain {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  font-size: 0.8rem;
-  margin-top: 8px;
-  opacity: 0.7;
-}
-
-/* Extended Forecast */
-.forecast-extended {
-  grid-column: span 5;
-}
-
-.forecast-extended .card-icon {
-  background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-purple) 100%);
-}
-
-.extended-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.extended-day {
-  display: grid;
-  grid-template-columns: 100px 40px 1fr 80px 85px;
-  align-items: center;
-  padding: 14px 16px;
-  background: var(--bg-main);
-  border-radius: var(--radius-sm);
-  gap: 12px;
-}
-
-.extended-day-name {
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
-.extended-icon {
-  font-size: 1.5rem;
-  text-align: center;
-}
-
-.extended-bar-container {
-  height: 6px;
-  background: #E2E8F0;
-  border-radius: 3px;
-  position: relative;
-}
-
-.extended-bar {
-  position: absolute;
-  height: 100%;
-  background: linear-gradient(90deg, var(--accent-blue) 0%, var(--accent-orange) 100%);
-  border-radius: 3px;
-}
-
-.extended-temps {
-  display: flex;
-  gap: 12px;
-  font-family: 'Space Grotesk', sans-serif;
-}
-
-.extended-max {
-  font-weight: 700;
-  color: var(--text-primary);
-}
-
-.extended-min {
-  font-weight: 500;
-  color: var(--text-muted);
-}
-
-.extended-rain {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 0.8rem;
-  min-width: 80px;
-  justify-content: flex-end;
-}
-
-.extended-rain.high {
-  color: var(--accent-blue);
-  font-weight: 600;
-}
-
-.extended-rain.low {
-  color: var(--text-muted);
-}
-
-/* River Stations */
-.river-stations {
-  grid-column: span 6;
-}
-
-/* Webcam Card */
-.webcam-card {
-  grid-column: span 6;
-}
-
-.webcam-card .card-icon {
-  background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
-}
-
-.webcam-preview {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 16px;
-  padding: 20px;
-  background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
-  border-radius: 16px;
-  text-decoration: none;
-  color: white;
-  transition: all 0.3s ease;
-  border: 2px solid transparent;
-}
-
-.webcam-preview:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(239, 68, 68, 0.3);
-  border-color: #EF4444;
-}
-
-.webcam-preview-content {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.webcam-play-icon {
-  width: 56px;
-  height: 56px;
-  background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.4rem;
-  color: white;
-  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
-  transition: transform 0.2s;
-}
-
-.webcam-preview:hover .webcam-play-icon {
-  transform: scale(1.1);
-}
-
-.webcam-preview-text {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.webcam-preview-title {
-  font-weight: 700;
-  font-size: 1.1rem;
-}
-
-.webcam-preview-desc {
-  font-size: 0.85rem;
-  color: #94A3B8;
-}
-
-.webcam-preview-badge {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background: #EF4444;
-  padding: 8px 14px;
-  border-radius: 20px;
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  animation: pulse-badge 2s infinite;
-}
-
-@keyframes pulse-badge {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
-  50% { box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
-}
-
-.live-dot {
-  width: 8px;
-  height: 8px;
-  background: white;
-  border-radius: 50%;
-  animation: blink 1s infinite;
-}
-
-@keyframes blink {
-  0%, 50% { opacity: 1; }
-  51%, 100% { opacity: 0.3; }
-}
-
-.webcam-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 12px;
-  font-size: 0.8rem;
-  color: var(--text-muted);
-}
-
-.webcam-hint {
-  color: var(--accent-blue);
-  font-weight: 600;
-}
-
-/* Radar Card */
-.radar-card {
-  grid-column: span 6;
-}
-
-.radar-card .card-icon {
-  background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
-}
-
-.radar-container {
-  margin-top: 16px;
-  border-radius: 14px;
-  overflow: hidden;
-  background: #0F172A;
-  aspect-ratio: 16/10;
-}
-
-.radar-iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-}
-
-.radar-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 12px;
-}
-
-.radar-legend {
-  display: flex;
-  gap: 16px;
-  font-size: 0.8rem;
-}
-
-.radar-legend-item {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  color: var(--text-secondary);
-}
-
-.radar-link {
-  font-size: 0.8rem;
-  color: var(--accent-blue);
-  text-decoration: none;
-  font-weight: 600;
-}
-
-.radar-link:hover {
-  text-decoration: underline;
-}
-
-/* Stat clickeable */
-.stat-clickable {
-  cursor: pointer;
-  transition: all 0.2s ease;
-  border-radius: 10px;
-}
-
-.stat-clickable:hover {
-  background: rgba(255,255,255,0.1);
-  transform: scale(1.05);
-}
-
-/* Modal */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0,0,0,0.6);
-  backdrop-filter: blur(4px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.3s ease;
-}
-
-.modal-overlay.active {
-  opacity: 1;
-  visibility: visible;
-}
-
-.modal-content {
-  background: white;
-  border-radius: 20px;
-  width: 90%;
-  max-width: 400px;
-  max-height: 80vh;
-  overflow: hidden;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-  transform: translateY(20px);
-  transition: transform 0.3s ease;
-}
-
-.modal-overlay.active .modal-content {
-  transform: translateY(0);
-}
-
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 18px 20px;
-  background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
-  color: white;
-}
-
-.modal-header h3 {
-  margin: 0;
-  font-size: 1.1rem;
-  font-weight: 700;
-}
-
-.modal-close {
-  background: rgba(255,255,255,0.2);
-  border: none;
-  color: white;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.2s;
-}
-
-.modal-close:hover {
-  background: rgba(255,255,255,0.3);
-}
-
-.modal-body {
-  padding: 16px 20px;
-  max-height: 50vh;
-  overflow-y: auto;
-}
-
-.rain-day {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 0;
-  border-bottom: 1px solid var(--border-light);
-}
-
-.rain-day:last-child {
-  border-bottom: none;
-}
-
-.rain-day-date {
-  font-weight: 500;
-  color: var(--text-primary);
-}
-
-.rain-day-amount {
-  font-weight: 700;
-  color: var(--accent-blue);
-}
-
-.rain-day-amount.heavy {
-  color: #EF4444;
-}
-
-.rain-day-amount.moderate {
-  color: #F59E0B;
-}
-
-.rain-day-amount.light {
-  color: #10B981;
-}
-
-.rain-day-amount.none {
-  color: var(--text-muted);
-}
-
-.rain-total {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 14px 0;
-  margin-top: 10px;
-  border-top: 2px solid var(--border-light);
-  font-weight: 700;
-}
-
-.rain-total-label {
-  font-size: 1rem;
-}
-
-.rain-total-value {
-  font-size: 1.2rem;
-  color: var(--accent-blue);
-}
-
-.modal-footer {
-  padding: 12px 20px;
-  background: var(--bg-secondary);
-  text-align: center;
-}
-
-.modal-source {
-  font-size: 0.75rem;
-  color: var(--text-muted);
-}
-
-/* Finance Card */
-.finance-card {
-  grid-column: span 4;
-  background: linear-gradient(145deg, #1E293B 0%, #0F172A 100%);
-  color: white;
-}
-
-.finance-card .card-icon {
-  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
-}
-
-.finance-card .card-title,
-.finance-card .card-subtitle {
-  color: rgba(255,255,255,0.9);
-}
-
-.finance-card .card-header > div:nth-child(2) {
-  flex: 1;
-}
-
-.share-btn {
-  background: rgba(255,255,255,0.15);
-  border: none;
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
-  font-size: 1.2rem;
-  cursor: pointer;
-  transition: all 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.share-btn:hover {
-  background: rgba(37, 211, 102, 0.3);
-  transform: scale(1.1);
-}
-
-.share-btn:active {
-  transform: scale(0.95);
-}
-
-.finance-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: 16px;
-}
-
-.finance-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 14px;
-  background: rgba(255,255,255,0.08);
-  border-radius: 12px;
-  transition: background 0.2s;
-}
-
-.finance-item:hover {
-  background: rgba(255,255,255,0.12);
-}
-
-.finance-label {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: 600;
-  font-size: 0.95rem;
-}
-
-.finance-flag {
-  font-size: 1.3rem;
-}
-
-.finance-values {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-family: 'Space Grotesk', sans-serif;
-}
-
-.finance-buy {
-  color: #10B981;
-  font-weight: 700;
-  font-size: 1rem;
-}
-
-.finance-sep {
-  color: rgba(255,255,255,0.4);
-  font-size: 0.9rem;
-}
-
-.finance-sell {
-  color: #F59E0B;
-  font-weight: 700;
-  font-size: 1rem;
-}
-
-.btc-item {
-  border-top: 1px solid rgba(255,255,255,0.1);
-  padding-top: 14px;
-  margin-top: 4px;
-}
-
-.btc-value {
-  color: #F7931A;
-  font-size: 1.1rem;
-  font-weight: 700;
-}
-
-.btc-currency {
-  font-size: 0.75rem;
-  color: rgba(255,255,255,0.6);
-  margin-left: 4px;
-}
-
-/* Daily Quote */
-.daily-quote {
-  max-width: 600px;
-  margin: 24px auto;
-  padding: 20px 24px;
-  text-align: center;
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.06) 0%, rgba(168, 85, 247, 0.06) 100%);
-  border-radius: var(--radius-lg);
-  border-left: 3px solid var(--accent-purple);
-}
-
-.quote-text {
-  font-size: 1rem;
-  font-style: italic;
-  color: var(--text-primary);
-  line-height: 1.6;
-  margin: 0;
-}
-
-.quote-text::before {
-  content: '"';
-}
-
-.quote-text::after {
-  content: '"';
-}
-
-.quote-author {
-  display: block;
-  margin-top: 10px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--accent-purple);
-  font-style: normal;
-}
-
-.quote-author::before {
-  content: '— ';
-}
-
-.river-stations .card-icon {
-  background: linear-gradient(135deg, var(--accent-teal) 0%, #0D9488 100%);
-}
-
-.stations-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-}
-
-.station-item {
-  background: linear-gradient(145deg, #F0FDFA 0%, #CCFBF1 100%);
-  padding: 16px;
-  border-radius: var(--radius-sm);
-  text-align: center;
-  border: 1px solid #99F6E4;
-}
-
-.station-name {
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 8px;
-}
-
-.station-value {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.6rem;
-  font-weight: 700;
-  color: #0D9488;
-}
-
-.station-unit {
-  font-size: 0.8rem;
-  color: var(--text-secondary);
-}
-
-.station-status {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 0.7rem;
-  padding: 4px 8px;
-  border-radius: 20px;
-  margin-top: 8px;
-}
-
-.station-status.baja {
-  background: #DCFCE7;
-  color: #166534;
-}
-
-.station-status.crece {
-  background: #FEE2E2;
-  color: #991B1B;
-}
-
-.station-status.estable {
-  background: #FEF3C7;
-  color: #92400E;
-}
-
-/* Holidays Cards */
-.holidays-section {
-  grid-column: span 6;
-}
-
-.holidays-section .card-icon {
-  background: linear-gradient(135deg, var(--accent-rose) 0%, #E11D48 100%);
-}
-
-.holidays-tabs {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 20px;
-}
-
-.holiday-tab {
-  flex: 1;
-  padding: 12px 16px;
-  border: none;
-  border-radius: var(--radius-sm);
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  background: var(--bg-main);
-  color: var(--text-secondary);
-}
-
-.holiday-tab.active {
-  background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-purple) 100%);
-  color: white;
-}
-
-.holiday-tab.argentina.active {
-  background: linear-gradient(135deg, #60A5FA 0%, #3B82F6 100%);
-}
-
-.holiday-tab.uruguay.active {
-  background: linear-gradient(135deg, #34D399 0%, #10B981 100%);
-}
-
-.holidays-content {
-  display: none;
-}
-
-.holidays-content.active {
-  display: block;
-}
-
-.holidays-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.holiday-item {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 16px;
-  border-radius: var(--radius-sm);
-  transition: all 0.2s ease;
-}
-
-.holiday-item.argentina {
-  background: linear-gradient(90deg, #EFF6FF 0%, #DBEAFE 100%);
-  border-left: 4px solid #3B82F6;
-}
-
-.holiday-item.uruguay {
-  background: linear-gradient(90deg, #ECFDF5 0%, #D1FAE5 100%);
-  border-left: 4px solid #10B981;
-}
-
-.holiday-date-box {
-  min-width: 60px;
-  text-align: center;
-}
-
-.holiday-day {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.8rem;
-  font-weight: 700;
-  line-height: 1;
-}
-
-.holiday-month {
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  font-weight: 600;
-  opacity: 0.8;
-}
-
-.holiday-item.argentina .holiday-day,
-.holiday-item.argentina .holiday-month {
-  color: #1D4ED8;
-}
-
-.holiday-item.uruguay .holiday-day,
-.holiday-item.uruguay .holiday-month {
-  color: #059669;
-}
-
-.holiday-info {
-  flex: 1;
-}
-
-.holiday-name {
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 2px;
-}
-
-.holiday-type {
-  font-size: 0.75rem;
-  color: var(--text-muted);
-}
-
-.holiday-days-left {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.8rem;
-  font-weight: 600;
-  padding: 6px 12px;
-  border-radius: 20px;
-  white-space: nowrap;
-}
-
-.holiday-item.argentina .holiday-days-left {
-  background: #3B82F6;
-  color: white;
-}
-
-.holiday-item.uruguay .holiday-days-left {
-  background: #10B981;
-  color: white;
-}
-
-/* Sun/Moon Card */
-.sun-moon-card {
-  grid-column: span 3;
-}
-
-/* River History Chart */
-.river-history {
-  grid-column: span 4;
-}
-
-.river-history .card-icon {
-  background: linear-gradient(135deg, #14B8A6 0%, #0D9488 100%);
-}
-
-.river-chart {
-  margin-top: 16px;
-}
-
-.chart-container {
-  display: flex;
-  gap: 8px;
-}
-
-.chart-y-axis {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  font-size: 0.7rem;
-  color: var(--text-muted);
-  padding: 4px 0;
-  min-width: 24px;
-}
-
-.chart-area {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.chart-svg {
-  width: 100%;
-  height: 100px;
-  background: linear-gradient(180deg, rgba(20, 184, 166, 0.05) 0%, transparent 100%);
-  border-radius: 8px;
-}
-
-.chart-x-axis {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.7rem;
-  color: var(--text-muted);
-  margin-top: 8px;
-  padding: 0 4px;
-}
-
-.chart-stats {
-  display: flex;
-  justify-content: space-around;
-  margin-top: 16px;
-  padding-top: 16px;
-  border-top: 1px solid var(--border-light);
-}
-
-.chart-stat {
-  text-align: center;
-}
-
-.chart-stat-label {
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  display: block;
-}
-
-.chart-stat-value {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--text-primary);
-}
-
-.chart-stat-value.trend-down {
-  color: var(--accent-teal);
-}
-
-.chart-stat-value.trend-up {
-  color: var(--accent-rose);
-}
-
-/* Fishing Index */
-.fishing-index {
-  grid-column: span 4;
-}
-
-.fishing-index .card-icon {
-  background: linear-gradient(135deg, #22C55E 0%, #16A34A 100%);
-}
-
-.fishing-display {
-  display: flex;
-  gap: 24px;
-  align-items: center;
-  margin-top: 16px;
-}
-
-.fishing-score {
-  text-align: center;
-}
-
-.fishing-circle {
-  position: relative;
-  width: 100px;
-  height: 100px;
-}
-
-.fishing-ring {
-  width: 100%;
-  height: 100%;
-}
-
-.fishing-value {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-}
-
-.fishing-number {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: var(--accent-green);
-}
-
-.fishing-max {
-  font-size: 0.8rem;
-  color: var(--text-muted);
-}
-
-.fishing-label {
-  margin-top: 8px;
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: var(--accent-green);
-  letter-spacing: 0.5px;
-}
-
-.fishing-factors {
-  flex: 1;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 8px;
-}
-
-.factor-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  border-radius: 8px;
-  font-size: 0.8rem;
-}
-
-.factor-item.good {
-  background: #DCFCE7;
-  color: #166534;
-}
-
-.factor-item.neutral {
-  background: #FEF3C7;
-  color: #92400E;
-}
-
-.factor-item.bad {
-  background: #FEE2E2;
-  color: #991B1B;
-}
-
-.factor-icon {
-  font-size: 1rem;
-}
-
-.factor-name {
-  flex: 1;
-}
-
-.factor-score {
-  font-weight: 700;
-}
-
-.fishing-tip {
-  margin-top: 16px;
-  padding: 12px 16px;
-  background: linear-gradient(90deg, #ECFDF5 0%, #D1FAE5 100%);
-  border-radius: 10px;
-  font-size: 0.85rem;
-  color: #065F46;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.sun-moon-card .card-icon {
-  background: linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%);
-}
-
-.sun-moon-display {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.sun-info, .moon-info {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 16px;
-  border-radius: var(--radius-sm);
-}
-
-.sun-info {
-  background: linear-gradient(90deg, #FEF3C7 0%, #FDE68A 100%);
-}
-
-.moon-info {
-  background: linear-gradient(90deg, #E0E7FF 0%, #C7D2FE 100%);
-}
-
-.celestial-icon {
-  font-size: 2.5rem;
-}
-
-.celestial-times {
-  flex: 1;
-}
-
-.celestial-row {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 4px;
-}
-
-.celestial-label {
-  font-size: 0.8rem;
-  color: var(--text-secondary);
-}
-
-.celestial-value {
-  font-family: 'Space Grotesk', sans-serif;
-  font-weight: 600;
-}
-
-/* Air Quality */
-.air-quality-card {
-  grid-column: span 3;
-}
-
-.air-quality-card .card-icon {
-  background: linear-gradient(135deg, var(--accent-green) 0%, #16A34A 100%);
-}
-
-.aqi-display {
-  text-align: center;
-  padding: 20px 0;
-}
-
-.aqi-value {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 4rem;
-  font-weight: 700;
-  background: linear-gradient(135deg, var(--accent-green) 0%, var(--accent-teal) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.aqi-status {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: var(--accent-green);
-  margin-top: 8px;
-}
-
-.aqi-message {
-  font-size: 0.85rem;
-  color: var(--text-secondary);
-  margin-top: 8px;
-}
-
-/* Footer */
-.footer {
-  margin-top: 32px;
-  padding: 20px;
-  text-align: center;
-  color: var(--text-muted);
-  font-size: 0.85rem;
-}
-
-.footer a {
-  color: var(--accent-blue);
-  text-decoration: none;
-}
-
-.data-source {
-  display: flex;
-  justify-content: center;
-  gap: 24px;
-  margin-top: 12px;
-  flex-wrap: wrap;
-}
-
-.data-source span {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-/* Responsive */
-@media (max-width: 1200px) {
-  .dashboard-grid {
-    grid-template-columns: repeat(6, 1fr);
-  }
-  
-  .weather-current { grid-column: span 6; }
-  .river-card { grid-column: span 3; }
-  .wind-card { grid-column: span 3; }
-  .forecast-3day { grid-column: span 6; }
-  .forecast-extended { grid-column: span 6; }
-  .river-stations { grid-column: span 6; }
-  .webcam-card { grid-column: span 6; }
-  .radar-card { grid-column: span 6; }
-  .finance-card { grid-column: span 6; }
-  .river-history { grid-column: span 3; }
-  .fishing-index { grid-column: span 3; }
-  .holidays-section { grid-column: span 6; }
-  .sun-moon-card { grid-column: span 3; }
-  .air-quality-card { grid-column: span 3; }
-}
-
-@media (max-width: 768px) {
-  .app-container {
-    padding: 12px;
-  }
-
-  .dashboard-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-
-  .weather-current,
-  .river-card,
-  .wind-card,
-  .forecast-3day,
-  .forecast-extended,
-  .radar-card,
-  .river-stations,
-  .webcam-card,
-  .river-history,
-  .fishing-index,
-  .holidays-section,
-  .sun-moon-card,
-  .air-quality-card,
-  .finance-card {
-    grid-column: span 1;
-  }
-
-  /* Header mobile */
-  .header {
-    flex-direction: column;
-    gap: 12px;
-    text-align: center;
-    padding: 16px;
-    margin-bottom: 16px;
-  }
-
-  .header-left {
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .location-icon {
-    width: 40px;
-    height: 40px;
-    font-size: 20px;
-  }
-
-  .location-info h1 {
-    font-size: 1.2rem;
-  }
-
-  .current-time {
-    font-size: 1.5rem;
-  }
-
-  /* Card base mobile */
-  .card {
-    padding: 16px;
-    border-radius: var(--radius-md);
-  }
-
-  .card-header {
-    margin-bottom: 12px;
-  }
-
-  .card-icon {
-    width: 36px;
-    height: 36px;
-    font-size: 18px;
-  }
-
-  .card-title {
-    font-size: 1rem;
-  }
-
-  /* Clima actual mobile - COMPACTO */
-  .weather-current {
-    padding: 20px;
-  }
-
-  .weather-main {
-    margin: 16px 0;
-  }
-
-  .temp-value {
-    font-size: 4rem;
-  }
-
-  .temp-unit {
-    font-size: 1.5rem;
-    margin-top: 8px;
-  }
-
-  .weather-icon-large {
-    font-size: 3rem;
-  }
-
-  .weather-condition {
-    font-size: 1.1rem;
-  }
-
-  .weather-feels {
-    font-size: 0.85rem;
-  }
-
-  .temp-range {
-    gap: 12px;
-    margin-top: 6px;
-    font-size: 0.85rem;
-  }
-
-  .weather-trend {
-    font-size: 0.75rem;
-    padding: 5px 10px;
-    margin-top: 8px;
-  }
-
-  /* Stats en 2 filas de 4 - más compacto */
-  .weather-stats {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
-    margin-top: 16px;
-    padding-top: 16px;
-  }
-
-  .stat-icon {
-    font-size: 1rem;
-    margin-bottom: 2px;
-  }
-
-  .stat-value {
-    font-size: 0.9rem;
-  }
-
-  .stat-label {
-    font-size: 0.65rem;
-  }
-
-  /* Pronóstico 3 días mobile - TIRAS HORIZONTALES */
-  .forecast-grid {
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
-
-  .forecast-day {
-    display: flex;
-    align-items: center;
-    padding: 14px 16px;
-    text-align: left;
-    gap: 12px;
-  }
-
-  .forecast-day-name {
-    font-size: 0.85rem;
-    min-width: 55px;
-    margin-bottom: 0;
-  }
-
-  .forecast-day-date {
-    display: none;
-  }
-
-  .forecast-icon {
-    font-size: 2rem;
-    margin: 0;
-    order: 1;
-  }
-
-  .forecast-temps {
-    flex: 1;
-    justify-content: flex-start;
-    margin-top: 0;
-    order: 2;
-  }
-
-  .forecast-temp-max {
-    font-size: 1.5rem;
-  }
-
-  .forecast-temp-min {
-    font-size: 1rem;
-    margin-bottom: 2px;
-  }
-
-  .forecast-condition {
-    display: none;
-  }
-
-  .forecast-rain {
-    margin-top: 0;
-    order: 3;
-    font-size: 0.75rem;
-    min-width: 70px;
-    justify-content: flex-end;
-  }
-
-  /* Pronóstico extendido mobile */
-  .extended-day {
-    grid-template-columns: 70px 30px 1fr 55px 60px;
-    padding: 10px 12px;
-    gap: 8px;
-  }
-
-  .extended-day-name {
-    font-size: 0.8rem;
-  }
-
-  .extended-icon {
-    font-size: 1.2rem;
-  }
-
-  .extended-temps {
-    gap: 8px;
-    font-size: 0.9rem;
-  }
-
-  .extended-rain {
-    font-size: 0.7rem;
-    min-width: 55px;
-  }
-
-  /* Río mobile */
-  .river-card {
-    padding: 18px;
-  }
-
-  .river-value {
-    font-size: 2.8rem;
-  }
-
-  .river-unit {
-    font-size: 1.2rem;
-  }
-
-  .river-status {
-    font-size: 0.8rem;
-    padding: 6px 12px;
-  }
-
-  .river-temp {
-    padding: 8px 12px;
-    margin-top: 10px;
-  }
-
-  /* Viento mobile */
-  .wind-speed {
-    font-size: 2.2rem;
-  }
-
-  .wind-compass {
-    width: 60px;
-    height: 60px;
-  }
-
-  .wind-details {
-    margin-top: 12px;
-    padding-top: 12px;
-    gap: 6px;
-  }
-
-  .wind-detail-item {
-    font-size: 0.8rem;
-  }
-
-  /* Estaciones río mobile */
-  .stations-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
-  }
-
-  .station-item {
-    padding: 12px;
-  }
-
-  .station-name {
-    font-size: 0.75rem;
-  }
-
-  .station-value {
-    font-size: 1.3rem;
-  }
-
-  /* Feriados mobile */
-  .holiday-item {
-    padding: 12px;
-    gap: 12px;
-  }
-
-  .holiday-date-box {
-    min-width: 50px;
-  }
-
-  .holiday-day {
-    font-size: 1.4rem;
-  }
-
-  .holiday-name {
-    font-size: 0.9rem;
-  }
-
-  .holiday-days-left {
-    font-size: 0.7rem;
-    padding: 4px 8px;
-  }
-
-  /* Sol/Luna y Aire mobile */
-  .sun-info, .moon-info {
-    padding: 12px;
-    gap: 12px;
-  }
-
-  .celestial-icon {
-    font-size: 2rem;
-  }
-
-  .celestial-value {
-    font-size: 0.9rem;
-  }
-
-  .aqi-value {
-    font-size: 3rem;
-  }
-
-  /* Footer mobile */
-  .footer {
-    padding: 16px;
-    margin-top: 20px;
-  }
-
-  .data-source {
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  /* River History mobile */
-  .chart-svg {
-    height: 80px;
-  }
-
-  .chart-stats {
-    gap: 8px;
-  }
-
-  .chart-stat-value {
-    font-size: 0.9rem;
-  }
-
-  /* Fishing Index mobile */
-  .fishing-display {
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .fishing-circle {
-    width: 90px;
-    height: 90px;
-  }
-
-  .fishing-number {
-    font-size: 1.5rem;
-  }
-
-  .fishing-factors {
-    width: 100%;
-  }
-
-  .factor-item {
-    padding: 6px 10px;
-    font-size: 0.75rem;
-  }
-
-  .fishing-tip {
-    font-size: 0.8rem;
-    padding: 10px 12px;
-  }
-}
-
-/* Animations */
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.6; }
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
-}
-
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-5px); }
-  75% { transform: translateX(5px); }
-}
-
-.weather-icon-large {
-  animation: float 4s ease-in-out infinite;
-}
-
-.live-indicator {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.75rem;
-  color: var(--accent-green);
-  font-weight: 600;
-}
-
-.live-dot {
-  width: 8px;
-  height: 8px;
-  background: var(--accent-green);
-  border-radius: 50%;
-  animation: pulse 2s ease-in-out infinite;
-}
-
-/* Weather Trend */
-.weather-trend {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  margin-top: 12px;
-}
-
-.weather-trend.improving {
-  background: rgba(34, 197, 94, 0.2);
-  color: #86EFAC;
-}
-
-.weather-trend.worsening {
-  background: rgba(239, 68, 68, 0.2);
-  color: #FCA5A5;
-}
-
-.weather-trend.stable {
-  background: rgba(251, 191, 36, 0.2);
-  color: #FDE68A;
-}
-
-/* River Temperature */
-.river-temp {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 12px;
-  padding: 10px 14px;
-  background: rgba(255,255,255,0.15);
-  border-radius: var(--radius-sm);
-}
-
-.river-temp-icon {
-  font-size: 1.2rem;
-}
-
-.river-temp-info {
-  flex: 1;
-}
-
-.river-temp-label {
-  font-size: 0.7rem;
-  opacity: 0.8;
-}
-
-.river-temp-value {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.1rem;
-  font-weight: 700;
-}
-
-.river-update-time {
-  font-size: 0.65rem;
-  opacity: 0.7;
-  text-align: right;
-}
-
-/* Alert Banner */
-.alert-banner {
-  display: none;
-  align-items: center;
-  gap: 12px;
-  padding: 16px 20px;
-  border-radius: var(--radius-md);
-  margin-bottom: 24px;
-  animation: pulse 2s ease-in-out infinite;
-}
-
-.alert-banner.active {
-  display: flex;
-}
-
-.alert-banner.warning {
-  background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
-  border: 2px solid #F59E0B;
-  color: #92400E;
-}
-
-.alert-banner.danger {
-  background: linear-gradient(135deg, #FEE2E2 0%, #FECACA 100%);
-  border: 2px solid #EF4444;
-  color: #991B1B;
-}
-
-.alert-banner.storm {
-  background: linear-gradient(135deg, #E0E7FF 0%, #C7D2FE 100%);
-  border: 2px solid #8B5CF6;
-  color: #5B21B6;
-}
-
-.alert-icon {
-  font-size: 1.8rem;
-  animation: shake 0.5s ease-in-out infinite;
-}
-
-.alert-content {
-  flex: 1;
-}
-
-.alert-title {
-  font-weight: 700;
-  font-size: 1rem;
-}
-
-.alert-message {
-  font-size: 0.85rem;
-  opacity: 0.9;
-}
-
-.alert-close {
-  background: none;
-  border: none;
-  font-size: 1.2rem;
-  cursor: pointer;
-  opacity: 0.6;
-  transition: opacity 0.2s;
-}
-
-.alert-close:hover {
-  opacity: 1;
-}
-
-/* Min temp today */
-.temp-range {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-top: 8px;
-  font-size: 0.95rem;
-  opacity: 0.9;
-}
-
-.temp-min-today, .temp-max-today {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-```
-
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-main);
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    .app-container {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 32px;
+      padding: 20px 28px;
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .location-icon {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-teal) 100%);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+
+    .location-info h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -0.02em;
+    }
+
+    .location-info p {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+
+    .header-right {
+      text-align: right;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+    }
+
+    .current-date {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .current-time {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-purple) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .last-update {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .refresh-btn {
+      background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-purple) 100%);
+      border: none;
+      color: white;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .refresh-btn:hover {
+      transform: rotate(180deg) scale(1.1);
+    }
+
+    .refresh-btn:active {
+      transform: rotate(360deg) scale(0.95);
+    }
+
+    /* Grid Layout */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 24px;
+    }
+
+    /* Cards Base */
+    .card {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow-md);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .card-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+    }
+
+    .card-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .card-subtitle {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* Current Weather Card - Clima Actual */
+    .weather-current {
+      grid-column: span 5;
+      background: linear-gradient(145deg, #3B82F6 0%, #1D4ED8 50%, #1E40AF 100%);
+      color: white;
+      padding: 28px;
+    }
+
+    .weather-current .card-icon {
+      background: rgba(255,255,255,0.2);
+    }
+
+    .weather-current .card-title,
+    .weather-current .card-subtitle {
+      color: rgba(255,255,255,0.9);
+    }
+
+    .weather-main {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 24px 0;
+    }
+
+    .temp-display {
+      display: flex;
+      align-items: flex-start;
+    }
+
+    .temp-value {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 6rem;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: -0.04em;
+    }
+
+    .temp-unit {
+      font-size: 2rem;
+      font-weight: 500;
+      margin-top: 12px;
+      opacity: 0.8;
+    }
+
+    .weather-icon-large {
+      font-size: 5rem;
+      filter: drop-shadow(0 8px 24px rgba(0,0,0,0.2));
+    }
+
+    .weather-condition {
+      font-size: 1.4rem;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+
+    .weather-feels {
+      font-size: 0.95rem;
+      opacity: 0.85;
+    }
+
+    .weather-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-icon {
+      font-size: 1.3rem;
+      margin-bottom: 4px;
+      opacity: 0.9;
+    }
+
+    .stat-value {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      opacity: 0.7;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Río Uruguay Card */
+    .river-card {
+      grid-column: span 4;
+      background: linear-gradient(145deg, #14B8A6 0%, #0D9488 50%, #0F766E 100%);
+      color: white;
+      padding: 24px;
+    }
+
+    .river-card .card-icon {
+      background: rgba(255,255,255,0.2);
+    }
+
+    .river-card .card-title,
+    .river-card .card-subtitle {
+      color: rgba(255,255,255,0.9);
+    }
+
+    .river-main {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin: 14px 0;
+    }
+
+    .river-level {
+      display: flex;
+      align-items: flex-end;
+      gap: 4px;
+    }
+
+    .river-value {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 6rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .river-unit {
+      font-size: 2.5rem;
+      font-weight: 500;
+      margin-bottom: 12px;
+      opacity: 0.85;
+    }
+
+    .river-status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.2);
+      padding: 8px 16px;
+      border-radius: 50px;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .river-status-badge.falling::before {
+      content: '↓';
+      font-size: 1.1rem;
+    }
+
+    .river-status-badge.rising::before {
+      content: '↑';
+      font-size: 1.1rem;
+    }
+
+    .river-status-badge.stable::before {
+      content: '●';
+      font-size: 0.8rem;
+    }
+
+    .river-variation {
+      font-size: 0.9rem;
+      opacity: 0.85;
+      margin-top: 8px;
+    }
+
+    .river-gauge {
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .gauge-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.7rem;
+      margin-bottom: 6px;
+      opacity: 0.8;
+    }
+
+    .gauge-bar {
+      height: 10px;
+      background: linear-gradient(90deg, #34D399 0%, #34D399 40%, #FCD34D 40%, #FCD34D 60%, #F87171 60%, #F87171 100%);
+      border-radius: 5px;
+      position: relative;
+      overflow: visible;
+    }
+
+    .river-gauge-fill {
+      height: 100%;
+      background: rgba(255,255,255,0.4);
+      border-radius: 5px;
+      position: relative;
+    }
+
+    .river-gauge-fill::after {
+      content: '';
+      position: absolute;
+      right: -2px;
+      top: -4px;
+      width: 6px;
+      height: 18px;
+      background: white;
+      border-radius: 3px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    }
+
+    .gauge-legend {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.7rem;
+      margin-top: 8px;
+      font-weight: 600;
+    }
+
+    .gauge-legend .normal { color: #34D399; }
+    .gauge-legend .alerta { color: #FCD34D; }
+    .gauge-legend .evac { color: #F87171; }
+
+    .river-temp {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .river-temp-icon {
+      font-size: 1.8rem;
+    }
+
+    .river-temp-info {
+      flex: 1;
+    }
+
+    .river-temp-label {
+      font-size: 0.75rem;
+      opacity: 0.8;
+    }
+
+    .water-temp-value {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+    }
+
+    .river-timestamp {
+      font-size: 0.75rem;
+      text-align: right;
+      opacity: 0.8;
+      line-height: 1.4;
+    }
+
+    /* Wind Card */
+    .wind-card {
+      grid-column: span 3;
+      background: linear-gradient(145deg, #8B5CF6 0%, #7C3AED 50%, #6D28D9 100%);
+      color: white;
+    }
+
+    .wind-card .card-icon {
+      background: rgba(255,255,255,0.2);
+    }
+
+    .wind-card .card-title,
+    .wind-card .card-subtitle {
+      color: rgba(255,255,255,0.9);
+    }
+
+    .wind-main {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 16px 0;
+    }
+
+    .wind-speed {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 3rem;
+      font-weight: 700;
+    }
+
+    .wind-compass {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .compass-arrow {
+      width: 0;
+      height: 0;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-bottom: 30px solid white;
+      transform: rotate(90deg);
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+    }
+
+    .wind-direction {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-top: 12px;
+    }
+
+    .wind-gusts {
+      font-size: 0.85rem;
+      opacity: 0.8;
+      margin-top: 4px;
+    }
+
+    .wind-details {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255,255,255,0.2);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .wind-detail-item {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+    }
+
+    .wind-detail-label {
+      opacity: 0.7;
+    }
+
+    .wind-detail-value {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+    }
+
+    /* 3-Day Forecast - Grande */
+    .forecast-3day {
+      grid-column: span 7;
+    }
+
+    .forecast-3day .card-icon {
+      background: linear-gradient(135deg, var(--accent-amber) 0%, var(--accent-orange) 100%);
+    }
+
+    .forecast-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .forecast-day {
+      background: linear-gradient(145deg, #FEF3C7 0%, #FDE68A 100%);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      text-align: center;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .forecast-day:hover {
+      transform: scale(1.02);
+    }
+
+    .forecast-day.today {
+      background: linear-gradient(145deg, var(--accent-amber) 0%, var(--accent-orange) 100%);
+      color: white;
+    }
+
+    .forecast-day-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+
+    .forecast-day-date {
+      font-size: 0.8rem;
+      opacity: 0.7;
+      margin-bottom: 16px;
+    }
+
+    .forecast-icon {
+      font-size: 3.5rem;
+      margin: 12px 0;
+    }
+
+    .forecast-temps {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .forecast-temp-max {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+    }
+
+    .forecast-temp-min {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 500;
+      opacity: 0.6;
+      align-self: flex-end;
+      margin-bottom: 4px;
+    }
+
+    .forecast-condition {
+      font-size: 0.85rem;
+      margin-top: 12px;
+      opacity: 0.8;
+    }
+
+    .forecast-rain {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      margin-top: 8px;
+      opacity: 0.7;
+    }
+
+    /* Extended Forecast */
+    .forecast-extended {
+      grid-column: span 5;
+    }
+
+    .forecast-extended .card-icon {
+      background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-purple) 100%);
+    }
+
+    .extended-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .extended-day {
+      display: grid;
+      grid-template-columns: 100px 40px 1fr 80px 85px;
+      align-items: center;
+      padding: 14px 16px;
+      background: var(--bg-main);
+      border-radius: var(--radius-sm);
+      gap: 12px;
+    }
+
+    .extended-day-name {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .extended-icon {
+      font-size: 1.5rem;
+      text-align: center;
+    }
+
+    .extended-bar-container {
+      height: 6px;
+      background: #E2E8F0;
+      border-radius: 3px;
+      position: relative;
+    }
+
+    .extended-bar {
+      position: absolute;
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-blue) 0%, var(--accent-orange) 100%);
+      border-radius: 3px;
+    }
+
+    .extended-temps {
+      display: flex;
+      gap: 12px;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    .extended-max {
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .extended-min {
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    .extended-rain {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.8rem;
+      min-width: 80px;
+      justify-content: flex-end;
+    }
+
+    .extended-rain.high {
+      color: var(--accent-blue);
+      font-weight: 600;
+    }
+
+    .extended-rain.low {
+      color: var(--text-muted);
+    }
+
+    /* River Stations */
+    .river-stations {
+      grid-column: span 6;
+    }
+
+    /* Webcam Card */
+    .webcam-card {
+      grid-column: span 6;
+    }
+
+    .webcam-card .card-icon {
+      background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+    }
+
+    .webcam-preview {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 16px;
+      padding: 20px;
+      background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
+      border-radius: 16px;
+      text-decoration: none;
+      color: white;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+    }
+
+    .webcam-preview:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(239, 68, 68, 0.3);
+      border-color: #EF4444;
+    }
+
+    .webcam-preview-content {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .webcam-play-icon {
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      color: white;
+      box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+      transition: transform 0.2s;
+    }
+
+    .webcam-preview:hover .webcam-play-icon {
+      transform: scale(1.1);
+    }
+
+    .webcam-preview-text {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .webcam-preview-title {
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    .webcam-preview-desc {
+      font-size: 0.85rem;
+      color: #94A3B8;
+    }
+
+    .webcam-preview-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #EF4444;
+      padding: 8px 14px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      animation: pulse-badge 2s infinite;
+    }
+
+    @keyframes pulse-badge {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+      50% { box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
+    }
+
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      background: white;
+      border-radius: 50%;
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0.3; }
+    }
+
+    .webcam-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 12px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .webcam-hint {
+      color: var(--accent-blue);
+      font-weight: 600;
+    }
+
+    /* Radar Card */
+    .radar-card {
+      grid-column: span 6;
+    }
+
+    .radar-card .card-icon {
+      background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
+    }
+
+    .radar-container {
+      margin-top: 16px;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #0F172A;
+      aspect-ratio: 16/10;
+    }
+
+    .radar-iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .radar-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 12px;
+    }
+
+    .radar-legend {
+      display: flex;
+      gap: 16px;
+      font-size: 0.8rem;
+    }
+
+    .radar-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      color: var(--text-secondary);
+    }
+
+    .radar-link {
+      font-size: 0.8rem;
+      color: var(--accent-blue);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .radar-link:hover {
+      text-decoration: underline;
+    }
+
+    /* Stat clickeable */
+    .stat-clickable {
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border-radius: 10px;
+    }
+
+    .stat-clickable:hover {
+      background: rgba(255,255,255,0.1);
+      transform: scale(1.05);
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 400px;
+      max-height: 80vh;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-overlay.active .modal-content {
+      transform: translateY(0);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 20px;
+      background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
+      color: white;
+    }
+
+    .modal-header h3 {
+      margin: 0;
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .modal-close {
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: white;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+
+    .modal-close:hover {
+      background: rgba(255,255,255,0.3);
+    }
+
+    .modal-body {
+      padding: 16px 20px;
+      max-height: 50vh;
+      overflow-y: auto;
+    }
+
+    .rain-day {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .rain-day:last-child {
+      border-bottom: none;
+    }
+
+    .rain-day-date {
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    .rain-day-amount {
+      font-weight: 700;
+      color: var(--accent-blue);
+    }
+
+    .rain-day-amount.heavy {
+      color: #EF4444;
+    }
+
+    .rain-day-amount.moderate {
+      color: #F59E0B;
+    }
+
+    .rain-day-amount.light {
+      color: #10B981;
+    }
+
+    .rain-day-amount.none {
+      color: var(--text-muted);
+    }
+
+    .rain-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 0;
+      margin-top: 10px;
+      border-top: 2px solid var(--border-light);
+      font-weight: 700;
+    }
+
+    .rain-total-label {
+      font-size: 1rem;
+    }
+
+    .rain-total-value {
+      font-size: 1.2rem;
+      color: var(--accent-blue);
+    }
+
+    .modal-footer {
+      padding: 12px 20px;
+      background: var(--bg-secondary);
+      text-align: center;
+    }
+
+    .modal-source {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    /* Finance Card */
+    .finance-card {
+      grid-column: span 4;
+      background: linear-gradient(145deg, #1E293B 0%, #0F172A 100%);
+      color: white;
+    }
+
+    .finance-card .card-icon {
+      background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+    }
+
+    .finance-card .card-title,
+    .finance-card .card-subtitle {
+      color: rgba(255,255,255,0.9);
+    }
+
+    .finance-card .card-header > div:nth-child(2) {
+      flex: 1;
+    }
+
+    .share-btn {
+      background: rgba(255,255,255,0.15);
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .share-btn:hover {
+      background: rgba(37, 211, 102, 0.3);
+      transform: scale(1.1);
+    }
+
+    .share-btn:active {
+      transform: scale(0.95);
+    }
+
+    .finance-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .finance-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 14px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 12px;
+      transition: background 0.2s;
+    }
+
+    .finance-item:hover {
+      background: rgba(255,255,255,0.12);
+    }
+
+    .finance-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .finance-flag {
+      font-size: 1.3rem;
+    }
+
+    .finance-values {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    .finance-buy {
+      color: #10B981;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .finance-sep {
+      color: rgba(255,255,255,0.4);
+      font-size: 0.9rem;
+    }
+
+    .finance-sell {
+      color: #F59E0B;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .btc-item {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 14px;
+      margin-top: 4px;
+    }
+
+    .btc-value {
+      color: #F7931A;
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .btc-currency {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.6);
+      margin-left: 4px;
+    }
+
+    /* Clothing Recommendation */
+    .clothing-recommendation {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
+      padding: 8px 12px;
+      background: rgba(255,255,255,0.1);
+      border-radius: var(--radius-md);
+      font-size: 0.9rem;
+    }
+
+    .clothing-icon {
+      font-size: 1.2rem;
+    }
+
+    .clothing-text {
+      color: rgba(255,255,255,0.9);
+    }
+
+    /* Pharmacy Card */
+    .pharmacy-card {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+    }
+
+    .pharmacy-info {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .pharmacy-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px;
+      background: rgba(255,255,255,0.1);
+      border-radius: var(--radius-md);
+    }
+
+    .pharmacy-icon {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .pharmacy-details {
+      flex: 1;
+    }
+
+    .pharmacy-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .pharmacy-address {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    .pharmacy-phone {
+      font-size: 0.85rem;
+      opacity: 0.8;
+      margin-top: 4px;
+    }
+
+    .pharmacy-phone a {
+      color: white;
+      text-decoration: none;
+    }
+
+    .pharmacy-hours {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 12px;
+      padding: 8px 12px;
+      background: rgba(255,255,255,0.15);
+      border-radius: var(--radius-md);
+      font-size: 0.85rem;
+    }
+
+    .pharmacy-fallback {
+      text-align: center;
+      padding: 16px;
+    }
+
+    .pharmacy-fallback a {
+      color: white;
+      text-decoration: underline;
+    }
+
+    /* Daily Quote */
+    .daily-quote {
+      max-width: 600px;
+      margin: 24px auto;
+      padding: 20px 24px;
+      text-align: center;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.06) 0%, rgba(168, 85, 247, 0.06) 100%);
+      border-radius: var(--radius-lg);
+      border-left: 3px solid var(--accent-purple);
+    }
+
+    .quote-text {
+      font-size: 1rem;
+      font-style: italic;
+      color: var(--text-primary);
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .quote-text::before {
+      content: '"';
+    }
+
+    .quote-text::after {
+      content: '"';
+    }
+
+    .quote-author {
+      display: block;
+      margin-top: 10px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--accent-purple);
+      font-style: normal;
+    }
+
+    .quote-author::before {
+      content: '— ';
+    }
+
+    .river-stations .card-icon {
+      background: linear-gradient(135deg, var(--accent-teal) 0%, #0D9488 100%);
+    }
+
+    .stations-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .station-item {
+      background: linear-gradient(145deg, #F0FDFA 0%, #CCFBF1 100%);
+      padding: 16px;
+      border-radius: var(--radius-sm);
+      text-align: center;
+      border: 1px solid #99F6E4;
+    }
+
+    .station-name {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .station-value {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #0D9488;
+    }
+
+    .station-unit {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+
+    .station-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.7rem;
+      padding: 4px 8px;
+      border-radius: 20px;
+      margin-top: 8px;
+    }
+
+    .station-status.baja {
+      background: #DCFCE7;
+      color: #166534;
+    }
+
+    .station-status.crece {
+      background: #FEE2E2;
+      color: #991B1B;
+    }
+
+    .station-status.estable {
+      background: #FEF3C7;
+      color: #92400E;
+    }
+
+    /* Holidays Cards */
+    .holidays-section {
+      grid-column: span 6;
+    }
+
+    .holidays-section .card-icon {
+      background: linear-gradient(135deg, var(--accent-rose) 0%, #E11D48 100%);
+    }
+
+    .holidays-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .holiday-tab {
+      flex: 1;
+      padding: 12px 16px;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: var(--bg-main);
+      color: var(--text-secondary);
+    }
+
+    .holiday-tab.active {
+      background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-purple) 100%);
+      color: white;
+    }
+
+    .holiday-tab.argentina.active {
+      background: linear-gradient(135deg, #60A5FA 0%, #3B82F6 100%);
+    }
+
+    .holiday-tab.uruguay.active {
+      background: linear-gradient(135deg, #34D399 0%, #10B981 100%);
+    }
+
+    .holidays-content {
+      display: none;
+    }
+
+    .holidays-content.active {
+      display: block;
+    }
+
+    .holidays-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .holiday-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px;
+      border-radius: var(--radius-sm);
+      transition: all 0.2s ease;
+    }
+
+    .holiday-item.argentina {
+      background: linear-gradient(90deg, #EFF6FF 0%, #DBEAFE 100%);
+      border-left: 4px solid #3B82F6;
+    }
+
+    .holiday-item.uruguay {
+      background: linear-gradient(90deg, #ECFDF5 0%, #D1FAE5 100%);
+      border-left: 4px solid #10B981;
+    }
+
+    .holiday-date-box {
+      min-width: 60px;
+      text-align: center;
+    }
+
+    .holiday-day {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .holiday-month {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+      opacity: 0.8;
+    }
+
+    .holiday-item.argentina .holiday-day,
+    .holiday-item.argentina .holiday-month {
+      color: #1D4ED8;
+    }
+
+    .holiday-item.uruguay .holiday-day,
+    .holiday-item.uruguay .holiday-month {
+      color: #059669;
+    }
+
+    .holiday-info {
+      flex: 1;
+    }
+
+    .holiday-name {
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 2px;
+    }
+
+    .holiday-type {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .holiday-days-left {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+
+    .holiday-item.argentina .holiday-days-left {
+      background: #3B82F6;
+      color: white;
+    }
+
+    .holiday-item.uruguay .holiday-days-left {
+      background: #10B981;
+      color: white;
+    }
+
+    /* Sun/Moon Card */
+    .sun-moon-card {
+      grid-column: span 3;
+    }
+
+    /* River History Chart */
+    .river-history {
+      grid-column: span 4;
+    }
+
+    .river-history .card-icon {
+      background: linear-gradient(135deg, #14B8A6 0%, #0D9488 100%);
+    }
+
+    .river-chart {
+      margin-top: 16px;
+    }
+
+    .chart-container {
+      display: flex;
+      gap: 8px;
+    }
+
+    .chart-y-axis {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      padding: 4px 0;
+      min-width: 24px;
+    }
+
+    .chart-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .chart-svg {
+      width: 100%;
+      height: 100px;
+      background: linear-gradient(180deg, rgba(20, 184, 166, 0.05) 0%, transparent 100%);
+      border-radius: 8px;
+    }
+
+    .chart-x-axis {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-top: 8px;
+      padding: 0 4px;
+    }
+
+    .chart-stats {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border-light);
+    }
+
+    .chart-stat {
+      text-align: center;
+    }
+
+    .chart-stat-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      display: block;
+    }
+
+    .chart-stat-value {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .chart-stat-value.trend-down {
+      color: var(--accent-teal);
+    }
+
+    .chart-stat-value.trend-up {
+      color: var(--accent-rose);
+    }
+
+    /* Fishing Index */
+    .fishing-index {
+      grid-column: span 4;
+    }
+
+    .fishing-index .card-icon {
+      background: linear-gradient(135deg, #22C55E 0%, #16A34A 100%);
+    }
+
+    .fishing-display {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+      margin-top: 16px;
+    }
+
+    .fishing-score {
+      text-align: center;
+    }
+
+    .fishing-circle {
+      position: relative;
+      width: 100px;
+      height: 100px;
+    }
+
+    .fishing-ring {
+      width: 100%;
+      height: 100%;
+    }
+
+    .fishing-value {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+    }
+
+    .fishing-number {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--accent-green);
+    }
+
+    .fishing-max {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .fishing-label {
+      margin-top: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--accent-green);
+      letter-spacing: 0.5px;
+    }
+
+    .fishing-factors {
+      flex: 1;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    .factor-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+    }
+
+    .factor-item.good {
+      background: #DCFCE7;
+      color: #166534;
+    }
+
+    .factor-item.neutral {
+      background: #FEF3C7;
+      color: #92400E;
+    }
+
+    .factor-item.bad {
+      background: #FEE2E2;
+      color: #991B1B;
+    }
+
+    .factor-icon {
+      font-size: 1rem;
+    }
+
+    .factor-name {
+      flex: 1;
+    }
+
+    .factor-score {
+      font-weight: 700;
+    }
+
+    .fishing-tip {
+      margin-top: 16px;
+      padding: 12px 16px;
+      background: linear-gradient(90deg, #ECFDF5 0%, #D1FAE5 100%);
+      border-radius: 10px;
+      font-size: 0.85rem;
+      color: #065F46;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .sun-moon-card .card-icon {
+      background: linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%);
+    }
+
+    .sun-moon-display {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .sun-info, .moon-info {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px;
+      border-radius: var(--radius-sm);
+    }
+
+    .sun-info {
+      background: linear-gradient(90deg, #FEF3C7 0%, #FDE68A 100%);
+    }
+
+    .moon-info {
+      background: linear-gradient(90deg, #E0E7FF 0%, #C7D2FE 100%);
+    }
+
+    .celestial-icon {
+      font-size: 2.5rem;
+    }
+
+    .celestial-times {
+      flex: 1;
+    }
+
+    .celestial-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+
+    .celestial-label {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+
+    .celestial-value {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+    }
+
+    /* Air Quality */
+    .air-quality-card {
+      grid-column: span 3;
+    }
+
+    .air-quality-card .card-icon {
+      background: linear-gradient(135deg, var(--accent-green) 0%, #16A34A 100%);
+    }
+
+    .aqi-display {
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    .aqi-value {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 4rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--accent-green) 0%, var(--accent-teal) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .aqi-status {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--accent-green);
+      margin-top: 8px;
+    }
+
+    .aqi-message {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-top: 8px;
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: 32px;
+      padding: 20px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    .footer a {
+      color: var(--accent-blue);
+      text-decoration: none;
+    }
+
+    .data-source {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    .data-source span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Responsive */
+    @media (max-width: 1200px) {
+      .dashboard-grid {
+        grid-template-columns: repeat(6, 1fr);
+      }
+      
+      .weather-current { grid-column: span 6; }
+      .river-card { grid-column: span 3; }
+      .wind-card { grid-column: span 3; }
+      .forecast-3day { grid-column: span 6; }
+      .forecast-extended { grid-column: span 6; }
+      .river-stations { grid-column: span 6; }
+      .webcam-card { grid-column: span 6; }
+      .radar-card { grid-column: span 6; }
+      .finance-card { grid-column: span 6; }
+      .river-history { grid-column: span 3; }
+      .fishing-index { grid-column: span 3; }
+      .holidays-section { grid-column: span 6; }
+      .sun-moon-card { grid-column: span 3; }
+      .air-quality-card { grid-column: span 3; }
+    }
+
+    @media (max-width: 768px) {
+      .app-container {
+        padding: 12px;
+      }
+
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .weather-current,
+      .river-card,
+      .wind-card,
+      .forecast-3day,
+      .forecast-extended,
+      .radar-card,
+      .river-stations,
+      .webcam-card,
+      .river-history,
+      .fishing-index,
+      .holidays-section,
+      .sun-moon-card,
+      .air-quality-card,
+      .finance-card {
+        grid-column: span 1;
+      }
+
+      /* Header mobile */
+      .header {
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
+        padding: 16px;
+        margin-bottom: 16px;
+      }
+
+      .header-left {
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .location-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+      }
+
+      .location-info h1 {
+        font-size: 1.2rem;
+      }
+
+      .current-time {
+        font-size: 1.5rem;
+      }
+
+      /* Card base mobile */
+      .card {
+        padding: 16px;
+        border-radius: var(--radius-md);
+      }
+
+      .card-header {
+        margin-bottom: 12px;
+      }
+
+      .card-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 18px;
+      }
+
+      .card-title {
+        font-size: 1rem;
+      }
+
+      /* Clima actual mobile - COMPACTO */
+      .weather-current {
+        padding: 20px;
+      }
+
+      .weather-main {
+        margin: 16px 0;
+      }
+
+      .temp-value {
+        font-size: 4rem;
+      }
+
+      .temp-unit {
+        font-size: 1.5rem;
+        margin-top: 8px;
+      }
+
+      .weather-icon-large {
+        font-size: 3rem;
+      }
+
+      .weather-condition {
+        font-size: 1.1rem;
+      }
+
+      .weather-feels {
+        font-size: 0.85rem;
+      }
+
+      .temp-range {
+        gap: 12px;
+        margin-top: 6px;
+        font-size: 0.85rem;
+      }
+
+      .weather-trend {
+        font-size: 0.75rem;
+        padding: 5px 10px;
+        margin-top: 8px;
+      }
+
+      /* Stats en 2 filas de 4 - más compacto */
+      .weather-stats {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+        margin-top: 16px;
+        padding-top: 16px;
+      }
+
+      .stat-icon {
+        font-size: 1rem;
+        margin-bottom: 2px;
+      }
+
+      .stat-value {
+        font-size: 0.9rem;
+      }
+
+      .stat-label {
+        font-size: 0.65rem;
+      }
+
+      /* Pronóstico 3 días mobile - TIRAS HORIZONTALES */
+      .forecast-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .forecast-day {
+        display: flex;
+        align-items: center;
+        padding: 14px 16px;
+        text-align: left;
+        gap: 12px;
+      }
+
+      .forecast-day-name {
+        font-size: 0.85rem;
+        min-width: 55px;
+        margin-bottom: 0;
+      }
+
+      .forecast-day-date {
+        display: none;
+      }
+
+      .forecast-icon {
+        font-size: 2rem;
+        margin: 0;
+        order: 1;
+      }
+
+      .forecast-temps {
+        flex: 1;
+        justify-content: flex-start;
+        margin-top: 0;
+        order: 2;
+      }
+
+      .forecast-temp-max {
+        font-size: 1.5rem;
+      }
+
+      .forecast-temp-min {
+        font-size: 1rem;
+        margin-bottom: 2px;
+      }
+
+      .forecast-condition {
+        display: none;
+      }
+
+      .forecast-rain {
+        margin-top: 0;
+        order: 3;
+        font-size: 0.75rem;
+        min-width: 70px;
+        justify-content: flex-end;
+      }
+
+      /* Pronóstico extendido mobile */
+      .extended-day {
+        grid-template-columns: 70px 30px 1fr 55px 60px;
+        padding: 10px 12px;
+        gap: 8px;
+      }
+
+      .extended-day-name {
+        font-size: 0.8rem;
+      }
+
+      .extended-icon {
+        font-size: 1.2rem;
+      }
+
+      .extended-temps {
+        gap: 8px;
+        font-size: 0.9rem;
+      }
+
+      .extended-rain {
+        font-size: 0.7rem;
+        min-width: 55px;
+      }
+
+      /* Río mobile */
+      .river-card {
+        padding: 18px;
+      }
+
+      .river-value {
+        font-size: 2.8rem;
+      }
+
+      .river-unit {
+        font-size: 1.2rem;
+      }
+
+      .river-status {
+        font-size: 0.8rem;
+        padding: 6px 12px;
+      }
+
+      .river-temp {
+        padding: 8px 12px;
+        margin-top: 10px;
+      }
+
+      /* Viento mobile */
+      .wind-speed {
+        font-size: 2.2rem;
+      }
+
+      .wind-compass {
+        width: 60px;
+        height: 60px;
+      }
+
+      .wind-details {
+        margin-top: 12px;
+        padding-top: 12px;
+        gap: 6px;
+      }
+
+      .wind-detail-item {
+        font-size: 0.8rem;
+      }
+
+      /* Estaciones río mobile */
+      .stations-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+      }
+
+      .station-item {
+        padding: 12px;
+      }
+
+      .station-name {
+        font-size: 0.75rem;
+      }
+
+      .station-value {
+        font-size: 1.3rem;
+      }
+
+      /* Feriados mobile */
+      .holiday-item {
+        padding: 12px;
+        gap: 12px;
+      }
+
+      .holiday-date-box {
+        min-width: 50px;
+      }
+
+      .holiday-day {
+        font-size: 1.4rem;
+      }
+
+      .holiday-name {
+        font-size: 0.9rem;
+      }
+
+      .holiday-days-left {
+        font-size: 0.7rem;
+        padding: 4px 8px;
+      }
+
+      /* Sol/Luna y Aire mobile */
+      .sun-info, .moon-info {
+        padding: 12px;
+        gap: 12px;
+      }
+
+      .celestial-icon {
+        font-size: 2rem;
+      }
+
+      .celestial-value {
+        font-size: 0.9rem;
+      }
+
+      .aqi-value {
+        font-size: 3rem;
+      }
+
+      /* Footer mobile */
+      .footer {
+        padding: 16px;
+        margin-top: 20px;
+      }
+
+      .data-source {
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      /* River History mobile */
+      .chart-svg {
+        height: 80px;
+      }
+
+      .chart-stats {
+        gap: 8px;
+      }
+
+      .chart-stat-value {
+        font-size: 0.9rem;
+      }
+
+      /* Fishing Index mobile */
+      .fishing-display {
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .fishing-circle {
+        width: 90px;
+        height: 90px;
+      }
+
+      .fishing-number {
+        font-size: 1.5rem;
+      }
+
+      .fishing-factors {
+        width: 100%;
+      }
+
+      .factor-item {
+        padding: 6px 10px;
+        font-size: 0.75rem;
+      }
+
+      .fishing-tip {
+        font-size: 0.8rem;
+        padding: 10px 12px;
+      }
+    }
+
+    /* Animations */
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+
+    .weather-icon-large {
+      animation: float 4s ease-in-out infinite;
+    }
+
+    .live-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      color: var(--accent-green);
+      font-weight: 600;
+    }
+
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--accent-green);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    /* Weather Trend */
+    .weather-trend {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-top: 12px;
+    }
+
+    .weather-trend.improving {
+      background: rgba(34, 197, 94, 0.2);
+      color: #86EFAC;
+    }
+
+    .weather-trend.worsening {
+      background: rgba(239, 68, 68, 0.2);
+      color: #FCA5A5;
+    }
+
+    .weather-trend.stable {
+      background: rgba(251, 191, 36, 0.2);
+      color: #FDE68A;
+    }
+
+    /* River Temperature */
+    .river-temp {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 12px;
+      padding: 10px 14px;
+      background: rgba(255,255,255,0.15);
+      border-radius: var(--radius-sm);
+    }
+
+    .river-temp-icon {
+      font-size: 1.2rem;
+    }
+
+    .river-temp-info {
+      flex: 1;
+    }
+
+    .river-temp-label {
+      font-size: 0.7rem;
+      opacity: 0.8;
+    }
+
+    .river-temp-value {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .river-update-time {
+      font-size: 0.65rem;
+      opacity: 0.7;
+      text-align: right;
+    }
+
+    /* Alert Banner */
+    .alert-banner {
+      display: none;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 20px;
+      border-radius: var(--radius-md);
+      margin-bottom: 24px;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .alert-banner.active {
+      display: flex;
+    }
+
+    .alert-banner.warning {
+      background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+      border: 2px solid #F59E0B;
+      color: #92400E;
+    }
+
+    .alert-banner.danger {
+      background: linear-gradient(135deg, #FEE2E2 0%, #FECACA 100%);
+      border: 2px solid #EF4444;
+      color: #991B1B;
+    }
+
+    .alert-banner.storm {
+      background: linear-gradient(135deg, #E0E7FF 0%, #C7D2FE 100%);
+      border: 2px solid #8B5CF6;
+      color: #5B21B6;
+    }
+
+    .alert-icon {
+      font-size: 1.8rem;
+      animation: shake 0.5s ease-in-out infinite;
+    }
+
+    .alert-content {
+      flex: 1;
+    }
+
+    .alert-title {
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .alert-message {
+      font-size: 0.85rem;
+      opacity: 0.9;
+    }
+
+    .alert-close {
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      opacity: 0.6;
+      transition: opacity 0.2s;
+    }
+
+    .alert-close:hover {
+      opacity: 1;
+    }
+
+    /* Min temp today */
+    .temp-range {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-top: 8px;
+      font-size: 0.95rem;
+      opacity: 0.9;
+    }
+
+    .temp-min-today, .temp-max-today {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
   </style>
 </head>
 <body>
@@ -2376,854 +2461,880 @@ body {
       </div>
     </header>
 
-```
-<!-- Alert Banner (se activa cuando hay alerta) -->
-<div id="alertBanner" class="alert-banner">
-  <span class="alert-icon">⚠️</span>
-  <div class="alert-content">
-    <div class="alert-title">Título de alerta</div>
-    <div class="alert-message">Mensaje de alerta</div>
-  </div>
-  <button class="alert-close" onclick="closeAlert()">✕</button>
-</div>
+    <!-- Alert Banner (se activa cuando hay alerta) -->
+    <div id="alertBanner" class="alert-banner">
+      <span class="alert-icon">⚠️</span>
+      <div class="alert-content">
+        <div class="alert-title">Título de alerta</div>
+        <div class="alert-message">Mensaje de alerta</div>
+      </div>
+      <button class="alert-close" onclick="closeAlert()">✕</button>
+    </div>
 
-<!-- Dashboard Grid -->
-<div class="dashboard-grid">
-  
-  <!-- Current Weather -->
-  <div class="card weather-current">
-    <div class="card-header">
-      <div class="card-icon">🌤️</div>
-      <div>
-        <div class="card-title">Clima Actual</div>
-        <div class="card-subtitle">Actualizado hace 5 min</div>
-      </div>
-    </div>
-    <div class="weather-main">
-      <div>
-        <div class="temp-display">
-          <span class="temp-value">25</span>
-          <span class="temp-unit">°C</span>
+    <!-- Dashboard Grid -->
+    <div class="dashboard-grid">
+      
+      <!-- Current Weather -->
+      <div class="card weather-current">
+        <div class="card-header">
+          <div class="card-icon">🌤️</div>
+          <div>
+            <div class="card-title">Clima Actual</div>
+            <div class="card-subtitle">Actualizado hace 5 min</div>
+          </div>
         </div>
-        <div class="weather-condition">Soleado</div>
-        <div class="weather-feels">Sensación térmica 26°C</div>
-        <div class="temp-range">
-          <span class="temp-min-today">↓ Mín: <strong>11°</strong></span>
-          <span class="temp-max-today">↑ Máx: <strong>25°</strong></span>
+        <div class="weather-main">
+          <div>
+            <div class="temp-display">
+              <span class="temp-value">25</span>
+              <span class="temp-unit">°C</span>
+            </div>
+            <div class="weather-condition">Soleado</div>
+            <div class="weather-feels">Sensación térmica 26°C</div>
+            <div class="clothing-recommendation" id="clothingRec">
+              <span class="clothing-icon">👕</span>
+              <span class="clothing-text">Día de remera y short</span>
+            </div>
+            <div class="temp-range">
+              <span class="temp-min-today">↓ Mín: <strong>11°</strong></span>
+              <span class="temp-max-today">↑ Máx: <strong>25°</strong></span>
+            </div>
+            <div class="weather-trend stable">
+              <span>→</span> Próximos días: Estable, sube temperatura
+            </div>
+          </div>
+          <div class="weather-icon-large">☀️</div>
         </div>
-        <div class="weather-trend stable">
-          <span>→</span> Próximos días: Estable, sube temperatura
+        <div class="weather-stats">
+          <div class="stat-item">
+            <div class="stat-icon">💧</div>
+            <div class="stat-value">42%</div>
+            <div class="stat-label">Humedad</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-icon">🌡️</div>
+            <div class="stat-value">1015</div>
+            <div class="stat-label">hPa</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-icon">👁️</div>
+            <div class="stat-value">55km</div>
+            <div class="stat-label">Visibilidad</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-icon">☀️</div>
+            <div class="stat-value">UV 3</div>
+            <div class="stat-label">Medio</div>
+          </div>
+        </div>
+        <div class="weather-stats" style="border-top: 1px solid rgba(255,255,255,0.15); margin-top: 16px; padding-top: 16px;">
+          <div class="stat-item">
+            <div class="stat-icon">🌧️</div>
+            <div class="stat-value">0 mm</div>
+            <div class="stat-label">Últ. 24hs</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-icon">⛈️</div>
+            <div class="stat-value">0 mm</div>
+            <div class="stat-label">Próx. 24hs</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-icon">📊</div>
+            <div class="stat-value">0%</div>
+            <div class="stat-label">Prob. hoy</div>
+          </div>
+          <div class="stat-item stat-clickable" id="acumMesBtn" title="Ver desglose de lluvias">
+            <div class="stat-icon">🗓️</div>
+            <div class="stat-value">8.8 mm</div>
+            <div class="stat-label">Acum. mes ℹ️</div>
+          </div>
         </div>
       </div>
-      <div class="weather-icon-large">☀️</div>
-    </div>
-    <div class="weather-stats">
-      <div class="stat-item">
-        <div class="stat-icon">💧</div>
-        <div class="stat-value">42%</div>
-        <div class="stat-label">Humedad</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-icon">🌡️</div>
-        <div class="stat-value">1015</div>
-        <div class="stat-label">hPa</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-icon">👁️</div>
-        <div class="stat-value">55km</div>
-        <div class="stat-label">Visibilidad</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-icon">☀️</div>
-        <div class="stat-value">UV 3</div>
-        <div class="stat-label">Medio</div>
-      </div>
-    </div>
-    <div class="weather-stats" style="border-top: 1px solid rgba(255,255,255,0.15); margin-top: 16px; padding-top: 16px;">
-      <div class="stat-item">
-        <div class="stat-icon">🌧️</div>
-        <div class="stat-value">0 mm</div>
-        <div class="stat-label">Últ. 24hs</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-icon">⛈️</div>
-        <div class="stat-value">0 mm</div>
-        <div class="stat-label">Próx. 24hs</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-icon">📊</div>
-        <div class="stat-value">0%</div>
-        <div class="stat-label">Prob. hoy</div>
-      </div>
-      <div class="stat-item stat-clickable" id="acumMesBtn" title="Ver desglose de lluvias">
-        <div class="stat-icon">🗓️</div>
-        <div class="stat-value">8.8 mm</div>
-        <div class="stat-label">Acum. mes ℹ️</div>
-      </div>
-    </div>
-  </div>
 
-  <!-- Modal Desglose Lluvias -->
-  <div class="modal-overlay" id="rainModal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3>🌧️ Lluvias del mes</h3>
-        <button class="modal-close" id="rainModalClose">✕</button>
+      <!-- Modal Desglose Lluvias -->
+      <div class="modal-overlay" id="rainModal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3>🌧️ Lluvias del mes</h3>
+            <button class="modal-close" id="rainModalClose">✕</button>
+          </div>
+          <div class="modal-body" id="rainBreakdown">
+            <p>Cargando...</p>
+          </div>
+          <div class="modal-footer">
+            <span class="modal-source">Fuente: Open-Meteo</span>
+          </div>
+        </div>
       </div>
-      <div class="modal-body" id="rainBreakdown">
-        <p>Cargando...</p>
-      </div>
-      <div class="modal-footer">
-        <span class="modal-source">Fuente: Open-Meteo</span>
-      </div>
-    </div>
-  </div>
 
-  <!-- Río Uruguay -->
-  <div class="card river-card">
-    <div class="card-header">
-      <div class="card-icon">🌊</div>
-      <div>
-        <div class="card-title">Río Uruguay</div>
-        <div class="card-subtitle river-subtitle">Puerto CdU • Cargando...</div>
-      </div>
-    </div>
-    <div class="river-main">
-      <div class="river-level">
-        <span class="river-value">--</span>
-        <span class="river-unit">m</span>
-      </div>
-      <div>
-        <div class="river-status-badge">Cargando</div>
-        <div class="river-variation">-- en 12hs</div>
-      </div>
-    </div>
-    <div class="river-gauge">
-      <div class="gauge-labels">
-        <span>0m</span>
-        <span>Nivel normal</span>
-        <span>10m</span>
-      </div>
-      <div class="gauge-bar">
-        <div class="river-gauge-fill" style="width: 15%;">
+      <!-- Río Uruguay -->
+      <div class="card river-card">
+        <div class="card-header">
+          <div class="card-icon">🌊</div>
+          <div>
+            <div class="card-title">Río Uruguay</div>
+            <div class="card-subtitle river-subtitle">Puerto CdU • Cargando...</div>
+          </div>
+        </div>
+        <div class="river-main">
+          <div class="river-level">
+            <span class="river-value">--</span>
+            <span class="river-unit">m</span>
+          </div>
+          <div>
+            <div class="river-status-badge">Cargando</div>
+            <div class="river-variation">-- en 12hs</div>
+          </div>
+        </div>
+        <div class="river-gauge">
+          <div class="gauge-labels">
+            <span>0m</span>
+            <span>Nivel normal</span>
+            <span>10m</span>
+          </div>
+          <div class="gauge-bar">
+            <div class="river-gauge-fill" style="width: 15%;">
+            </div>
+          </div>
+          <div class="gauge-legend">
+            <span class="normal">NORMAL</span>
+            <span class="alerta">ALERTA 4M</span>
+            <span class="evac">EVAC. 6M</span>
+          </div>
+        </div>
+        <div class="river-temp">
+          <span class="river-temp-icon">🌡️</span>
+          <div class="river-temp-info">
+            <div class="river-temp-label">Temp. del agua</div>
+            <div class="water-temp-value">--°C</div>
+          </div>
+          <div class="river-timestamp">
+            Actualizado<br>--/-- --:--
+          </div>
         </div>
       </div>
-      <div class="gauge-legend">
-        <span class="normal">NORMAL</span>
-        <span class="alerta">ALERTA 4M</span>
-        <span class="evac">EVAC. 6M</span>
-      </div>
-    </div>
-    <div class="river-temp">
-      <span class="river-temp-icon">🌡️</span>
-      <div class="river-temp-info">
-        <div class="river-temp-label">Temp. del agua</div>
-        <div class="water-temp-value">--°C</div>
-      </div>
-      <div class="river-timestamp">
-        Actualizado<br>--/-- --:--
-      </div>
-    </div>
-  </div>
 
-  <!-- Viento -->
-  <div class="card wind-card">
-    <div class="card-header">
-      <div class="card-icon">💨</div>
-      <div>
-        <div class="card-title">Viento</div>
-        <div class="card-subtitle">Tiempo real</div>
+      <!-- Viento -->
+      <div class="card wind-card">
+        <div class="card-header">
+          <div class="card-icon">💨</div>
+          <div>
+            <div class="card-title">Viento</div>
+            <div class="card-subtitle">Tiempo real</div>
+          </div>
+        </div>
+        <div class="wind-main">
+          <div>
+            <div class="wind-speed">9 km/h</div>
+            <div class="wind-direction">Este</div>
+            <div class="wind-gusts">Ráfagas: 21 km/h</div>
+          </div>
+          <div class="wind-compass">
+            <div class="compass-arrow"></div>
+          </div>
+        </div>
+        <div class="wind-details">
+          <div class="wind-detail-item">
+            <span class="wind-detail-label">Presión</span>
+            <span class="wind-detail-value">1015 hPa</span>
+          </div>
+          <div class="wind-detail-item">
+            <span class="wind-detail-label">Humedad</span>
+            <span class="wind-detail-value">42%</span>
+          </div>
+          <div class="wind-detail-item">
+            <span class="wind-detail-label">Punto rocío</span>
+            <span class="wind-detail-value">11°C</span>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="wind-main">
-      <div>
-        <div class="wind-speed">9 km/h</div>
-        <div class="wind-direction">Este</div>
-        <div class="wind-gusts">Ráfagas: 21 km/h</div>
-      </div>
-      <div class="wind-compass">
-        <div class="compass-arrow"></div>
-      </div>
-    </div>
-    <div class="wind-details">
-      <div class="wind-detail-item">
-        <span class="wind-detail-label">Presión</span>
-        <span class="wind-detail-value">1015 hPa</span>
-      </div>
-      <div class="wind-detail-item">
-        <span class="wind-detail-label">Humedad</span>
-        <span class="wind-detail-value">42%</span>
-      </div>
-      <div class="wind-detail-item">
-        <span class="wind-detail-label">Punto rocío</span>
-        <span class="wind-detail-value">11°C</span>
-      </div>
-    </div>
-  </div>
 
-  <!-- Pronóstico 3 Días -->
-  <div class="card forecast-3day">
-    <div class="card-header">
-      <div class="card-icon">📅</div>
-      <div>
-        <div class="card-title">Próximos 3 Días</div>
-        <div class="card-subtitle">Pronóstico detallado</div>
-      </div>
-    </div>
-    <div class="forecast-grid">
-      <div class="forecast-day today">
-        <div class="forecast-day-name">Hoy</div>
-        <div class="forecast-day-date">25 Mar</div>
-        <div class="forecast-icon">☀️</div>
-        <div class="forecast-temps">
-          <span class="forecast-temp-max">25°</span>
-          <span class="forecast-temp-min">11°</span>
+      <!-- Pronóstico 3 Días -->
+      <div class="card forecast-3day">
+        <div class="card-header">
+          <div class="card-icon">📅</div>
+          <div>
+            <div class="card-title">Próximos 3 Días</div>
+            <div class="card-subtitle">Pronóstico detallado</div>
+          </div>
         </div>
-        <div class="forecast-condition">Soleado</div>
-        <div class="forecast-rain">💧 0% lluvia</div>
-      </div>
-      <div class="forecast-day">
-        <div class="forecast-day-name">Jueves</div>
-        <div class="forecast-day-date">26 Mar</div>
-        <div class="forecast-icon">☀️</div>
-        <div class="forecast-temps">
-          <span class="forecast-temp-max">27°</span>
-          <span class="forecast-temp-min">12°</span>
+        <div class="forecast-grid">
+          <div class="forecast-day today">
+            <div class="forecast-day-name">Hoy</div>
+            <div class="forecast-day-date">25 Mar</div>
+            <div class="forecast-icon">☀️</div>
+            <div class="forecast-temps">
+              <span class="forecast-temp-max">25°</span>
+              <span class="forecast-temp-min">11°</span>
+            </div>
+            <div class="forecast-condition">Soleado</div>
+            <div class="forecast-rain">💧 0% lluvia</div>
+          </div>
+          <div class="forecast-day">
+            <div class="forecast-day-name">Jueves</div>
+            <div class="forecast-day-date">26 Mar</div>
+            <div class="forecast-icon">☀️</div>
+            <div class="forecast-temps">
+              <span class="forecast-temp-max">27°</span>
+              <span class="forecast-temp-min">12°</span>
+            </div>
+            <div class="forecast-condition">Soleado</div>
+            <div class="forecast-rain">💧 0% lluvia</div>
+          </div>
+          <div class="forecast-day">
+            <div class="forecast-day-name">Viernes</div>
+            <div class="forecast-day-date">27 Mar</div>
+            <div class="forecast-icon">🌦️</div>
+            <div class="forecast-temps">
+              <span class="forecast-temp-max">29°</span>
+              <span class="forecast-temp-min">18°</span>
+            </div>
+            <div class="forecast-condition">Lluvia débil</div>
+            <div class="forecast-rain">💧 30% · 0.8mm</div>
+          </div>
         </div>
-        <div class="forecast-condition">Soleado</div>
-        <div class="forecast-rain">💧 0% lluvia</div>
       </div>
-      <div class="forecast-day">
-        <div class="forecast-day-name">Viernes</div>
-        <div class="forecast-day-date">27 Mar</div>
-        <div class="forecast-icon">🌦️</div>
-        <div class="forecast-temps">
-          <span class="forecast-temp-max">29°</span>
-          <span class="forecast-temp-min">18°</span>
-        </div>
-        <div class="forecast-condition">Lluvia débil</div>
-        <div class="forecast-rain">💧 30% · 0.8mm</div>
-      </div>
-    </div>
-  </div>
 
-  <!-- Pronóstico Extendido -->
-  <div class="card forecast-extended">
-    <div class="card-header">
-      <div class="card-icon">📆</div>
-      <div>
-        <div class="card-title">Pronóstico Extendido</div>
-        <div class="card-subtitle">Próximos 10 días</div>
+      <!-- Pronóstico Extendido -->
+      <div class="card forecast-extended">
+        <div class="card-header">
+          <div class="card-icon">📆</div>
+          <div>
+            <div class="card-title">Pronóstico Extendido</div>
+            <div class="card-subtitle">Próximos 10 días</div>
+          </div>
+        </div>
+        <div class="extended-list">
+          <div class="extended-day">
+            <span class="extended-day-name">Sáb 28</span>
+            <span class="extended-icon">⛅</span>
+            <div class="extended-bar-container">
+              <div class="extended-bar" style="left: 36%; width: 40%;"></div>
+            </div>
+            <div class="extended-temps">
+              <span class="extended-max">32°</span>
+              <span class="extended-min">22°</span>
+            </div>
+            <div class="extended-rain high">💧 25%</div>
+          </div>
+          <div class="extended-day">
+            <span class="extended-day-name">Dom 29</span>
+            <span class="extended-icon">☀️</span>
+            <div class="extended-bar-container">
+              <div class="extended-bar" style="left: 38%; width: 44%;"></div>
+            </div>
+            <div class="extended-temps">
+              <span class="extended-max">33°</span>
+              <span class="extended-min">23°</span>
+            </div>
+            <div class="extended-rain low">💧 0%</div>
+          </div>
+          <div class="extended-day">
+            <span class="extended-day-name">Lun 30</span>
+            <span class="extended-icon">⛅</span>
+            <div class="extended-bar-container">
+              <div class="extended-bar" style="left: 40%; width: 48%;"></div>
+            </div>
+            <div class="extended-temps">
+              <span class="extended-max">34°</span>
+              <span class="extended-min">24°</span>
+            </div>
+            <div class="extended-rain low">💧 5%</div>
+          </div>
+          <div class="extended-day">
+            <span class="extended-day-name">Mar 31</span>
+            <span class="extended-icon">⛅</span>
+            <div class="extended-bar-container">
+              <div class="extended-bar" style="left: 40%; width: 44%;"></div>
+            </div>
+            <div class="extended-temps">
+              <span class="extended-max">33°</span>
+              <span class="extended-min">24°</span>
+            </div>
+            <div class="extended-rain low">💧 10%</div>
+          </div>
+          <div class="extended-day">
+            <span class="extended-day-name">Mié 1</span>
+            <span class="extended-icon">🌧️</span>
+            <div class="extended-bar-container">
+              <div class="extended-bar" style="left: 38%; width: 40%;"></div>
+            </div>
+            <div class="extended-temps">
+              <span class="extended-max">30°</span>
+              <span class="extended-min">22°</span>
+            </div>
+            <div class="extended-rain high">💧 45% 8mm</div>
+          </div>
+          <div class="extended-day">
+            <span class="extended-day-name">Jue 2</span>
+            <span class="extended-icon">⛈️</span>
+            <div class="extended-bar-container">
+              <div class="extended-bar" style="left: 35%; width: 38%;"></div>
+            </div>
+            <div class="extended-temps">
+              <span class="extended-max">28°</span>
+              <span class="extended-min">20°</span>
+            </div>
+            <div class="extended-rain high">💧 70% 15mm</div>
+          </div>
+          <div class="extended-day">
+            <span class="extended-day-name">Vie 3</span>
+            <span class="extended-icon">🌦️</span>
+            <div class="extended-bar-container">
+              <div class="extended-bar" style="left: 32%; width: 36%;"></div>
+            </div>
+            <div class="extended-temps">
+              <span class="extended-max">26°</span>
+              <span class="extended-min">18°</span>
+            </div>
+            <div class="extended-rain high">💧 55% 10mm</div>
+          </div>
+          <div class="extended-day">
+            <span class="extended-day-name">Sáb 4</span>
+            <span class="extended-icon">⛅</span>
+            <div class="extended-bar-container">
+              <div class="extended-bar" style="left: 30%; width: 40%;"></div>
+            </div>
+            <div class="extended-temps">
+              <span class="extended-max">27°</span>
+              <span class="extended-min">17°</span>
+            </div>
+            <div class="extended-rain low">💧 20%</div>
+          </div>
+          <div class="extended-day">
+            <span class="extended-day-name">Dom 5</span>
+            <span class="extended-icon">☀️</span>
+            <div class="extended-bar-container">
+              <div class="extended-bar" style="left: 28%; width: 44%;"></div>
+            </div>
+            <div class="extended-temps">
+              <span class="extended-max">29°</span>
+              <span class="extended-min">16°</span>
+            </div>
+            <div class="extended-rain low">💧 5%</div>
+          </div>
+          <div class="extended-day">
+            <span class="extended-day-name">Lun 6</span>
+            <span class="extended-icon">☀️</span>
+            <div class="extended-bar-container">
+              <div class="extended-bar" style="left: 26%; width: 48%;"></div>
+            </div>
+            <div class="extended-temps">
+              <span class="extended-max">30°</span>
+              <span class="extended-min">15°</span>
+            </div>
+            <div class="extended-rain low">💧 0%</div>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="extended-list">
-      <div class="extended-day">
-        <span class="extended-day-name">Sáb 28</span>
-        <span class="extended-icon">⛅</span>
-        <div class="extended-bar-container">
-          <div class="extended-bar" style="left: 36%; width: 40%;"></div>
-        </div>
-        <div class="extended-temps">
-          <span class="extended-max">32°</span>
-          <span class="extended-min">22°</span>
-        </div>
-        <div class="extended-rain high">💧 25%</div>
-      </div>
-      <div class="extended-day">
-        <span class="extended-day-name">Dom 29</span>
-        <span class="extended-icon">☀️</span>
-        <div class="extended-bar-container">
-          <div class="extended-bar" style="left: 38%; width: 44%;"></div>
-        </div>
-        <div class="extended-temps">
-          <span class="extended-max">33°</span>
-          <span class="extended-min">23°</span>
-        </div>
-        <div class="extended-rain low">💧 0%</div>
-      </div>
-      <div class="extended-day">
-        <span class="extended-day-name">Lun 30</span>
-        <span class="extended-icon">⛅</span>
-        <div class="extended-bar-container">
-          <div class="extended-bar" style="left: 40%; width: 48%;"></div>
-        </div>
-        <div class="extended-temps">
-          <span class="extended-max">34°</span>
-          <span class="extended-min">24°</span>
-        </div>
-        <div class="extended-rain low">💧 5%</div>
-      </div>
-      <div class="extended-day">
-        <span class="extended-day-name">Mar 31</span>
-        <span class="extended-icon">⛅</span>
-        <div class="extended-bar-container">
-          <div class="extended-bar" style="left: 40%; width: 44%;"></div>
-        </div>
-        <div class="extended-temps">
-          <span class="extended-max">33°</span>
-          <span class="extended-min">24°</span>
-        </div>
-        <div class="extended-rain low">💧 10%</div>
-      </div>
-      <div class="extended-day">
-        <span class="extended-day-name">Mié 1</span>
-        <span class="extended-icon">🌧️</span>
-        <div class="extended-bar-container">
-          <div class="extended-bar" style="left: 38%; width: 40%;"></div>
-        </div>
-        <div class="extended-temps">
-          <span class="extended-max">30°</span>
-          <span class="extended-min">22°</span>
-        </div>
-        <div class="extended-rain high">💧 45% 8mm</div>
-      </div>
-      <div class="extended-day">
-        <span class="extended-day-name">Jue 2</span>
-        <span class="extended-icon">⛈️</span>
-        <div class="extended-bar-container">
-          <div class="extended-bar" style="left: 35%; width: 38%;"></div>
-        </div>
-        <div class="extended-temps">
-          <span class="extended-max">28°</span>
-          <span class="extended-min">20°</span>
-        </div>
-        <div class="extended-rain high">💧 70% 15mm</div>
-      </div>
-      <div class="extended-day">
-        <span class="extended-day-name">Vie 3</span>
-        <span class="extended-icon">🌦️</span>
-        <div class="extended-bar-container">
-          <div class="extended-bar" style="left: 32%; width: 36%;"></div>
-        </div>
-        <div class="extended-temps">
-          <span class="extended-max">26°</span>
-          <span class="extended-min">18°</span>
-        </div>
-        <div class="extended-rain high">💧 55% 10mm</div>
-      </div>
-      <div class="extended-day">
-        <span class="extended-day-name">Sáb 4</span>
-        <span class="extended-icon">⛅</span>
-        <div class="extended-bar-container">
-          <div class="extended-bar" style="left: 30%; width: 40%;"></div>
-        </div>
-        <div class="extended-temps">
-          <span class="extended-max">27°</span>
-          <span class="extended-min">17°</span>
-        </div>
-        <div class="extended-rain low">💧 20%</div>
-      </div>
-      <div class="extended-day">
-        <span class="extended-day-name">Dom 5</span>
-        <span class="extended-icon">☀️</span>
-        <div class="extended-bar-container">
-          <div class="extended-bar" style="left: 28%; width: 44%;"></div>
-        </div>
-        <div class="extended-temps">
-          <span class="extended-max">29°</span>
-          <span class="extended-min">16°</span>
-        </div>
-        <div class="extended-rain low">💧 5%</div>
-      </div>
-      <div class="extended-day">
-        <span class="extended-day-name">Lun 6</span>
-        <span class="extended-icon">☀️</span>
-        <div class="extended-bar-container">
-          <div class="extended-bar" style="left: 26%; width: 48%;"></div>
-        </div>
-        <div class="extended-temps">
-          <span class="extended-max">30°</span>
-          <span class="extended-min">15°</span>
-        </div>
-        <div class="extended-rain low">💧 0%</div>
-      </div>
-    </div>
-  </div>
 
-  <!-- Radar de Lluvia -->
-  <div class="card radar-card">
-    <div class="card-header">
-      <div class="card-icon">🌧️</div>
-      <div>
-        <div class="card-title">Radar de Lluvia</div>
-        <div class="card-subtitle">Tiempo real · Windy.com</div>
+      <!-- Radar de Lluvia -->
+      <div class="card radar-card">
+        <div class="card-header">
+          <div class="card-icon">🌧️</div>
+          <div>
+            <div class="card-title">Radar de Lluvia</div>
+            <div class="card-subtitle">Tiempo real · Windy.com</div>
+          </div>
+        </div>
+        <div class="radar-container">
+          <iframe 
+            src="https://embed.windy.com/embed2.html?lat=-32.48&lon=-58.23&detailLat=-32.48&detailLon=-58.23&width=650&height=450&zoom=9&level=surface&overlay=rain&product=ecmwf&menu=&message=true&marker=&calendar=now&pressure=&type=map&location=coordinates&detail=&metricWind=km%2Fh&metricTemp=%C2%B0C&radarRange=-1"
+            frameborder="0"
+            class="radar-iframe">
+          </iframe>
+        </div>
+        <div class="radar-footer">
+          <div class="radar-legend">
+            <span class="radar-legend-item light">🟢 Ligera</span>
+            <span class="radar-legend-item moderate">🟡 Moderada</span>
+            <span class="radar-legend-item heavy">🔴 Intensa</span>
+          </div>
+          <a href="https://www.windy.com/-32.483/-58.233?rain" target="_blank" class="radar-link">
+            Ver en Windy ↗
+          </a>
+        </div>
       </div>
-    </div>
-    <div class="radar-container">
-      <iframe 
-        src="https://embed.windy.com/embed2.html?lat=-32.48&lon=-58.23&detailLat=-32.48&detailLon=-58.23&width=650&height=450&zoom=9&level=surface&overlay=rain&product=ecmwf&menu=&message=true&marker=&calendar=now&pressure=&type=map&location=coordinates&detail=&metricWind=km%2Fh&metricTemp=%C2%B0C&radarRange=-1"
-        frameborder="0"
-        class="radar-iframe">
-      </iframe>
-    </div>
-    <div class="radar-footer">
-      <div class="radar-legend">
-        <span class="radar-legend-item light">🟢 Ligera</span>
-        <span class="radar-legend-item moderate">🟡 Moderada</span>
-        <span class="radar-legend-item heavy">🔴 Intensa</span>
-      </div>
-      <a href="https://www.windy.com/-32.483/-58.233?rain" target="_blank" class="radar-link">
-        Ver en Windy ↗
-      </a>
-    </div>
-  </div>
 
-  <!-- Estaciones del Río -->
-  <div class="card river-stations">
-    <div class="card-header">
-      <div class="card-icon">📊</div>
-      <div>
-        <div class="card-title">Estaciones Río Uruguay</div>
-        <div class="card-subtitle">Fuente: CARU · 25/03/2026</div>
+      <!-- Estaciones del Río -->
+      <div class="card river-stations">
+        <div class="card-header">
+          <div class="card-icon">📊</div>
+          <div>
+            <div class="card-title">Estaciones Río Uruguay</div>
+            <div class="card-subtitle">Fuente: CARU · 25/03/2026</div>
+          </div>
+        </div>
+        <div class="stations-grid">
+          <div class="station-item">
+            <div class="station-name">Concordia</div>
+            <div class="station-value">2.54</div>
+            <div class="station-unit">metros</div>
+            <div class="station-status baja">↓ Baja -0.26m</div>
+          </div>
+          <div class="station-item">
+            <div class="station-name">Colón</div>
+            <div class="station-value">1.80</div>
+            <div class="station-unit">metros</div>
+            <div class="station-status estable">● Estable</div>
+          </div>
+          <div class="station-item">
+            <div class="station-name">CdU</div>
+            <div class="station-value">1.46</div>
+            <div class="station-unit">metros</div>
+            <div class="station-status baja">↓ Baja -0.14m</div>
+          </div>
+          <div class="station-item">
+            <div class="station-name">Salto Grande ↑</div>
+            <div class="station-value">33.05</div>
+            <div class="station-unit">metros</div>
+            <div class="station-status baja">↓ Baja</div>
+          </div>
+          <div class="station-item">
+            <div class="station-name">Salto Grande ↓</div>
+            <div class="station-value">6.47</div>
+            <div class="station-unit">metros</div>
+            <div class="station-status crece">↑ Crece +0.21m</div>
+          </div>
+          <div class="station-item">
+            <div class="station-name">Paysandú</div>
+            <div class="station-value">1.10</div>
+            <div class="station-unit">metros</div>
+            <div class="station-status baja">↓ Baja</div>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="stations-grid">
-      <div class="station-item">
-        <div class="station-name">Concordia</div>
-        <div class="station-value">2.54</div>
-        <div class="station-unit">metros</div>
-        <div class="station-status baja">↓ Baja -0.26m</div>
-      </div>
-      <div class="station-item">
-        <div class="station-name">Colón</div>
-        <div class="station-value">1.80</div>
-        <div class="station-unit">metros</div>
-        <div class="station-status estable">● Estable</div>
-      </div>
-      <div class="station-item">
-        <div class="station-name">CdU</div>
-        <div class="station-value">1.46</div>
-        <div class="station-unit">metros</div>
-        <div class="station-status baja">↓ Baja -0.14m</div>
-      </div>
-      <div class="station-item">
-        <div class="station-name">Salto Grande ↑</div>
-        <div class="station-value">33.05</div>
-        <div class="station-unit">metros</div>
-        <div class="station-status baja">↓ Baja</div>
-      </div>
-      <div class="station-item">
-        <div class="station-name">Salto Grande ↓</div>
-        <div class="station-value">6.47</div>
-        <div class="station-unit">metros</div>
-        <div class="station-status crece">↑ Crece +0.21m</div>
-      </div>
-      <div class="station-item">
-        <div class="station-name">Paysandú</div>
-        <div class="station-value">1.10</div>
-        <div class="station-unit">metros</div>
-        <div class="station-status baja">↓ Baja</div>
-      </div>
-    </div>
-  </div>
 
-  <!-- Cámara en Vivo -->
-  <div class="card webcam-card">
-    <div class="card-header">
-      <div class="card-icon">📹</div>
-      <div>
-        <div class="card-title">Cámara en Vivo</div>
-        <div class="card-subtitle">Río Uruguay · Colón</div>
-      </div>
-    </div>
-    <a href="https://myearthcam.com/coloner" target="_blank" class="webcam-preview">
-      <div class="webcam-preview-content">
-        <div class="webcam-play-icon">▶</div>
-        <div class="webcam-preview-text">
-          <div class="webcam-preview-title">Puerto Colón - Marina</div>
-          <div class="webcam-preview-desc">Costanera y embarcadero del Río Uruguay</div>
+      <!-- Cámara en Vivo -->
+      <div class="card webcam-card">
+        <div class="card-header">
+          <div class="card-icon">📹</div>
+          <div>
+            <div class="card-title">Cámara en Vivo</div>
+            <div class="card-subtitle">Río Uruguay · Colón</div>
+          </div>
+        </div>
+        <a href="https://myearthcam.com/coloner" target="_blank" class="webcam-preview">
+          <div class="webcam-preview-content">
+            <div class="webcam-play-icon">▶</div>
+            <div class="webcam-preview-text">
+              <div class="webcam-preview-title">Puerto Colón - Marina</div>
+              <div class="webcam-preview-desc">Costanera y embarcadero del Río Uruguay</div>
+            </div>
+          </div>
+          <div class="webcam-preview-badge">
+            <span class="live-dot"></span>
+            EN VIVO
+          </div>
+        </a>
+        <div class="webcam-footer">
+          <span class="webcam-source">Fuente: EarthCam</span>
+          <span class="webcam-hint">Clic para ver en vivo ↗</span>
         </div>
       </div>
-      <div class="webcam-preview-badge">
-        <span class="live-dot"></span>
-        EN VIVO
-      </div>
-    </a>
-    <div class="webcam-footer">
-      <span class="webcam-source">Fuente: EarthCam</span>
-      <span class="webcam-hint">Clic para ver en vivo ↗</span>
-    </div>
-  </div>
 
-  <!-- Gráfico Histórico del Río -->
-  <div class="card river-history">
-    <div class="card-header">
-      <div class="card-icon">📈</div>
-      <div>
-        <div class="card-title">Tendencia del Río</div>
-        <div class="card-subtitle">Últimos 7 días · CdU</div>
-      </div>
-    </div>
-    <div class="river-chart">
-      <div class="chart-container">
-        <div class="chart-y-axis">
-          <span>3m</span>
-          <span>2m</span>
-          <span>1m</span>
-          <span>0m</span>
+      <!-- Gráfico Histórico del Río -->
+      <div class="card river-history">
+        <div class="card-header">
+          <div class="card-icon">📈</div>
+          <div>
+            <div class="card-title">Tendencia del Río</div>
+            <div class="card-subtitle">Últimos 7 días · CdU</div>
+          </div>
         </div>
-        <div class="chart-area">
-          <svg viewBox="0 0 300 100" preserveAspectRatio="none" class="chart-svg">
-            <!-- Línea de alerta -->
-            <line x1="0" y1="20" x2="300" y2="20" stroke="#FCD34D" stroke-width="1" stroke-dasharray="4"/>
-            <!-- Área bajo la curva -->
-            <path d="M0,70 L43,65 L86,60 L129,55 L172,52 L215,50 L258,48 L300,51 L300,100 L0,100 Z" fill="url(#riverGradient)" opacity="0.3"/>
-            <!-- Línea principal -->
-            <path d="M0,70 L43,65 L86,60 L129,55 L172,52 L215,50 L258,48 L300,51" fill="none" stroke="#14B8A6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <!-- Puntos -->
-            <circle cx="0" cy="70" r="4" fill="#14B8A6"/>
-            <circle cx="43" cy="65" r="4" fill="#14B8A6"/>
-            <circle cx="86" cy="60" r="4" fill="#14B8A6"/>
-            <circle cx="129" cy="55" r="4" fill="#14B8A6"/>
-            <circle cx="172" cy="52" r="4" fill="#14B8A6"/>
-            <circle cx="215" cy="50" r="4" fill="#14B8A6"/>
-            <circle cx="258" cy="48" r="4" fill="#14B8A6"/>
-            <circle cx="300" cy="51" r="5" fill="#0D9488" stroke="#fff" stroke-width="2"/>
-            <defs>
-              <linearGradient id="riverGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" style="stop-color:#14B8A6;stop-opacity:0.4"/>
-                <stop offset="100%" style="stop-color:#14B8A6;stop-opacity:0"/>
-              </linearGradient>
-            </defs>
-          </svg>
-          <div class="chart-x-axis">
-            <span>19</span>
-            <span>20</span>
-            <span>21</span>
-            <span>22</span>
-            <span>23</span>
-            <span>24</span>
-            <span>25</span>
-            <span>Hoy</span>
+        <div class="river-chart">
+          <div class="chart-container">
+            <div class="chart-y-axis">
+              <span>3m</span>
+              <span>2m</span>
+              <span>1m</span>
+              <span>0m</span>
+            </div>
+            <div class="chart-area">
+              <svg viewBox="0 0 300 100" preserveAspectRatio="none" class="chart-svg">
+                <!-- Línea de alerta -->
+                <line x1="0" y1="20" x2="300" y2="20" stroke="#FCD34D" stroke-width="1" stroke-dasharray="4"/>
+                <!-- Área bajo la curva -->
+                <path d="M0,70 L43,65 L86,60 L129,55 L172,52 L215,50 L258,48 L300,51 L300,100 L0,100 Z" fill="url(#riverGradient)" opacity="0.3"/>
+                <!-- Línea principal -->
+                <path d="M0,70 L43,65 L86,60 L129,55 L172,52 L215,50 L258,48 L300,51" fill="none" stroke="#14B8A6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <!-- Puntos -->
+                <circle cx="0" cy="70" r="4" fill="#14B8A6"/>
+                <circle cx="43" cy="65" r="4" fill="#14B8A6"/>
+                <circle cx="86" cy="60" r="4" fill="#14B8A6"/>
+                <circle cx="129" cy="55" r="4" fill="#14B8A6"/>
+                <circle cx="172" cy="52" r="4" fill="#14B8A6"/>
+                <circle cx="215" cy="50" r="4" fill="#14B8A6"/>
+                <circle cx="258" cy="48" r="4" fill="#14B8A6"/>
+                <circle cx="300" cy="51" r="5" fill="#0D9488" stroke="#fff" stroke-width="2"/>
+                <defs>
+                  <linearGradient id="riverGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" style="stop-color:#14B8A6;stop-opacity:0.4"/>
+                    <stop offset="100%" style="stop-color:#14B8A6;stop-opacity:0"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+              <div class="chart-x-axis">
+                <span>19</span>
+                <span>20</span>
+                <span>21</span>
+                <span>22</span>
+                <span>23</span>
+                <span>24</span>
+                <span>25</span>
+                <span>Hoy</span>
+              </div>
+            </div>
+          </div>
+          <div class="chart-stats">
+            <div class="chart-stat">
+              <span class="chart-stat-label">Máx 7d</span>
+              <span class="chart-stat-value">1.82m</span>
+            </div>
+            <div class="chart-stat">
+              <span class="chart-stat-label">Mín 7d</span>
+              <span class="chart-stat-value">1.44m</span>
+            </div>
+            <div class="chart-stat">
+              <span class="chart-stat-label">Tendencia</span>
+              <span class="chart-stat-value trend-down">↓ Bajando</span>
+            </div>
           </div>
         </div>
       </div>
-      <div class="chart-stats">
-        <div class="chart-stat">
-          <span class="chart-stat-label">Máx 7d</span>
-          <span class="chart-stat-value">1.82m</span>
-        </div>
-        <div class="chart-stat">
-          <span class="chart-stat-label">Mín 7d</span>
-          <span class="chart-stat-value">1.44m</span>
-        </div>
-        <div class="chart-stat">
-          <span class="chart-stat-label">Tendencia</span>
-          <span class="chart-stat-value trend-down">↓ Bajando</span>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- Índice de Pesca -->
-  <div class="card fishing-index">
-    <div class="card-header">
-      <div class="card-icon">🎣</div>
-      <div>
-        <div class="card-title">Índice de Pesca</div>
-        <div class="card-subtitle">Calculado en tiempo real</div>
-      </div>
-    </div>
-    <div class="fishing-display">
-      <div class="fishing-score">
-        <div class="fishing-circle">
-          <svg viewBox="0 0 100 100" class="fishing-ring">
-            <circle cx="50" cy="50" r="45" fill="none" stroke="#E2E8F0" stroke-width="8"/>
-            <circle cx="50" cy="50" r="45" fill="none" stroke="url(#fishGradient)" stroke-width="8" 
-                    stroke-dasharray="212" stroke-dashoffset="42" stroke-linecap="round"
-                    transform="rotate(-90 50 50)"/>
-            <defs>
-              <linearGradient id="fishGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" style="stop-color:#22C55E"/>
-                <stop offset="100%" style="stop-color:#14B8A6"/>
-              </linearGradient>
-            </defs>
-          </svg>
-          <div class="fishing-value">
-            <span class="fishing-number">7.5</span>
-            <span class="fishing-max">/10</span>
+      <!-- Índice de Pesca -->
+      <div class="card fishing-index">
+        <div class="card-header">
+          <div class="card-icon">🎣</div>
+          <div>
+            <div class="card-title">Índice de Pesca</div>
+            <div class="card-subtitle">Calculado en tiempo real</div>
           </div>
         </div>
-        <div class="fishing-label">MUY BUENO</div>
+        <div class="fishing-display">
+          <div class="fishing-score">
+            <div class="fishing-circle">
+              <svg viewBox="0 0 100 100" class="fishing-ring">
+                <circle cx="50" cy="50" r="45" fill="none" stroke="#E2E8F0" stroke-width="8"/>
+                <circle cx="50" cy="50" r="45" fill="none" stroke="url(#fishGradient)" stroke-width="8" 
+                        stroke-dasharray="212" stroke-dashoffset="42" stroke-linecap="round"
+                        transform="rotate(-90 50 50)"/>
+                <defs>
+                  <linearGradient id="fishGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" style="stop-color:#22C55E"/>
+                    <stop offset="100%" style="stop-color:#14B8A6"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+              <div class="fishing-value">
+                <span class="fishing-number">7.5</span>
+                <span class="fishing-max">/10</span>
+              </div>
+            </div>
+            <div class="fishing-label">MUY BUENO</div>
+          </div>
+          <div class="fishing-factors">
+            <div class="factor-item good">
+              <span class="factor-icon">🌡️</span>
+              <span class="factor-name">Agua 24°C</span>
+              <span class="factor-score">✓</span>
+            </div>
+            <div class="factor-item good">
+              <span class="factor-icon">🌊</span>
+              <span class="factor-name">Río bajando</span>
+              <span class="factor-score">✓</span>
+            </div>
+            <div class="factor-item good">
+              <span class="factor-icon">🌗</span>
+              <span class="factor-name">Luna menguante</span>
+              <span class="factor-score">✓</span>
+            </div>
+            <div class="factor-item neutral">
+              <span class="factor-icon">💨</span>
+              <span class="factor-name">Viento 9km/h</span>
+              <span class="factor-score">●</span>
+            </div>
+            <div class="factor-item good">
+              <span class="factor-icon">🌤️</span>
+              <span class="factor-name">Presión estable</span>
+              <span class="factor-score">✓</span>
+            </div>
+            <div class="factor-item neutral">
+              <span class="factor-icon">☀️</span>
+              <span class="factor-name">Soleado</span>
+              <span class="factor-score">●</span>
+            </div>
+          </div>
+        </div>
+        <div class="fishing-tip">
+          <span>💡</span> Mejor horario: <strong>06:00 - 09:00</strong> y <strong>18:00 - 20:00</strong>
+        </div>
       </div>
-      <div class="fishing-factors">
-        <div class="factor-item good">
-          <span class="factor-icon">🌡️</span>
-          <span class="factor-name">Agua 24°C</span>
-          <span class="factor-score">✓</span>
-        </div>
-        <div class="factor-item good">
-          <span class="factor-icon">🌊</span>
-          <span class="factor-name">Río bajando</span>
-          <span class="factor-score">✓</span>
-        </div>
-        <div class="factor-item good">
-          <span class="factor-icon">🌗</span>
-          <span class="factor-name">Luna menguante</span>
-          <span class="factor-score">✓</span>
-        </div>
-        <div class="factor-item neutral">
-          <span class="factor-icon">💨</span>
-          <span class="factor-name">Viento 9km/h</span>
-          <span class="factor-score">●</span>
-        </div>
-        <div class="factor-item good">
-          <span class="factor-icon">🌤️</span>
-          <span class="factor-name">Presión estable</span>
-          <span class="factor-score">✓</span>
-        </div>
-        <div class="factor-item neutral">
-          <span class="factor-icon">☀️</span>
-          <span class="factor-name">Soleado</span>
-          <span class="factor-score">●</span>
-        </div>
-      </div>
-    </div>
-    <div class="fishing-tip">
-      <span>💡</span> Mejor horario: <strong>06:00 - 09:00</strong> y <strong>18:00 - 20:00</strong>
-    </div>
-  </div>
 
-  <!-- Feriados -->
-  <div class="card holidays-section">
-    <div class="card-header">
-      <div class="card-icon">🎉</div>
-      <div>
-        <div class="card-title">Próximos Feriados</div>
-        <div class="card-subtitle">Argentina & Uruguay</div>
+      <!-- Feriados -->
+      <div class="card holidays-section">
+        <div class="card-header">
+          <div class="card-icon">🎉</div>
+          <div>
+            <div class="card-title">Próximos Feriados</div>
+            <div class="card-subtitle">Argentina & Uruguay</div>
+          </div>
+        </div>
+        <div class="holidays-tabs">
+          <button class="holiday-tab argentina active" onclick="showHolidays('argentina')">🇦🇷 Argentina</button>
+          <button class="holiday-tab uruguay" onclick="showHolidays('uruguay')">🇺🇾 Uruguay</button>
+        </div>
+        <div id="holidays-argentina" class="holidays-content active">
+          <div class="holidays-list">
+            <div class="holiday-item argentina">
+              <div class="holiday-date-box">
+                <div class="holiday-day">2</div>
+                <div class="holiday-month">Abr</div>
+              </div>
+              <div class="holiday-info">
+                <div class="holiday-name">Día del Veterano y Caídos en Malvinas</div>
+                <div class="holiday-type">Feriado inamovible</div>
+              </div>
+              <div class="holiday-days-left">8 días</div>
+            </div>
+            <div class="holiday-item argentina">
+              <div class="holiday-date-box">
+                <div class="holiday-day">3</div>
+                <div class="holiday-month">Abr</div>
+              </div>
+              <div class="holiday-info">
+                <div class="holiday-name">Viernes Santo</div>
+                <div class="holiday-type">Feriado inamovible</div>
+              </div>
+              <div class="holiday-days-left">9 días</div>
+            </div>
+            <div class="holiday-item argentina">
+              <div class="holiday-date-box">
+                <div class="holiday-day">1</div>
+                <div class="holiday-month">May</div>
+              </div>
+              <div class="holiday-info">
+                <div class="holiday-name">Día del Trabajador</div>
+                <div class="holiday-type">Feriado inamovible</div>
+              </div>
+              <div class="holiday-days-left">37 días</div>
+            </div>
+            <div class="holiday-item argentina">
+              <div class="holiday-date-box">
+                <div class="holiday-day">25</div>
+                <div class="holiday-month">May</div>
+              </div>
+              <div class="holiday-info">
+                <div class="holiday-name">Revolución de Mayo</div>
+                <div class="holiday-type">Feriado inamovible</div>
+              </div>
+              <div class="holiday-days-left">61 días</div>
+            </div>
+          </div>
+        </div>
+        <div id="holidays-uruguay" class="holidays-content">
+          <div class="holidays-list">
+            <div class="holiday-item uruguay">
+              <div class="holiday-date-box">
+                <div class="holiday-day">2-3</div>
+                <div class="holiday-month">Abr</div>
+              </div>
+              <div class="holiday-info">
+                <div class="holiday-name">Semana de Turismo</div>
+                <div class="holiday-type">Feriado laborable</div>
+              </div>
+              <div class="holiday-days-left">8 días</div>
+            </div>
+            <div class="holiday-item uruguay">
+              <div class="holiday-date-box">
+                <div class="holiday-day">19</div>
+                <div class="holiday-month">Abr</div>
+              </div>
+              <div class="holiday-info">
+                <div class="holiday-name">Desembarco de los 33 Orientales</div>
+                <div class="holiday-type">Feriado laborable</div>
+              </div>
+              <div class="holiday-days-left">25 días</div>
+            </div>
+            <div class="holiday-item uruguay">
+              <div class="holiday-date-box">
+                <div class="holiday-day">1</div>
+                <div class="holiday-month">May</div>
+              </div>
+              <div class="holiday-info">
+                <div class="holiday-name">Día de los Trabajadores</div>
+                <div class="holiday-type">Feriado NO laborable</div>
+              </div>
+              <div class="holiday-days-left">37 días</div>
+            </div>
+            <div class="holiday-item uruguay">
+              <div class="holiday-date-box">
+                <div class="holiday-day">18</div>
+                <div class="holiday-month">May</div>
+              </div>
+              <div class="holiday-info">
+                <div class="holiday-name">Batalla de las Piedras</div>
+                <div class="holiday-type">Feriado laborable</div>
+              </div>
+              <div class="holiday-days-left">54 días</div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="holidays-tabs">
-      <button class="holiday-tab argentina active" onclick="showHolidays('argentina')">🇦🇷 Argentina</button>
-      <button class="holiday-tab uruguay" onclick="showHolidays('uruguay')">🇺🇾 Uruguay</button>
-    </div>
-    <div id="holidays-argentina" class="holidays-content active">
-      <div class="holidays-list">
-        <div class="holiday-item argentina">
-          <div class="holiday-date-box">
-            <div class="holiday-day">2</div>
-            <div class="holiday-month">Abr</div>
-          </div>
-          <div class="holiday-info">
-            <div class="holiday-name">Día del Veterano y Caídos en Malvinas</div>
-            <div class="holiday-type">Feriado inamovible</div>
-          </div>
-          <div class="holiday-days-left">8 días</div>
-        </div>
-        <div class="holiday-item argentina">
-          <div class="holiday-date-box">
-            <div class="holiday-day">3</div>
-            <div class="holiday-month">Abr</div>
-          </div>
-          <div class="holiday-info">
-            <div class="holiday-name">Viernes Santo</div>
-            <div class="holiday-type">Feriado inamovible</div>
-          </div>
-          <div class="holiday-days-left">9 días</div>
-        </div>
-        <div class="holiday-item argentina">
-          <div class="holiday-date-box">
-            <div class="holiday-day">1</div>
-            <div class="holiday-month">May</div>
-          </div>
-          <div class="holiday-info">
-            <div class="holiday-name">Día del Trabajador</div>
-            <div class="holiday-type">Feriado inamovible</div>
-          </div>
-          <div class="holiday-days-left">37 días</div>
-        </div>
-        <div class="holiday-item argentina">
-          <div class="holiday-date-box">
-            <div class="holiday-day">25</div>
-            <div class="holiday-month">May</div>
-          </div>
-          <div class="holiday-info">
-            <div class="holiday-name">Revolución de Mayo</div>
-            <div class="holiday-type">Feriado inamovible</div>
-          </div>
-          <div class="holiday-days-left">61 días</div>
-        </div>
-      </div>
-    </div>
-    <div id="holidays-uruguay" class="holidays-content">
-      <div class="holidays-list">
-        <div class="holiday-item uruguay">
-          <div class="holiday-date-box">
-            <div class="holiday-day">2-3</div>
-            <div class="holiday-month">Abr</div>
-          </div>
-          <div class="holiday-info">
-            <div class="holiday-name">Semana de Turismo</div>
-            <div class="holiday-type">Feriado laborable</div>
-          </div>
-          <div class="holiday-days-left">8 días</div>
-        </div>
-        <div class="holiday-item uruguay">
-          <div class="holiday-date-box">
-            <div class="holiday-day">19</div>
-            <div class="holiday-month">Abr</div>
-          </div>
-          <div class="holiday-info">
-            <div class="holiday-name">Desembarco de los 33 Orientales</div>
-            <div class="holiday-type">Feriado laborable</div>
-          </div>
-          <div class="holiday-days-left">25 días</div>
-        </div>
-        <div class="holiday-item uruguay">
-          <div class="holiday-date-box">
-            <div class="holiday-day">1</div>
-            <div class="holiday-month">May</div>
-          </div>
-          <div class="holiday-info">
-            <div class="holiday-name">Día de los Trabajadores</div>
-            <div class="holiday-type">Feriado NO laborable</div>
-          </div>
-          <div class="holiday-days-left">37 días</div>
-        </div>
-        <div class="holiday-item uruguay">
-          <div class="holiday-date-box">
-            <div class="holiday-day">18</div>
-            <div class="holiday-month">May</div>
-          </div>
-          <div class="holiday-info">
-            <div class="holiday-name">Batalla de las Piedras</div>
-            <div class="holiday-type">Feriado laborable</div>
-          </div>
-          <div class="holiday-days-left">54 días</div>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- Sol y Luna -->
-  <div class="card sun-moon-card">
-    <div class="card-header">
-      <div class="card-icon">🌅</div>
-      <div>
-        <div class="card-title">Sol & Luna</div>
-        <div class="card-subtitle">Hoy, 25 marzo</div>
-      </div>
-    </div>
-    <div class="sun-moon-display">
-      <div class="sun-info">
-        <div class="celestial-icon">☀️</div>
-        <div class="celestial-times">
-          <div class="celestial-row">
-            <span class="celestial-label">Amanecer</span>
-            <span class="celestial-value">06:59</span>
-          </div>
-          <div class="celestial-row">
-            <span class="celestial-label">Atardecer</span>
-            <span class="celestial-value">18:57</span>
-          </div>
-          <div class="celestial-row">
-            <span class="celestial-label">Duración</span>
-            <span class="celestial-value">11h 58m</span>
+      <!-- Sol y Luna -->
+      <div class="card sun-moon-card">
+        <div class="card-header">
+          <div class="card-icon">🌅</div>
+          <div>
+            <div class="card-title">Sol & Luna</div>
+            <div class="card-subtitle">Hoy, 25 marzo</div>
           </div>
         </div>
-      </div>
-      <div class="moon-info">
-        <div class="celestial-icon">🌗</div>
-        <div class="celestial-times">
-          <div class="celestial-row">
-            <span class="celestial-label">Fase</span>
-            <span class="celestial-value">Menguante</span>
+        <div class="sun-moon-display">
+          <div class="sun-info">
+            <div class="celestial-icon">☀️</div>
+            <div class="celestial-times">
+              <div class="celestial-row">
+                <span class="celestial-label">Amanecer</span>
+                <span class="celestial-value">06:59</span>
+              </div>
+              <div class="celestial-row">
+                <span class="celestial-label">Atardecer</span>
+                <span class="celestial-value">18:57</span>
+              </div>
+              <div class="celestial-row">
+                <span class="celestial-label">Duración</span>
+                <span class="celestial-value">11h 58m</span>
+              </div>
+            </div>
           </div>
-          <div class="celestial-row">
-            <span class="celestial-label">Luna Llena</span>
-            <span class="celestial-value">31 Mar</span>
+          <div class="moon-info">
+            <div class="celestial-icon">🌗</div>
+            <div class="celestial-times">
+              <div class="celestial-row">
+                <span class="celestial-label">Fase</span>
+                <span class="celestial-value">Menguante</span>
+              </div>
+              <div class="celestial-row">
+                <span class="celestial-label">Luna Llena</span>
+                <span class="celestial-value">31 Mar</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
 
-  <!-- Calidad del Aire -->
-  <div class="card air-quality-card">
-    <div class="card-header">
-      <div class="card-icon">🌿</div>
-      <div>
-        <div class="card-title">Calidad del Aire</div>
-        <div class="card-subtitle">Índice AQI</div>
-      </div>
-    </div>
-    <div class="aqi-display">
-      <div class="aqi-value">26</div>
-      <div class="aqi-status">✓ Aceptable</div>
-      <div class="aqi-message">Apto para actividades al aire libre</div>
-    </div>
-  </div>
-
-  <!-- Sección Financiera -->
-  <div class="card finance-card">
-    <div class="card-header">
-      <div class="card-icon">💵</div>
-      <div>
-        <div class="card-title">Cotizaciones</div>
-        <div class="card-subtitle finance-timestamp">Cargando...</div>
-      </div>
-      <button class="share-btn" onclick="shareFinance()" title="Compartir por WhatsApp">
-        📤
-      </button>
-    </div>
-    <div class="finance-grid">
-      <div class="finance-item">
-        <div class="finance-label">
-          <span class="finance-flag">🇺🇸</span>
-          Dólar Oficial
+      <!-- Calidad del Aire -->
+      <div class="card air-quality-card">
+        <div class="card-header">
+          <div class="card-icon">🌿</div>
+          <div>
+            <div class="card-title">Calidad del Aire</div>
+            <div class="card-subtitle">Índice AQI</div>
+          </div>
         </div>
-        <div class="finance-values">
-          <span class="finance-buy" id="dolarOficialCompra">--</span>
-          <span class="finance-sep">/</span>
-          <span class="finance-sell" id="dolarOficialVenta">--</span>
+        <div class="aqi-display">
+          <div class="aqi-value">26</div>
+          <div class="aqi-status">✓ Aceptable</div>
+          <div class="aqi-message">Apto para actividades al aire libre</div>
         </div>
       </div>
-      <div class="finance-item">
-        <div class="finance-label">
-          <span class="finance-flag">💸</span>
-          Dólar Blue
+
+      <!-- Farmacia de Turno -->
+      <div class="card pharmacy-card">
+        <div class="card-header">
+          <div class="card-icon">💊</div>
+          <div>
+            <div class="card-title">Farmacia de Turno</div>
+            <div class="card-subtitle">Guardia 08:00 a 08:00</div>
+          </div>
         </div>
-        <div class="finance-values">
-          <span class="finance-buy" id="dolarBlueCompra">--</span>
-          <span class="finance-sep">/</span>
-          <span class="finance-sell" id="dolarBlueVenta">--</span>
+        <div class="pharmacy-info" id="pharmacyInfo">
+          <div class="pharmacy-item">
+            <div class="pharmacy-icon">🏥</div>
+            <div class="pharmacy-details">
+              <div class="pharmacy-name" id="pharmacyName">Cargando...</div>
+              <div class="pharmacy-address" id="pharmacyAddress">--</div>
+              <div class="pharmacy-phone" id="pharmacyPhone"></div>
+            </div>
+          </div>
+        </div>
+        <div class="pharmacy-hours">
+          <span>🕐</span>
+          <span>Turno: hoy 08:00 → mañana 08:00</span>
         </div>
       </div>
-      <div class="finance-item btc-item">
-        <div class="finance-label">
-          <span class="finance-flag">₿</span>
-          Bitcoin
+
+      <!-- Sección Financiera -->
+      <div class="card finance-card">
+        <div class="card-header">
+          <div class="card-icon">💵</div>
+          <div>
+            <div class="card-title">Cotizaciones</div>
+            <div class="card-subtitle finance-timestamp">Cargando...</div>
+          </div>
+          <button class="share-btn" onclick="shareFinance()" title="Compartir por WhatsApp">
+            📤
+          </button>
         </div>
-        <div class="finance-values btc-value">
-          <span id="btcPrice">--</span>
-          <span class="btc-currency">USD</span>
+        <div class="finance-grid">
+          <div class="finance-item">
+            <div class="finance-label">
+              <span class="finance-flag">🇺🇸</span>
+              Dólar Oficial
+            </div>
+            <div class="finance-values">
+              <span class="finance-buy" id="dolarOficialCompra">--</span>
+              <span class="finance-sep">/</span>
+              <span class="finance-sell" id="dolarOficialVenta">--</span>
+            </div>
+          </div>
+          <div class="finance-item">
+            <div class="finance-label">
+              <span class="finance-flag">💸</span>
+              Dólar Blue
+            </div>
+            <div class="finance-values">
+              <span class="finance-buy" id="dolarBlueCompra">--</span>
+              <span class="finance-sep">/</span>
+              <span class="finance-sell" id="dolarBlueVenta">--</span>
+            </div>
+          </div>
+          <div class="finance-item btc-item">
+            <div class="finance-label">
+              <span class="finance-flag">₿</span>
+              Bitcoin
+            </div>
+            <div class="finance-values btc-value">
+              <span id="btcPrice">--</span>
+              <span class="btc-currency">USD</span>
+            </div>
+          </div>
         </div>
       </div>
+
     </div>
-  </div>
 
-</div>
+    <!-- Cita del Día -->
+    <div class="daily-quote">
+      <blockquote class="quote-text" id="quoteText"></blockquote>
+      <cite class="quote-author" id="quoteAuthor"></cite>
+    </div>
 
-<!-- Cita del Día -->
-<div class="daily-quote">
-  <blockquote class="quote-text" id="quoteText"></blockquote>
-  <cite class="quote-author" id="quoteAuthor"></cite>
-</div>
-
-<!-- Footer -->
-<footer class="footer">
-  <p>Datos actualizados al 25 de marzo de 2026</p>
-  <div class="data-source">
-    <span>🌊 <a href="http://190.0.152.194:8080/alturas/web/user/alturas" target="_blank">CARU - Alturas del Río</a></span>
-    <span>🌤️ <a href="https://www.meteored.com.ar" target="_blank">Meteored Argentina</a></span>
-    <span>🇦🇷 <a href="https://www.argentina.gob.ar/jefatura/feriados-nacionales-2026" target="_blank">Feriados ARG</a></span>
-  </div>
-  <p style="margin-top: 20px; font-size: 0.9rem; font-weight: 600; background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-purple) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
-    ⚡ Diseñado por <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700;">GR10</span>
-  </p>
-</footer>
-```
-
+    <!-- Footer -->
+    <footer class="footer">
+      <p>Datos actualizados al 25 de marzo de 2026</p>
+      <div class="data-source">
+        <span>🌊 <a href="http://190.0.152.194:8080/alturas/web/user/alturas" target="_blank">CARU - Alturas del Río</a></span>
+        <span>🌤️ <a href="https://www.meteored.com.ar" target="_blank">Meteored Argentina</a></span>
+        <span>🇦🇷 <a href="https://www.argentina.gob.ar/jefatura/feriados-nacionales-2026" target="_blank">Feriados ARG</a></span>
+      </div>
+      <p style="margin-top: 20px; font-size: 0.9rem; font-weight: 600; background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-purple) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+        ⚡ Diseñado por <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700;">GR10</span>
+      </p>
+    </footer>
   </div>
 
   <script>
@@ -3609,6 +3720,91 @@ body {
       const quote = QUOTES[quoteIndex];
       document.getElementById('quoteText').textContent = quote.text;
       document.getElementById('quoteAuthor').textContent = quote.author;
+    }
+
+    // ============================================
+    // RECOMENDACIÓN DE ROPA
+    // ============================================
+    function updateClothingRecommendation(feelsLike, precipitation, weatherCode) {
+      const clothingRec = document.getElementById('clothingRec');
+      if (!clothingRec) return;
+      
+      let icon = '👕';
+      let text = '';
+      
+      // Lógica basada en sensación térmica
+      if (feelsLike >= 30) {
+        icon = '🩳';
+        text = 'Día de remera liviana y short';
+      } else if (feelsLike >= 25) {
+        icon = '👕';
+        text = 'Día de remera y short';
+      } else if (feelsLike >= 20) {
+        icon = '👕';
+        text = 'Remera, llevá algo liviano por las dudas';
+      } else if (feelsLike >= 15) {
+        icon = '🧥';
+        text = 'Mejor con buzo o campera liviana';
+      } else if (feelsLike >= 10) {
+        icon = '🧥';
+        text = 'Abrigate bien, hace fresco';
+      } else if (feelsLike >= 5) {
+        icon = '🧣';
+        text = 'Hace frío, campera y bufanda';
+      } else {
+        icon = '🥶';
+        text = 'Mucho frío, abrigate con todo';
+      }
+      
+      // Si llueve o hay probabilidad alta
+      const isRainy = [51, 53, 55, 61, 63, 65, 80, 81, 82, 95, 96, 99].includes(weatherCode);
+      if (isRainy || precipitation > 0) {
+        icon = '☔';
+        text += '. Llevá paraguas';
+      }
+      
+      clothingRec.querySelector('.clothing-icon').textContent = icon;
+      clothingRec.querySelector('.clothing-text').textContent = text;
+    }
+
+    // ============================================
+    // FARMACIA DE TURNO
+    // ============================================
+    const FARMACIAS_API = 'https://script.google.com/macros/s/AKfycbzvLnlLEklkeI3gWCS4-o5CJlUmgiXOUP9VK9Dc4pb66U_Dk5w2TaGENgs6t23Tr1rf/exec?action=farmacias';
+    
+    async function fetchFarmacia() {
+      const pharmacyName = document.getElementById('pharmacyName');
+      const pharmacyAddress = document.getElementById('pharmacyAddress');
+      const pharmacyPhone = document.getElementById('pharmacyPhone');
+      
+      try {
+        const response = await fetch(FARMACIAS_API);
+        const data = await response.json();
+        
+        if (data.success && data.farmacias && data.farmacias.length > 0) {
+          const farmacia = data.farmacias[0];
+          pharmacyName.textContent = farmacia.nombre || 'Sin datos';
+          pharmacyAddress.textContent = farmacia.direccion || '';
+          if (farmacia.telefono) {
+            pharmacyPhone.innerHTML = `📞 <a href="tel:${farmacia.telefono.replace(/\D/g, '')}">${farmacia.telefono}</a>`;
+          }
+        } else {
+          showPharmacyFallback();
+        }
+      } catch (error) {
+        console.error('Error fetching farmacia:', error);
+        showPharmacyFallback();
+      }
+    }
+    
+    function showPharmacyFallback() {
+      const pharmacyInfo = document.getElementById('pharmacyInfo');
+      pharmacyInfo.innerHTML = `
+        <div class="pharmacy-fallback">
+          <p>No se pudo cargar la información</p>
+          <p><a href="https://www.todoconcepcion.com/TodoConcepcion/farmacias-de-turno-disponibles-hoy/" target="_blank">Ver en TodoConcepción →</a></p>
+        </div>
+      `;
     }
 
     // ============================================
@@ -4120,6 +4316,9 @@ _Actualizado: ${fecha} ${hora}_`;
       document.querySelector('.temp-value').textContent = Math.round(current.temperature_2m);
       document.querySelector('.weather-feels').textContent = `Sensación térmica ${Math.round(current.apparent_temperature)}°C`;
       
+      // Recomendación de ropa basada en sensación térmica
+      updateClothingRecommendation(current.apparent_temperature, current.precipitation, current.weather_code);
+      
       // Condición e ícono
       const isDay = new Date().getHours() >= 6 && new Date().getHours() < 20;
       document.querySelector('.weather-icon-large').textContent = getWeatherIcon(current.weather_code, isDay);
@@ -4505,10 +4704,7 @@ _Actualizado: ${fecha} ${hora}_`;
       animation: spin 1s ease-in-out;
     }
   </style>
-
   <!-- Analytics - GoatCounter -->
-
   <script data-goatcounter="https://german.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-
 </body>
 </html>
