@@ -1213,6 +1213,52 @@ body {
   margin-left: 4px;
 }
 
+/* Daily Quote */
+.daily-quote {
+  max-width: 800px;
+  margin: 32px auto;
+  padding: 24px 32px;
+  text-align: center;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(168, 85, 247, 0.08) 100%);
+  border-radius: var(--radius-lg);
+  border-left: 4px solid var(--accent-purple);
+}
+
+.quote-icon {
+  font-size: 2rem;
+  margin-bottom: 12px;
+  opacity: 0.7;
+}
+
+.quote-text {
+  font-size: 1.1rem;
+  font-style: italic;
+  color: var(--text-primary);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.quote-text::before {
+  content: '"';
+}
+
+.quote-text::after {
+  content: '"';
+}
+
+.quote-author {
+  display: block;
+  margin-top: 12px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--accent-purple);
+  font-style: normal;
+}
+
+.quote-author::before {
+  content: '— ';
+}
+
 .river-stations .card-icon {
   background: linear-gradient(135deg, var(--accent-teal) 0%, #0D9488 100%);
 }
@@ -3164,6 +3210,13 @@ body {
 
 </div>
 
+<!-- Cita del Día -->
+<div class="daily-quote">
+  <div class="quote-icon">💭</div>
+  <blockquote class="quote-text" id="quoteText"></blockquote>
+  <cite class="quote-author" id="quoteAuthor"></cite>
+</div>
+
 <!-- Footer -->
 <footer class="footer">
   <p>Datos actualizados al 25 de marzo de 2026</p>
@@ -3181,6 +3234,390 @@ body {
   </div>
 
   <script>
+    // ============================================
+    // CITAS DEL DÍA
+    // ============================================
+    const QUOTES = [
+      { text: "La vida es lo que pasa mientras estás ocupado haciendo otros planes.", author: "John Lennon" },
+      { text: "El único modo de hacer un gran trabajo es amar lo que haces.", author: "Steve Jobs" },
+      { text: "No cuentes los días, haz que los días cuenten.", author: "Muhammad Ali" },
+      { text: "La simplicidad es la máxima sofisticación.", author: "Leonardo da Vinci" },
+      { text: "El éxito es ir de fracaso en fracaso sin perder el entusiasmo.", author: "Winston Churchill" },
+      { text: "Sé el cambio que quieres ver en el mundo.", author: "Mahatma Gandhi" },
+      { text: "La imaginación es más importante que el conocimiento.", author: "Albert Einstein" },
+      { text: "Quien tiene un porqué para vivir puede soportar casi cualquier cómo.", author: "Friedrich Nietzsche" },
+      { text: "No hay viento favorable para el que no sabe a dónde va.", author: "Séneca" },
+      { text: "La mejor manera de predecir el futuro es creándolo.", author: "Peter Drucker" },
+      { text: "Vive como si fueras a morir mañana. Aprende como si fueras a vivir siempre.", author: "Mahatma Gandhi" },
+      { text: "El tiempo que disfrutas perdiendo no es tiempo perdido.", author: "John Lennon" },
+      { text: "La felicidad no es algo hecho. Viene de tus propias acciones.", author: "Dalai Lama" },
+      { text: "Un viaje de mil millas comienza con un solo paso.", author: "Lao Tsé" },
+      { text: "Lo que no te mata te hace más fuerte.", author: "Friedrich Nietzsche" },
+      { text: "El conocimiento habla, pero la sabiduría escucha.", author: "Jimi Hendrix" },
+      { text: "Nunca es tarde para ser lo que podrías haber sido.", author: "George Eliot" },
+      { text: "Haz lo que puedas, con lo que tengas, donde estés.", author: "Theodore Roosevelt" },
+      { text: "El secreto de la felicidad no está en hacer siempre lo que se quiere, sino en querer siempre lo que se hace.", author: "León Tolstói" },
+      { text: "No tengo talentos especiales, solo soy apasionadamente curioso.", author: "Albert Einstein" },
+      { text: "En medio de la dificultad yace la oportunidad.", author: "Albert Einstein" },
+      { text: "El que no arriesga no gana.", author: "Proverbio" },
+      { text: "Cada día es una nueva oportunidad para cambiar tu vida.", author: "Anónimo" },
+      { text: "La creatividad es la inteligencia divirtiéndose.", author: "Albert Einstein" },
+      { text: "No esperes el momento perfecto, toma el momento y hazlo perfecto.", author: "Zoey Sayward" },
+      { text: "El optimismo es la fe que conduce al logro.", author: "Helen Keller" },
+      { text: "Las grandes cosas nunca vinieron de zonas de confort.", author: "Roy T. Bennett" },
+      { text: "Cree que puedes y ya estás a mitad de camino.", author: "Theodore Roosevelt" },
+      { text: "La vida comienza al final de tu zona de confort.", author: "Neale Donald Walsch" },
+      { text: "El verdadero viaje de descubrimiento no consiste en buscar nuevos paisajes, sino en tener nuevos ojos.", author: "Marcel Proust" },
+      { text: "La única manera de tener un amigo es ser uno.", author: "Ralph Waldo Emerson" },
+      { text: "No es la especie más fuerte la que sobrevive, sino la más adaptable al cambio.", author: "Charles Darwin" },
+      { text: "La educación es el arma más poderosa para cambiar el mundo.", author: "Nelson Mandela" },
+      { text: "El mayor placer de la vida es hacer lo que la gente dice que no puedes hacer.", author: "Walter Bagehot" },
+      { text: "La paciencia es amarga, pero sus frutos son dulces.", author: "Jean-Jacques Rousseau" },
+      { text: "Todo lo que puedas imaginar es real.", author: "Pablo Picasso" },
+      { text: "El fracaso es simplemente la oportunidad de comenzar de nuevo, esta vez de forma más inteligente.", author: "Henry Ford" },
+      { text: "No busques los errores, busca un remedio.", author: "Henry Ford" },
+      { text: "La vida es realmente simple, pero insistimos en hacerla complicada.", author: "Confucio" },
+      { text: "El hombre que mueve montañas comienza cargando pequeñas piedras.", author: "Confucio" },
+      { text: "La mayor gloria no es nunca caer, sino levantarse siempre.", author: "Confucio" },
+      { text: "Elige un trabajo que te guste y no tendrás que trabajar ni un día de tu vida.", author: "Confucio" },
+      { text: "El que conquista a otros es fuerte; el que se conquista a sí mismo es poderoso.", author: "Lao Tsé" },
+      { text: "La naturaleza no tiene prisa, sin embargo todo se cumple.", author: "Lao Tsé" },
+      { text: "Cuanto más silenciosa se vuelve la mente, más puedes escuchar.", author: "Ram Dass" },
+      { text: "La mente lo es todo. En lo que piensas, te conviertes.", author: "Buda" },
+      { text: "No hay camino hacia la felicidad: la felicidad es el camino.", author: "Buda" },
+      { text: "El dolor es inevitable, el sufrimiento es opcional.", author: "Buda" },
+      { text: "Tres cosas no pueden ocultarse por mucho tiempo: el sol, la luna y la verdad.", author: "Buda" },
+      { text: "La duda es el padre de la invención.", author: "Galileo Galilei" },
+      { text: "Dame una palanca y moveré el mundo.", author: "Arquímedes" },
+      { text: "Solo sé que no sé nada.", author: "Sócrates" },
+      { text: "Una vida sin examen no merece ser vivida.", author: "Sócrates" },
+      { text: "El secreto del cambio es enfocar toda tu energía no en luchar contra lo viejo, sino en construir lo nuevo.", author: "Sócrates" },
+      { text: "Somos lo que hacemos repetidamente. La excelencia no es un acto, sino un hábito.", author: "Aristóteles" },
+      { text: "La felicidad depende de nosotros mismos.", author: "Aristóteles" },
+      { text: "Educar la mente sin educar el corazón no es educación en absoluto.", author: "Aristóteles" },
+      { text: "Conocerse a sí mismo es el principio de toda sabiduría.", author: "Aristóteles" },
+      { text: "La esperanza es el sueño del hombre despierto.", author: "Aristóteles" },
+      { text: "Pienso, luego existo.", author: "René Descartes" },
+      { text: "El corazón tiene razones que la razón no entiende.", author: "Blaise Pascal" },
+      { text: "Toda nuestra dignidad consiste en el pensamiento.", author: "Blaise Pascal" },
+      { text: "El hombre es un lobo para el hombre.", author: "Thomas Hobbes" },
+      { text: "Ser es ser percibido.", author: "George Berkeley" },
+      { text: "El hombre nace libre, pero en todas partes está encadenado.", author: "Jean-Jacques Rousseau" },
+      { text: "Atrévete a saber.", author: "Immanuel Kant" },
+      { text: "Actúa de tal modo que tu máxima pueda convertirse en ley universal.", author: "Immanuel Kant" },
+      { text: "La libertad es la obediencia a la ley que uno mismo se ha trazado.", author: "Jean-Jacques Rousseau" },
+      { text: "El Estado soy yo.", author: "Luis XIV" },
+      { text: "Dadme un punto de apoyo y moveré el mundo.", author: "Arquímedes" },
+      { text: "Prefiero morir de pie que vivir de rodillas.", author: "Emiliano Zapata" },
+      { text: "Hasta la victoria siempre.", author: "Che Guevara" },
+      { text: "Un hombre que no lee buenos libros no tiene ventaja sobre el que no sabe leer.", author: "Mark Twain" },
+      { text: "La verdad es más extraña que la ficción.", author: "Mark Twain" },
+      { text: "El secreto de salir adelante es empezar.", author: "Mark Twain" },
+      { text: "La bondad es el lenguaje que el sordo puede oír y el ciego puede ver.", author: "Mark Twain" },
+      { text: "Dentro de veinte años estarás más decepcionado por las cosas que no hiciste que por las que hiciste.", author: "Mark Twain" },
+      { text: "Nunca dejes que la escuela interfiera con tu educación.", author: "Mark Twain" },
+      { text: "Ser o no ser, esa es la cuestión.", author: "William Shakespeare" },
+      { text: "El infierno está vacío y todos los demonios están aquí.", author: "William Shakespeare" },
+      { text: "Los cobardes mueren muchas veces antes de su muerte.", author: "William Shakespeare" },
+      { text: "El amor no mira con los ojos, sino con la mente.", author: "William Shakespeare" },
+      { text: "Todo el mundo es un escenario.", author: "William Shakespeare" },
+      { text: "La brevedad es el alma del ingenio.", author: "William Shakespeare" },
+      { text: "Nada es verdad ni mentira, todo depende del cristal con que se mira.", author: "Ramón de Campoamor" },
+      { text: "El que lee mucho y anda mucho, ve mucho y sabe mucho.", author: "Miguel de Cervantes" },
+      { text: "Ladran, Sancho, señal que cabalgamos.", author: "Miguel de Cervantes" },
+      { text: "La pluma es la lengua del alma.", author: "Miguel de Cervantes" },
+      { text: "En un lugar de la Mancha, de cuyo nombre no quiero acordarme.", author: "Miguel de Cervantes" },
+      { text: "Cambiar el mundo, amigo Sancho, no es locura ni utopía, sino justicia.", author: "Miguel de Cervantes" },
+      { text: "El que no tiene nada que perder, lo tiene todo por ganar.", author: "Miguel de Cervantes" },
+      { text: "Donde hay música no puede haber cosa mala.", author: "Miguel de Cervantes" },
+      { text: "Cuando una puerta se cierra, ciento se abren.", author: "Miguel de Cervantes" },
+      { text: "En la vida nada es fácil, pero tampoco imposible.", author: "Anónimo" },
+      { text: "Los límites solo existen en tu mente.", author: "Anónimo" },
+      { text: "El único imposible es aquel que no intentas.", author: "Anónimo" },
+      { text: "Hoy es un buen día para empezar.", author: "Anónimo" },
+      { text: "El miedo mata más sueños que el fracaso.", author: "Suzy Kassem" },
+      { text: "No es más rico quien más tiene, sino quien menos necesita.", author: "Anónimo" },
+      { text: "La vida es corta, sonríe mientras tengas dientes.", author: "Anónimo" },
+      { text: "Todo pasa, todo llega, todo se encuentra.", author: "Anónimo" },
+      { text: "La suerte favorece a los audaces.", author: "Virgilio" },
+      { text: "Carpe diem.", author: "Horacio" },
+      { text: "La fortuna ayuda a los valientes.", author: "Virgilio" },
+      { text: "Ama y haz lo que quieras.", author: "San Agustín" },
+      { text: "La medida del amor es amar sin medida.", author: "San Agustín" },
+      { text: "El mundo es un libro y quienes no viajan leen solo una página.", author: "San Agustín" },
+      { text: "Reza como si todo dependiera de Dios. Trabaja como si todo dependiera de ti.", author: "San Agustín" },
+      { text: "La fe es creer en lo que no ves; la recompensa es ver lo que crees.", author: "San Agustín" },
+      { text: "Conócete, acéptate, supérate.", author: "San Agustín" },
+      { text: "El tiempo es oro.", author: "Benjamin Franklin" },
+      { text: "Dime y lo olvido, enséñame y lo recuerdo, involúcrame y lo aprendo.", author: "Benjamin Franklin" },
+      { text: "Una inversión en conocimiento paga el mejor interés.", author: "Benjamin Franklin" },
+      { text: "Nunca dejes para mañana lo que puedas hacer hoy.", author: "Benjamin Franklin" },
+      { text: "La energía y la persistencia conquistan todas las cosas.", author: "Benjamin Franklin" },
+      { text: "Sin esfuerzo no hay recompensa.", author: "Benjamin Franklin" },
+      { text: "El genio es un uno por ciento de inspiración y un noventa y nueve por ciento de transpiración.", author: "Thomas Edison" },
+      { text: "No he fracasado. He encontrado 10.000 maneras que no funcionan.", author: "Thomas Edison" },
+      { text: "La oportunidad se pierde por la mayoría de la gente porque va vestida con mono y parece trabajo.", author: "Thomas Edison" },
+      { text: "Si puedes soñarlo, puedes lograrlo.", author: "Walt Disney" },
+      { text: "La forma de empezar es dejar de hablar y empezar a hacer.", author: "Walt Disney" },
+      { text: "Todos nuestros sueños pueden hacerse realidad si tenemos el coraje de perseguirlos.", author: "Walt Disney" },
+      { text: "La diferencia entre ganar y perder es, con mayor frecuencia, no rendirse.", author: "Walt Disney" },
+      { text: "La risa es eterna. La imaginación no tiene edad. Los sueños son para siempre.", author: "Walt Disney" },
+      { text: "El coraje es la más importante de todas las virtudes porque sin coraje no puedes practicar ninguna otra virtud.", author: "Maya Angelou" },
+      { text: "La gente olvidará lo que dijiste, olvidará lo que hiciste, pero nunca olvidará cómo la hiciste sentir.", author: "Maya Angelou" },
+      { text: "Si no te gusta algo, cámbialo. Si no puedes cambiarlo, cambia tu actitud.", author: "Maya Angelou" },
+      { text: "No hay mayor agonía que llevar dentro una historia no contada.", author: "Maya Angelou" },
+      { text: "Haz lo mejor que puedas hasta que sepas más. Cuando sepas más, hazlo mejor.", author: "Maya Angelou" },
+      { text: "El éxito no es la clave de la felicidad. La felicidad es la clave del éxito.", author: "Albert Schweitzer" },
+      { text: "La tragedia de la vida es lo que muere dentro de un hombre mientras vive.", author: "Albert Schweitzer" },
+      { text: "El propósito de la vida humana es servir y mostrar compasión y voluntad de ayudar a otros.", author: "Albert Schweitzer" },
+      { text: "La felicidad no se encuentra, se crea.", author: "Anónimo" },
+      { text: "La vida te pone obstáculos, pero los límites los pones tú.", author: "Anónimo" },
+      { text: "Quien quiere hacer algo encuentra un medio; quien no quiere hacer nada encuentra una excusa.", author: "Proverbio árabe" },
+      { text: "El mejor momento para plantar un árbol fue hace veinte años. El segundo mejor momento es ahora.", author: "Proverbio chino" },
+      { text: "Cae siete veces, levántate ocho.", author: "Proverbio japonés" },
+      { text: "El que pregunta es tonto por cinco minutos; el que no pregunta es tonto para siempre.", author: "Proverbio chino" },
+      { text: "Una sonrisa cuesta menos que la electricidad y da más luz.", author: "Proverbio escocés" },
+      { text: "Si quieres ir rápido, ve solo. Si quieres llegar lejos, ve acompañado.", author: "Proverbio africano" },
+      { text: "No mires atrás, no vas en esa dirección.", author: "Proverbio" },
+      { text: "El bambú que se dobla es más fuerte que el roble que resiste.", author: "Proverbio japonés" },
+      { text: "Un libro abierto es un cerebro que habla.", author: "Proverbio hindú" },
+      { text: "El que mucho abarca poco aprieta.", author: "Proverbio español" },
+      { text: "Más vale pájaro en mano que ciento volando.", author: "Proverbio español" },
+      { text: "A mal tiempo, buena cara.", author: "Proverbio español" },
+      { text: "No dejes para mañana lo que puedas hacer hoy.", author: "Proverbio español" },
+      { text: "Quien siembra vientos, recoge tempestades.", author: "Proverbio español" },
+      { text: "El que mucho duerme, poco aprende.", author: "Proverbio español" },
+      { text: "Dios los cría y ellos se juntan.", author: "Proverbio español" },
+      { text: "En boca cerrada no entran moscas.", author: "Proverbio español" },
+      { text: "Más vale tarde que nunca.", author: "Proverbio español" },
+      { text: "Ojos que no ven, corazón que no siente.", author: "Proverbio español" },
+      { text: "El amor todo lo puede.", author: "Virgilio" },
+      { text: "Amar no es mirarse el uno al otro, sino mirar juntos en la misma dirección.", author: "Antoine de Saint-Exupéry" },
+      { text: "Lo esencial es invisible a los ojos.", author: "Antoine de Saint-Exupéry" },
+      { text: "Eres responsable para siempre de lo que has domesticado.", author: "Antoine de Saint-Exupéry" },
+      { text: "Todas las personas mayores fueron primero niños, aunque pocas lo recuerdan.", author: "Antoine de Saint-Exupéry" },
+      { text: "Solo se ve bien con el corazón.", author: "Antoine de Saint-Exupéry" },
+      { text: "Si juzgas a las personas, no tienes tiempo para amarlas.", author: "Madre Teresa" },
+      { text: "No todos podemos hacer grandes cosas, pero sí podemos hacer cosas pequeñas con gran amor.", author: "Madre Teresa" },
+      { text: "La paz comienza con una sonrisa.", author: "Madre Teresa" },
+      { text: "Ama hasta que duela. Si duele, es buena señal.", author: "Madre Teresa" },
+      { text: "Si quieres cambiar el mundo, ve a casa y ama a tu familia.", author: "Madre Teresa" },
+      { text: "Yo solo, no puedo cambiar el mundo, pero puedo lanzar una piedra a través de las aguas para crear muchas ondas.", author: "Madre Teresa" },
+      { text: "Siempre parece imposible hasta que se hace.", author: "Nelson Mandela" },
+      { text: "No me juzgues por mis éxitos, juzgame por las veces que me caí y me levanté.", author: "Nelson Mandela" },
+      { text: "El perdón libera el alma, elimina el miedo.", author: "Nelson Mandela" },
+      { text: "Después de escalar una gran colina, uno encuentra que hay muchas más colinas que escalar.", author: "Nelson Mandela" },
+      { text: "Soy el amo de mi destino, soy el capitán de mi alma.", author: "Nelson Mandela" },
+      { text: "Un ganador es un soñador que nunca se rinde.", author: "Nelson Mandela" },
+      { text: "La valentía no es la ausencia de miedo, sino el triunfo sobre él.", author: "Nelson Mandela" },
+      { text: "Tengo un sueño.", author: "Martin Luther King Jr." },
+      { text: "La oscuridad no puede expulsar a la oscuridad; solo la luz puede hacer eso.", author: "Martin Luther King Jr." },
+      { text: "El odio no puede expulsar al odio; solo el amor puede hacer eso.", author: "Martin Luther King Jr." },
+      { text: "La injusticia en cualquier lugar es una amenaza para la justicia en todas partes.", author: "Martin Luther King Jr." },
+      { text: "Al final, no recordaremos las palabras de nuestros enemigos, sino el silencio de nuestros amigos.", author: "Martin Luther King Jr." },
+      { text: "Si no puedes volar, corre. Si no puedes correr, camina. Si no puedes caminar, gatea.", author: "Martin Luther King Jr." },
+      { text: "La vida es muy corta para ser pequeña.", author: "Benjamin Disraeli" },
+      { text: "El secreto del éxito es la constancia del propósito.", author: "Benjamin Disraeli" },
+      { text: "Nunca te quejes y nunca des explicaciones.", author: "Benjamin Disraeli" },
+      { text: "El sabio habla porque tiene algo que decir; el tonto, porque tiene que decir algo.", author: "Platón" },
+      { text: "La música da alma al universo, alas a la mente y vuelo a la imaginación.", author: "Platón" },
+      { text: "El comportamiento humano fluye de tres fuentes principales: deseo, emoción y conocimiento.", author: "Platón" },
+      { text: "La ignorancia es la raíz de todo mal.", author: "Platón" },
+      { text: "Una buena decisión se basa en el conocimiento y no en los números.", author: "Platón" },
+      { text: "Las almas de los amantes viven en el cuerpo del otro.", author: "Platón" },
+      { text: "Todo hombre es poeta cuando está enamorado.", author: "Platón" },
+      { text: "El amor es una enfermedad mental seria.", author: "Platón" },
+      { text: "El comienzo es la parte más importante del trabajo.", author: "Platón" },
+      { text: "Cualquiera puede enfadarse, eso es algo muy sencillo. Pero enfadarse con la persona adecuada, en el grado exacto, en el momento oportuno, con el propósito justo y del modo correcto, eso no resulta tan sencillo.", author: "Aristóteles" },
+      { text: "La amistad es un alma que habita en dos cuerpos; un corazón que habita en dos almas.", author: "Aristóteles" },
+      { text: "La inteligencia consiste no solo en el conocimiento, sino también en la destreza de aplicarlo.", author: "Aristóteles" },
+      { text: "El ignorante afirma, el sabio duda y reflexiona.", author: "Aristóteles" },
+      { text: "Es durante nuestros momentos más oscuros que debemos enfocarnos para ver la luz.", author: "Aristóteles" },
+      { text: "No basta con alcanzar la sabiduría, es necesario saber utilizarla.", author: "Cicerón" },
+      { text: "Mientras haya vida, hay esperanza.", author: "Cicerón" },
+      { text: "Los tiempos son malos. Los hombres son malos. ¿Quieres conocer buenos tiempos? Sé mejor.", author: "San Agustín" },
+      { text: "La medida del amor es amar sin medida.", author: "San Agustín" },
+      { text: "El error solo es humano; persistir en el error es diabólico.", author: "San Agustín" },
+      { text: "Dios no manda cosas imposibles, sino que al mandar te avisa que hagas lo que puedas.", author: "San Agustín" },
+      { text: "Ama y haz lo que quieras. Si callas, callarás con amor; si gritas, gritarás con amor.", author: "San Agustín" },
+      { text: "Nuestros corazones fueron hechos para Ti, Señor, y están inquietos hasta que descansen en Ti.", author: "San Agustín" },
+      { text: "La humildad es la madre de todas las virtudes.", author: "San Agustín" },
+      { text: "La paciencia es la compañera de la sabiduría.", author: "San Agustín" },
+      { text: "Empieza haciendo lo necesario, después lo posible, y de repente estarás haciendo lo imposible.", author: "San Francisco de Asís" },
+      { text: "Predica el Evangelio en todo momento. Si es necesario, usa palabras.", author: "San Francisco de Asís" },
+      { text: "Donde hay odio, que lleve yo el amor. Donde hay ofensa, que lleve yo el perdón.", author: "San Francisco de Asís" },
+      { text: "La verdadera riqueza no está en lo que se tiene, sino en lo que se es.", author: "Anónimo" },
+      { text: "No cuentes tus bendiciones, haz que tus bendiciones cuenten.", author: "Anónimo" },
+      { text: "El que tiene salud, tiene esperanza; y el que tiene esperanza, lo tiene todo.", author: "Proverbio árabe" },
+      { text: "Cuando el alumno está preparado, aparece el maestro.", author: "Proverbio budista" },
+      { text: "Nada es permanente en este mundo malvado, ni siquiera nuestros problemas.", author: "Charlie Chaplin" },
+      { text: "Un día sin reír es un día perdido.", author: "Charlie Chaplin" },
+      { text: "La vida es una obra de teatro que no permite ensayos.", author: "Charlie Chaplin" },
+      { text: "Me gusta caminar bajo la lluvia porque nadie puede ver mis lágrimas.", author: "Charlie Chaplin" },
+      { text: "El espejo es mi mejor amigo porque cuando lloro no se ríe.", author: "Charlie Chaplin" },
+      { text: "La vida es maravillosa si no se le tiene miedo.", author: "Charlie Chaplin" },
+      { text: "Nunca te olvides de sonreír, porque el día que no sonrías será un día perdido.", author: "Charlie Chaplin" },
+      { text: "Todos somos aficionados. La vida es tan corta que no da para más.", author: "Charlie Chaplin" },
+      { text: "El fracaso es una gran oportunidad para empezar otra vez con más inteligencia.", author: "Henry Ford" },
+      { text: "Tanto si piensas que puedes, como si piensas que no puedes, estás en lo cierto.", author: "Henry Ford" },
+      { text: "La calidad significa hacer lo correcto cuando nadie está mirando.", author: "Henry Ford" },
+      { text: "Un negocio absolutamente dedicado al servicio solo tendrá una preocupación: las ganancias.", author: "Henry Ford" },
+      { text: "El único error real es aquel del que no aprendemos nada.", author: "Henry Ford" },
+      { text: "Cuando todo parezca ir en tu contra, recuerda que el avión despega contra el viento.", author: "Henry Ford" },
+      { text: "Los obstáculos son esas cosas espantosas que ves cuando apartas los ojos de tu meta.", author: "Henry Ford" },
+      { text: "La locura es hacer lo mismo una y otra vez esperando resultados diferentes.", author: "Albert Einstein" },
+      { text: "Si buscas resultados distintos, no hagas siempre lo mismo.", author: "Albert Einstein" },
+      { text: "La vida es como andar en bicicleta. Para mantener el equilibrio, debes seguir adelante.", author: "Albert Einstein" },
+      { text: "Hay dos maneras de vivir la vida: una es pensar que nada es un milagro, y la otra es pensar que todo lo es.", author: "Albert Einstein" },
+      { text: "Intenta no volverte un hombre de éxito, sino volverte un hombre de valor.", author: "Albert Einstein" },
+      { text: "La mente que se abre a una nueva idea jamás volverá a su tamaño original.", author: "Albert Einstein" },
+      { text: "Los problemas no pueden resolverse pensando de la forma en que pensábamos cuando los creamos.", author: "Albert Einstein" },
+      { text: "El mundo no será destruido por quienes hacen el mal, sino por quienes miran sin hacer nada.", author: "Albert Einstein" },
+      { text: "Todos somos genios. Pero si juzgas a un pez por su habilidad de trepar árboles, vivirá toda su vida creyendo que es estúpido.", author: "Albert Einstein" },
+      { text: "Cualquier tonto puede saber. La cuestión es entender.", author: "Albert Einstein" },
+      { text: "El universo es más extraño de lo que suponemos, más extraño de lo que podemos suponer.", author: "J.B.S. Haldane" },
+      { text: "Puedo estar en desacuerdo con lo que dices, pero defenderé hasta la muerte tu derecho a decirlo.", author: "Voltaire" },
+      { text: "El sentido común es el menos común de los sentidos.", author: "Voltaire" },
+      { text: "Juzga a un hombre por sus preguntas más que por sus respuestas.", author: "Voltaire" },
+      { text: "Si Dios no existiera, sería necesario inventarlo.", author: "Voltaire" },
+      { text: "La duda no es una condición placentera, pero la certeza es absurda.", author: "Voltaire" },
+      { text: "No estoy de acuerdo con lo que dices, pero moriría por tu derecho a decirlo.", author: "Voltaire" },
+      { text: "El trabajo aleja de nosotros tres grandes males: el aburrimiento, el vicio y la necesidad.", author: "Voltaire" },
+      { text: "El arte de la medicina consiste en entretener al paciente mientras la naturaleza cura la enfermedad.", author: "Voltaire" },
+      { text: "La superstición pone al mundo entero en llamas; la filosofía las apaga.", author: "Voltaire" },
+      { text: "Es peligroso tener razón cuando el gobierno está equivocado.", author: "Voltaire" },
+      { text: "Los hombres discuten, la naturaleza actúa.", author: "Voltaire" },
+      { text: "Quienes creen en absurdos cometerán atrocidades.", author: "Voltaire" },
+      { text: "La escritura es la pintura de la voz.", author: "Voltaire" },
+      { text: "Lo perfecto es enemigo de lo bueno.", author: "Voltaire" },
+      { text: "La historia no es más que un cuadro de crímenes y desgracias.", author: "Voltaire" },
+      { text: "Cada jugador debe aceptar las cartas que la vida le da.", author: "Voltaire" },
+      { text: "El tiempo es el mejor maestro, desgraciadamente mata a todos sus discípulos.", author: "Louis Hector Berlioz" },
+      { text: "El hombre razonable se adapta al mundo; el irrazonable intenta adaptar el mundo a sí mismo.", author: "George Bernard Shaw" },
+      { text: "El éxito no consiste en no cometer errores, sino en no cometerlos dos veces.", author: "George Bernard Shaw" },
+      { text: "La juventud se desperdicia en los jóvenes.", author: "George Bernard Shaw" },
+      { text: "El progreso es imposible sin cambio.", author: "George Bernard Shaw" },
+      { text: "La vida no se trata de encontrarte a ti mismo, sino de crearte.", author: "George Bernard Shaw" },
+      { text: "El poder no corrompe al hombre; el tonto, sin embargo, si llega a ser poderoso, corrompe el poder.", author: "George Bernard Shaw" },
+      { text: "El silencio es el argumento más difícil de refutar.", author: "George Bernard Shaw" },
+      { text: "Enseñar no es una función vital, porque no tiene el fin en sí misma.", author: "George Bernard Shaw" },
+      { text: "Los espejos se emplean para verse la cara; el arte para verse el alma.", author: "George Bernard Shaw" },
+      { text: "La comunicación funciona para los que trabajan en ella.", author: "John Powell" },
+      { text: "Lo más importante en la comunicación es escuchar lo que no se dice.", author: "Peter Drucker" },
+      { text: "La gestión es hacer las cosas bien; el liderazgo es hacer las cosas correctas.", author: "Peter Drucker" },
+      { text: "Los resultados se obtienen aprovechando oportunidades, no resolviendo problemas.", author: "Peter Drucker" },
+      { text: "La planificación a largo plazo no es pensar en decisiones futuras, sino en el futuro de las decisiones presentes.", author: "Peter Drucker" },
+      { text: "El conocimiento tiene que mejorarse, desafiarse y aumentarse constantemente, o se desvanece.", author: "Peter Drucker" },
+      { text: "No se puede gestionar lo que no se puede medir.", author: "Peter Drucker" },
+      { text: "La eficiencia es hacer las cosas bien; la eficacia es hacer lo correcto.", author: "Peter Drucker" },
+      { text: "El emprendedor siempre busca el cambio, responde a él y lo explota como una oportunidad.", author: "Peter Drucker" },
+      { text: "La innovación es la herramienta específica de los emprendedores.", author: "Peter Drucker" },
+      { text: "El marketing tiene como objetivo hacer que vender sea superfluo.", author: "Peter Drucker" },
+      { text: "El liderazgo se trata de visión y responsabilidad, no de poder.", author: "Seth Godin" },
+      { text: "No encuentres clientes para tus productos, encuentra productos para tus clientes.", author: "Seth Godin" },
+      { text: "La única forma de hacer un gran trabajo es amar lo que haces.", author: "Steve Jobs" },
+      { text: "La innovación distingue a un líder de un seguidor.", author: "Steve Jobs" },
+      { text: "Tu tiempo es limitado, así que no lo desperdicies viviendo la vida de alguien más.", author: "Steve Jobs" },
+      { text: "Sé un punto de referencia de calidad.", author: "Steve Jobs" },
+      { text: "La creatividad es simplemente conectar cosas.", author: "Steve Jobs" },
+      { text: "El diseño no es solo cómo se ve o cómo se siente. El diseño es cómo funciona.", author: "Steve Jobs" },
+      { text: "Mantente hambriento, mantente alocado.", author: "Steve Jobs" },
+      { text: "Recordar que vas a morir es la mejor manera que conozco de evitar la trampa de pensar que tienes algo que perder.", author: "Steve Jobs" },
+      { text: "Estoy convencido de que la mitad de lo que separa a los emprendedores exitosos de los no exitosos es pura perseverancia.", author: "Steve Jobs" },
+      { text: "No puedes conectar los puntos mirando hacia adelante; solo puedes conectarlos mirando hacia atrás.", author: "Steve Jobs" },
+      { text: "La gente que está lo suficientemente loca como para pensar que pueden cambiar el mundo son los que lo hacen.", author: "Steve Jobs" },
+      { text: "El movimiento es vida.", author: "Aristóteles" },
+      { text: "Cada vez que te encuentres del lado de la mayoría, es tiempo de hacer una pausa y reflexionar.", author: "Mark Twain" },
+      { text: "La vida es demasiado importante para tomarla en serio.", author: "Oscar Wilde" },
+      { text: "Sé tú mismo; todos los demás ya están ocupados.", author: "Oscar Wilde" },
+      { text: "La experiencia es simplemente el nombre que damos a nuestros errores.", author: "Oscar Wilde" },
+      { text: "Puedo resistir todo menos la tentación.", author: "Oscar Wilde" },
+      { text: "Vivir es lo más raro del mundo. La mayoría de la gente existe, eso es todo.", author: "Oscar Wilde" },
+      { text: "El cinismo es conocer el precio de todo y el valor de nada.", author: "Oscar Wilde" },
+      { text: "Lo menos frecuente en este mundo es vivir. La mayoría de la gente existe, eso es todo.", author: "Oscar Wilde" },
+      { text: "Siempre perdono a mis enemigos; nada les molesta tanto.", author: "Oscar Wilde" },
+      { text: "El verdadero misterio del mundo es lo visible, no lo invisible.", author: "Oscar Wilde" },
+      { text: "Un soñador es aquel que solo encuentra su camino a la luz de la luna.", author: "Oscar Wilde" },
+      { text: "El trabajo es el refugio de los que no tienen nada que hacer.", author: "Oscar Wilde" },
+      { text: "Lo que no nos mata nos hace más fuertes.", author: "Friedrich Nietzsche" },
+      { text: "Sin música, la vida sería un error.", author: "Friedrich Nietzsche" },
+      { text: "El que tiene un porqué para vivir puede soportar casi cualquier cómo.", author: "Friedrich Nietzsche" },
+      { text: "La madurez del hombre es haber recobrado la seriedad con que jugaba cuando era niño.", author: "Friedrich Nietzsche" },
+      { text: "Aquel que tiene un porqué para vivir se puede enfrentar a todos los cómos.", author: "Viktor Frankl" },
+      { text: "Cuando ya no somos capaces de cambiar una situación, nos encontramos ante el desafío de cambiarnos a nosotros mismos.", author: "Viktor Frankl" },
+      { text: "Entre el estímulo y la respuesta hay un espacio. En ese espacio está nuestro poder de elegir nuestra respuesta.", author: "Viktor Frankl" },
+      { text: "Todo puede serle arrebatado a un hombre, excepto una cosa: la última de las libertades humanas.", author: "Viktor Frankl" },
+      { text: "La felicidad no puede perseguirse; debe surgir.", author: "Viktor Frankl" },
+      { text: "El sufrimiento deja de ser de algún modo sufrimiento en el momento en que encuentra un sentido.", author: "Viktor Frankl" },
+      { text: "La vida nunca se vuelve insoportable por las circunstancias, sino solo por la falta de significado y propósito.", author: "Viktor Frankl" },
+      { text: "No preguntes qué esperas de la vida; pregunta qué espera la vida de ti.", author: "Viktor Frankl" },
+      { text: "El éxito, como la felicidad, no puede perseguirse; debe producirse.", author: "Viktor Frankl" },
+      { text: "Lo que da luz debe soportar arder.", author: "Viktor Frankl" },
+      { text: "El coraje no es la ausencia del miedo, sino la capacidad de actuar a pesar de él.", author: "Anónimo" },
+      { text: "No dejes que el ruido de las opiniones ajenas ahogue tu propia voz interior.", author: "Steve Jobs" },
+      { text: "La grandeza no consiste en recibir honores, sino en merecerlos.", author: "Aristóteles" },
+      { text: "No hay atajo para llegar a cualquier lugar que valga la pena.", author: "Beverly Sills" },
+      { text: "El único límite a nuestra realización del mañana serán nuestras dudas de hoy.", author: "Franklin D. Roosevelt" },
+      { text: "La acción es la llave fundamental de todo éxito.", author: "Pablo Picasso" },
+      { text: "Aprende del ayer, vive para hoy, espera el mañana.", author: "Albert Einstein" },
+      { text: "Los grandes espíritus siempre han encontrado oposición de mentes mediocres.", author: "Albert Einstein" },
+      { text: "No se trata de ser el mejor, se trata de ser mejor que ayer.", author: "Anónimo" },
+      { text: "La pasión es energía. Siente el poder que viene de enfocarte en lo que te emociona.", author: "Oprah Winfrey" },
+      { text: "La verdadera señal de inteligencia no es el conocimiento sino la imaginación.", author: "Albert Einstein" },
+      { text: "La persistencia es el camino del éxito.", author: "Charles Chaplin" },
+      { text: "Las dificultades preparan a personas ordinarias para destinos extraordinarios.", author: "C.S. Lewis" },
+      { text: "El carácter no puede desarrollarse en paz y tranquilidad.", author: "Helen Keller" },
+      { text: "Solo aquellos que se atreven a tener grandes fracasos terminan consiguiendo grandes éxitos.", author: "Robert F. Kennedy" },
+      { text: "Piensa diferente.", author: "Apple" },
+      { text: "Just do it.", author: "Nike" },
+      { text: "Impossible is nothing.", author: "Adidas" },
+      { text: "La diferencia entre lo ordinario y lo extraordinario es ese pequeño extra.", author: "Jimmy Johnson" },
+      { text: "Trabaja duro en silencio, deja que tu éxito haga el ruido.", author: "Frank Ocean" },
+      { text: "El talento gana partidos, pero el trabajo en equipo y la inteligencia ganan campeonatos.", author: "Michael Jordan" },
+      { text: "He fallado más de 9000 tiros en mi carrera. He perdido casi 300 partidos.", author: "Michael Jordan" },
+      { text: "Puedo aceptar el fracaso, todos fracasan en algo. Pero no puedo aceptar no intentarlo.", author: "Michael Jordan" },
+      { text: "La excelencia no es un acto, es un hábito.", author: "Aristóteles" },
+      { text: "No tienes que ser grande para empezar, pero tienes que empezar para ser grande.", author: "Zig Ziglar" },
+      { text: "La actitud es una pequeña cosa que hace una gran diferencia.", author: "Winston Churchill" },
+      { text: "Nunca, nunca, nunca te rindas.", author: "Winston Churchill" },
+      { text: "El pesimista ve dificultad en cada oportunidad. El optimista ve oportunidad en cada dificultad.", author: "Winston Churchill" },
+      { text: "Somos lo que hacemos repetidamente.", author: "Will Durant" },
+      { text: "Si la oportunidad no llama, construye una puerta.", author: "Milton Berle" },
+      { text: "La felicidad no es algo que pospones para el futuro; es algo que diseñas para el presente.", author: "Jim Rohn" },
+      { text: "Tu actitud, no tu aptitud, determinará tu altitud.", author: "Zig Ziglar" },
+      { text: "Las personas exitosas hacen lo que las personas no exitosas no están dispuestas a hacer.", author: "Jim Rohn" },
+      { text: "El dolor que sientes hoy será la fuerza que sentirás mañana.", author: "Anónimo" },
+      { text: "No cuentes los días, haz que los días cuenten.", author: "Muhammad Ali" },
+      { text: "Flota como una mariposa, pica como una abeja.", author: "Muhammad Ali" },
+      { text: "Soy el más grande, lo dije incluso antes de saber que lo era.", author: "Muhammad Ali" },
+      { text: "El servicio a los demás es el alquiler que pagas por tu habitación aquí en la tierra.", author: "Muhammad Ali" },
+      { text: "No existe el fracaso, solo existen resultados.", author: "Tony Robbins" },
+      { text: "La calidad de tu vida es la calidad de tus relaciones.", author: "Tony Robbins" },
+      { text: "El cambio es automático. El progreso no lo es.", author: "Tony Robbins" },
+      { text: "Si haces lo que siempre has hecho, obtendrás lo que siempre has obtenido.", author: "Tony Robbins" },
+      { text: "La clave del éxito es enfocar nuestra mente consciente en las cosas que deseamos.", author: "Brian Tracy" },
+      { text: "Nunca es demasiado tarde para ser lo que podrías haber sido.", author: "George Eliot" },
+      { text: "El éxito es la suma de pequeños esfuerzos repetidos día tras día.", author: "Robert Collier" },
+      { text: "Tu única limitación es la que te pones en tu propia mente.", author: "Napoleon Hill" },
+      { text: "Cuando cambias la manera de ver las cosas, las cosas que miras cambian.", author: "Wayne Dyer" },
+      { text: "Todo lo que necesitas está dentro de ti.", author: "Anónimo" },
+      { text: "Hoy es un gran día para tener un gran día.", author: "Anónimo" },
+      { text: "Sonríe, la vida es bella.", author: "Anónimo" }
+    ];
+
+    function showDailyQuote() {
+      // Usar el día del año para seleccionar la cita (cambia cada día)
+      const now = new Date();
+      const start = new Date(now.getFullYear(), 0, 0);
+      const diff = now - start;
+      const dayOfYear = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const quoteIndex = dayOfYear % QUOTES.length;
+      
+      const quote = QUOTES[quoteIndex];
+      document.getElementById('quoteText').textContent = quote.text;
+      document.getElementById('quoteAuthor').textContent = quote.author;
+    }
+
     // ============================================
     // CONFIGURACIÓN
     // ============================================
@@ -4028,6 +4465,9 @@ _Actualizado: ${fecha} ${hora}_`;
     document.addEventListener('DOMContentLoaded', async () => {
       updateTime();
       setInterval(updateTime, 60000);
+      
+      // Mostrar cita del día
+      showDailyQuote();
       
       // Cargar todos los datos al iniciar
       document.getElementById('lastUpdate').textContent = 'cargando...';
