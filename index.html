@@ -1533,6 +1533,8 @@
     /* Holidays Cards */
     .holidays-section {
       grid-column: span 5;
+      overflow: hidden;
+      padding: 16px;
     }
 
     .holidays-section .card-icon {
@@ -1541,22 +1543,25 @@
 
     .holidays-tabs {
       display: flex;
-      gap: 8px;
-      margin-bottom: 16px;
+      gap: 4px;
+      margin-bottom: 12px;
     }
 
     .holiday-tab {
       flex: 1;
-      padding: 10px 12px;
+      padding: 8px 10px;
       border: none;
       border-radius: var(--radius-sm);
       font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 0.9rem;
+      font-size: 0.8rem;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.3s ease;
       background: var(--bg-main);
       color: var(--text-secondary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .holiday-tab.active {
@@ -1637,18 +1642,25 @@
     .holiday-info {
       flex: 1;
       min-width: 0;
+      overflow: hidden;
     }
 
     .holiday-name {
       font-weight: 600;
       color: var(--text-primary);
-      font-size: 0.85rem;
-      line-height: 1.3;
+      font-size: 0.8rem;
+      line-height: 1.2;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .holiday-type {
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .holiday-days-left {
