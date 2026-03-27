@@ -771,76 +771,67 @@
     }
 
     .webcam-preview {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-top: 16px;
-      padding: 20px;
-      background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
-      border-radius: 16px;
+      display: block;
       text-decoration: none;
       color: white;
-      transition: all 0.3s ease;
-      border: 2px solid transparent;
     }
 
-    .webcam-preview:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 30px rgba(239, 68, 68, 0.3);
-      border-color: #EF4444;
+    .webcam-thumbnail-container {
+      position: relative;
+      margin-top: 16px;
+      border-radius: var(--radius-md);
+      overflow: hidden;
     }
 
-    .webcam-preview-content {
-      display: flex;
-      align-items: center;
-      gap: 16px;
+    .webcam-thumbnail {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s ease;
     }
 
-    .webcam-play-icon {
+    .webcam-preview:hover .webcam-thumbnail {
+      transform: scale(1.05);
+    }
+
+    .webcam-thumbnail-container::after {
+      content: '▶';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       width: 56px;
       height: 56px;
-      background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+      background: rgba(0,0,0,0.7);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.4rem;
       color: white;
-      box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
-      transition: transform 0.2s;
+      font-size: 1.4rem;
+      transition: all 0.2s ease;
     }
 
-    .webcam-preview:hover .webcam-play-icon {
-      transform: scale(1.1);
+    .webcam-preview:hover .webcam-thumbnail-container::after {
+      background: rgba(239, 68, 68, 0.9);
+      transform: translate(-50%, -50%) scale(1.1);
     }
 
-    .webcam-preview-text {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .webcam-preview-title {
-      font-weight: 700;
-      font-size: 1.1rem;
-    }
-
-    .webcam-preview-desc {
-      font-size: 0.85rem;
-      color: #94A3B8;
-    }
-
-    .webcam-preview-badge {
+    .webcam-live-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
       display: flex;
       align-items: center;
       gap: 6px;
       background: #EF4444;
-      padding: 8px 14px;
+      padding: 6px 12px;
       border-radius: 20px;
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       font-weight: 700;
+      color: white;
       letter-spacing: 0.5px;
-      animation: pulse-badge 2s infinite;
     }
 
     @keyframes pulse-badge {
@@ -1378,6 +1369,63 @@
 
     .station-status.estable {
       background: #FEF3C7;
+      color: #92400E;
+    }
+
+    .station-item.highlight {
+      background: linear-gradient(145deg, #0D9488 0%, #0F766E 100%);
+      border: 2px solid #14B8A6;
+    }
+
+    .station-item.highlight .station-name,
+    .station-item.highlight .station-value,
+    .station-item.highlight .station-unit {
+      color: white;
+    }
+
+    .station-item.highlight .station-status {
+      background: rgba(255,255,255,0.2);
+      color: white;
+    }
+
+    /* Webcam Thumbnail */
+    .webcam-thumbnail {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: var(--radius-md);
+      display: block;
+    }
+
+    .webcam-preview {
+      position: relative;
+      display: block;
+      margin-top: 16px;
+    }
+
+    .webcam-preview::after {
+      content: '▶';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 60px;
+      height: 60px;
+      background: rgba(0,0,0,0.7);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 24px;
+      padding-left: 4px;
+      transition: all 0.2s ease;
+    }
+
+    .webcam-preview:hover::after {
+      background: rgba(0,0,0,0.85);
+      transform: translate(-50%, -50%) scale(1.1);
+    }
       color: #92400E;
     }
 
@@ -2800,43 +2848,43 @@
           <div class="card-icon">📊</div>
           <div>
             <div class="card-title">Estaciones Río Uruguay</div>
-            <div class="card-subtitle">Fuente: CARU · 25/03/2026</div>
+            <div class="card-subtitle">Fuente: CARU · Norte → Sur</div>
           </div>
         </div>
         <div class="stations-grid">
-          <div class="station-item">
-            <div class="station-name">Concordia</div>
-            <div class="station-value">2.54</div>
-            <div class="station-unit">metros</div>
-            <div class="station-status baja">↓ Baja -0.26m</div>
-          </div>
-          <div class="station-item">
-            <div class="station-name">Colón</div>
-            <div class="station-value">1.80</div>
-            <div class="station-unit">metros</div>
-            <div class="station-status estable">● Estable</div>
-          </div>
-          <div class="station-item">
-            <div class="station-name">CdU</div>
-            <div class="station-value">1.46</div>
-            <div class="station-unit">metros</div>
-            <div class="station-status baja">↓ Baja -0.14m</div>
-          </div>
-          <div class="station-item">
+          <div class="station-item" data-station="saltoGrandeArriba">
             <div class="station-name">Salto Grande ↑</div>
             <div class="station-value">33.05</div>
             <div class="station-unit">metros</div>
             <div class="station-status baja">↓ Baja</div>
           </div>
-          <div class="station-item">
+          <div class="station-item" data-station="saltoGrandeAbajo">
             <div class="station-name">Salto Grande ↓</div>
             <div class="station-value">6.47</div>
             <div class="station-unit">metros</div>
-            <div class="station-status crece">↑ Crece +0.21m</div>
+            <div class="station-status crece">↑ Crece</div>
           </div>
-          <div class="station-item">
+          <div class="station-item" data-station="concordia">
+            <div class="station-name">Concordia</div>
+            <div class="station-value">2.54</div>
+            <div class="station-unit">metros</div>
+            <div class="station-status baja">↓ Baja</div>
+          </div>
+          <div class="station-item" data-station="paysandu">
             <div class="station-name">Paysandú</div>
             <div class="station-value">1.10</div>
+            <div class="station-unit">metros</div>
+            <div class="station-status baja">↓ Baja</div>
+          </div>
+          <div class="station-item" data-station="colon">
+            <div class="station-name">Colón</div>
+            <div class="station-value">1.80</div>
+            <div class="station-unit">metros</div>
+            <div class="station-status estable">● Estable</div>
+          </div>
+          <div class="station-item highlight" data-station="concepcion">
+            <div class="station-name">C. del Uruguay</div>
+            <div class="station-value">1.46</div>
             <div class="station-unit">metros</div>
             <div class="station-status baja">↓ Baja</div>
           </div>
@@ -2853,21 +2901,19 @@
           </div>
         </div>
         <a href="https://myearthcam.com/coloner" target="_blank" class="webcam-preview">
-          <div class="webcam-preview-content">
-            <div class="webcam-play-icon">▶</div>
-            <div class="webcam-preview-text">
-              <div class="webcam-preview-title">Puerto Colón - Marina</div>
-              <div class="webcam-preview-desc">Costanera y embarcadero del Río Uruguay</div>
+          <div class="webcam-thumbnail-container">
+            <img src="https://images.unsplash.com/photo-1500463959177-e0869687df26?w=600&h=300&fit=crop" 
+                 alt="Puerto Colón - Río Uruguay" 
+                 class="webcam-thumbnail">
+            <div class="webcam-live-badge">
+              <span class="live-dot"></span>
+              EN VIVO
             </div>
-          </div>
-          <div class="webcam-preview-badge">
-            <span class="live-dot"></span>
-            EN VIVO
           </div>
         </a>
         <div class="webcam-footer">
-          <span class="webcam-source">Fuente: EarthCam</span>
-          <span class="webcam-hint">Clic para ver en vivo ↗</span>
+          <span class="webcam-source">📍 Puerto Colón - Marina</span>
+          <span class="webcam-hint">Toca para ver en vivo ↗</span>
         </div>
       </div>
 
