@@ -189,7 +189,7 @@
     /* Grid Layout */
     .dashboard-grid {
       display: grid;
-      grid-template-columns: repeat(12, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
       gap: 24px;
     }
 
@@ -202,6 +202,7 @@
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       position: relative;
       overflow: hidden;
+      min-width: 0;
     }
 
     .card:hover {
@@ -240,7 +241,6 @@
 
     /* Current Weather Card - Clima Actual */
     .weather-current {
-      grid-column: span 5;
       background: linear-gradient(145deg, #3B82F6 0%, #1D4ED8 50%, #1E40AF 100%);
       color: white;
       padding: 28px;
@@ -332,7 +332,7 @@
 
     /* Río Uruguay Card */
     .river-card {
-      grid-column: span 4;
+      
       background: linear-gradient(145deg, #14B8A6 0%, #0D9488 50%, #0F766E 100%);
       color: white;
       padding: 24px;
@@ -496,7 +496,7 @@
 
     /* Wind Card */
     .wind-card {
-      grid-column: span 3;
+      
       background: linear-gradient(145deg, #8B5CF6 0%, #7C3AED 50%, #6D28D9 100%);
       color: white;
     }
@@ -582,7 +582,7 @@
 
     /* 3-Day Forecast - Grande */
     .forecast-3day {
-      grid-column: span 7;
+      
     }
 
     .forecast-3day .card-icon {
@@ -675,7 +675,7 @@
 
     /* Extended Forecast */
     .forecast-extended {
-      grid-column: span 5;
+      
     }
 
     .forecast-extended .card-icon {
@@ -758,12 +758,12 @@
 
     /* River Stations */
     .river-stations {
-      grid-column: span 6;
+      
     }
 
     /* Webcam Card */
     .webcam-card {
-      grid-column: span 6;
+      
     }
 
     .webcam-card .card-icon {
@@ -877,7 +877,7 @@
 
     /* Radar Card */
     .radar-card {
-      grid-column: span 6;
+      
     }
 
     .radar-card .card-icon {
@@ -1090,7 +1090,7 @@
 
     /* Finance Card */
     .finance-card {
-      grid-column: span 4;
+      
       background: linear-gradient(145deg, #1E293B 0%, #0F172A 100%);
       color: white;
     }
@@ -1230,7 +1230,7 @@
     .pharmacy-card {
       background: linear-gradient(135deg, #10b981 0%, #059669 100%);
       color: white;
-      grid-column: span 6;
+      
     }
 
     .pharmacy-info {
@@ -1439,7 +1439,7 @@
 
     /* Holidays Cards */
     .holidays-section {
-      grid-column: span 7;
+      
     }
 
     .holidays-section .card-icon {
@@ -1576,12 +1576,12 @@
 
     /* Sun/Moon Card */
     .sun-moon-card {
-      grid-column: span 3;
+      
     }
 
     /* River History Chart */
     .river-history {
-      grid-column: span 4;
+      
     }
 
     .river-history .card-icon {
@@ -1664,7 +1664,7 @@
 
     /* Fishing Index */
     .fishing-index {
-      grid-column: span 4;
+      
     }
 
     .fishing-index .card-icon {
@@ -1857,23 +1857,8 @@
     /* Responsive */
     @media (max-width: 1200px) {
       .dashboard-grid {
-        grid-template-columns: repeat(6, 1fr);
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       }
-      
-      .weather-current { grid-column: span 6; }
-      .river-card { grid-column: span 3; }
-      .wind-card { grid-column: span 3; }
-      .forecast-3day { grid-column: span 6; }
-      .forecast-extended { grid-column: span 6; }
-      .river-stations { grid-column: span 6; }
-      .webcam-card { grid-column: span 6; }
-      .radar-card { grid-column: span 6; }
-      .river-history { grid-column: span 3; }
-      .fishing-index { grid-column: span 3; }
-      .holidays-section { grid-column: span 7; }
-      .sun-moon-card { grid-column: span 3; }
-      .pharmacy-card { grid-column: span 6; }
-      .finance-card { grid-column: span 6; }
     }
 
     @media (max-width: 768px) {
@@ -1900,7 +1885,7 @@
       .sun-moon-card,
       .pharmacy-card,
       .finance-card {
-        grid-column: span 1;
+        
       }
 
       /* Header mobile */
