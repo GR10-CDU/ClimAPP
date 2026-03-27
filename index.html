@@ -1439,7 +1439,7 @@
 
     /* Holidays Cards */
     .holidays-section {
-      grid-column: span 5;
+      grid-column: span 7;
     }
 
     .holidays-section .card-icon {
@@ -1496,37 +1496,38 @@
     .holiday-item {
       display: flex;
       align-items: center;
-      gap: 10px;
-      padding: 10px;
+      gap: 16px;
+      padding: 14px;
       border-radius: var(--radius-sm);
     }
 
     .holiday-item.argentina {
-      background: #EFF6FF;
-      border-left: 3px solid #3B82F6;
+      background: linear-gradient(90deg, #EFF6FF 0%, #DBEAFE 100%);
+      border-left: 4px solid #3B82F6;
     }
 
     .holiday-item.uruguay {
-      background: #ECFDF5;
-      border-left: 3px solid #10B981;
+      background: linear-gradient(90deg, #ECFDF5 0%, #D1FAE5 100%);
+      border-left: 4px solid #10B981;
     }
 
     .holiday-date-box {
-      min-width: 40px;
+      min-width: 50px;
       text-align: center;
     }
 
     .holiday-day {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.3rem;
+      font-size: 1.6rem;
       font-weight: 700;
       line-height: 1;
     }
 
     .holiday-month {
-      font-size: 0.6rem;
+      font-size: 0.7rem;
       text-transform: uppercase;
       font-weight: 600;
+      opacity: 0.8;
     }
 
     .holiday-item.argentina .holiday-day,
@@ -1546,16 +1547,31 @@
     .holiday-name {
       font-weight: 600;
       color: var(--text-primary);
-      font-size: 0.8rem;
-      line-height: 1.2;
+      font-size: 0.95rem;
     }
 
     .holiday-type {
-      display: none;
+      font-size: 0.75rem;
+      color: var(--text-muted);
     }
 
     .holiday-days-left {
-      display: none;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+
+    .holiday-item.argentina .holiday-days-left {
+      background: #3B82F6;
+      color: white;
+    }
+
+    .holiday-item.uruguay .holiday-days-left {
+      background: #10B981;
+      color: white;
     }
 
     /* Sun/Moon Card */
@@ -1854,7 +1870,7 @@
       .radar-card { grid-column: span 6; }
       .river-history { grid-column: span 3; }
       .fishing-index { grid-column: span 3; }
-      .holidays-section { grid-column: span 5; }
+      .holidays-section { grid-column: span 7; }
       .sun-moon-card { grid-column: span 3; }
       .pharmacy-card { grid-column: span 6; }
       .finance-card { grid-column: span 6; }
