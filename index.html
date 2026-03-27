@@ -1146,31 +1146,38 @@
     }
 
     .phone-item {
-      padding: 12px;
+      padding: 10px 12px;
       background: rgba(255,255,255,0.1);
       border-radius: 10px;
     }
 
     .phone-item-name {
       font-weight: 600;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       margin-bottom: 4px;
     }
 
+    .phone-item-details {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
     .phone-item-address {
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       opacity: 0.8;
-      margin-bottom: 6px;
     }
 
     .phone-item-number {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 6px 12px;
+      gap: 4px;
+      padding: 4px 10px;
       background: rgba(255,255,255,0.2);
       border-radius: 20px;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       font-weight: 600;
       color: white;
       text-decoration: none;
@@ -3375,53 +3382,98 @@
           <button class="phone-category-btn" onclick="togglePhones('seguridad')">🚔 Seguridad</button>
           <button class="phone-category-btn" onclick="togglePhones('bomberos')">🚒 Bomberos</button>
           <button class="phone-category-btn" onclick="togglePhones('municipio')">🏛️ Municipio</button>
+          <button class="phone-category-btn" onclick="togglePhones('otros')">📋 Otros</button>
         </div>
         
         <!-- Salud -->
         <div class="phones-list" id="phones-salud">
           <div class="phone-item">
-            <div class="phone-item-name">Hospital Justo José de Urquiza</div>
-            <div class="phone-item-address">Uncal s/n</div>
-            <a href="tel:03442443900" class="phone-item-number">📞 (03442) 443900</a>
+            <div class="phone-item-name">Hospital de Zona Justo José de Urquiza</div>
+            <div class="phone-item-details">
+              <span class="phone-item-address">Uncal s/n</span>
+              <a href="tel:03442443900" class="phone-item-number">📞 443900/01/02/03/04/05</a>
+            </div>
           </div>
           <div class="phone-item">
             <div class="phone-item-name">Centro de Salud Bajada Grande</div>
-            <div class="phone-item-address">Alberdi 2069</div>
-            <a href="tel:03442441450" class="phone-item-number">📞 (03442) 441450</a>
+            <div class="phone-item-details">
+              <span class="phone-item-address">Alberdi 2069</span>
+              <a href="tel:03442441450" class="phone-item-number">📞 441450</a>
+            </div>
           </div>
           <div class="phone-item">
             <div class="phone-item-name">Centro de Salud Pública Municipal</div>
-            <div class="phone-item-address">Galarza 617</div>
-            <a href="tel:03442427792" class="phone-item-number">📞 (03442) 427792</a>
+            <div class="phone-item-details">
+              <span class="phone-item-address">Galarza 617</span>
+              <a href="tel:03442427792" class="phone-item-number">📞 427792</a>
+            </div>
           </div>
         </div>
         
         <!-- Seguridad -->
         <div class="phones-list" id="phones-seguridad">
           <div class="phone-item">
-            <div class="phone-item-name">Comando Radioeléctrico</div>
-            <div class="phone-item-address">San Martín 713</div>
-            <a href="tel:101" class="phone-item-number">📞 101</a>
+            <div class="phone-item-name">Jefatura Departamental</div>
+            <div class="phone-item-details">
+              <span class="phone-item-address">San Martín 715</span>
+              <a href="tel:03442423131" class="phone-item-number">📞 423131/425508/427124</a>
+            </div>
           </div>
           <div class="phone-item">
-            <div class="phone-item-name">Jefatura Departamental</div>
-            <div class="phone-item-address">San Martín 715</div>
-            <a href="tel:03442423131" class="phone-item-number">📞 (03442) 423131</a>
+            <div class="phone-item-name">Comando Radioeléctrico</div>
+            <div class="phone-item-details">
+              <span class="phone-item-address">San Martín 713</span>
+              <a href="tel:101" class="phone-item-number">📞 101 / 422222</a>
+            </div>
+          </div>
+          <div class="phone-item">
+            <div class="phone-item-name">Comisaría Primera</div>
+            <div class="phone-item-details">
+              <span class="phone-item-address">Díaz Vélez 644</span>
+              <a href="tel:03442440048" class="phone-item-number">📞 440048</a>
+            </div>
+          </div>
+          <div class="phone-item">
+            <div class="phone-item-name">Comisaría Segunda</div>
+            <div class="phone-item-details">
+              <span class="phone-item-address">Sansoni y 19 del Oeste Sur</span>
+              <a href="tel:03442442354" class="phone-item-number">📞 442354/441274</a>
+            </div>
+          </div>
+          <div class="phone-item">
+            <div class="phone-item-name">Comisaría Tercera</div>
+            <div class="phone-item-details">
+              <span class="phone-item-address">Magaldi s/n</span>
+              <a href="tel:03442440384" class="phone-item-number">📞 440384</a>
+            </div>
+          </div>
+          <div class="phone-item">
+            <div class="phone-item-name">Comisaría Cuarta</div>
+            <div class="phone-item-details">
+              <span class="phone-item-address">Urquiza 850</span>
+              <a href="tel:03442427881" class="phone-item-number">📞 427881</a>
+            </div>
           </div>
           <div class="phone-item">
             <div class="phone-item-name">Comisaría del Menor y la Mujer</div>
-            <div class="phone-item-address">Mitre 1207</div>
-            <a href="tel:03442430895" class="phone-item-number">📞 (03442) 430895</a>
+            <div class="phone-item-details">
+              <span class="phone-item-address">Mitre 1207</span>
+              <a href="tel:03442430895" class="phone-item-number">📞 430895</a>
+            </div>
           </div>
           <div class="phone-item">
-            <div class="phone-item-name">Prefectura</div>
-            <div class="phone-item-address">Spiro 349</div>
-            <a href="tel:03442425504" class="phone-item-number">📞 (03442) 425504</a>
+            <div class="phone-item-name">Policía Federal Argentina</div>
+            <div class="phone-item-details">
+              <span class="phone-item-address">San Martín 596</span>
+              <a href="tel:03442425505" class="phone-item-number">📞 425505/425506</a>
+            </div>
           </div>
           <div class="phone-item">
-            <div class="phone-item-name">Policía Federal</div>
-            <div class="phone-item-address">San Martín 596</div>
-            <a href="tel:03442425505" class="phone-item-number">📞 (03442) 425505</a>
+            <div class="phone-item-name">Prefectura de Zona Bajo Uruguay</div>
+            <div class="phone-item-details">
+              <span class="phone-item-address">Spiro 349 / 8 de Junio 165</span>
+              <a href="tel:03442425504" class="phone-item-number">📞 425504/427304</a>
+            </div>
           </div>
         </div>
         
@@ -3429,13 +3481,17 @@
         <div class="phones-list" id="phones-bomberos">
           <div class="phone-item">
             <div class="phone-item-name">Bomberos</div>
-            <div class="phone-item-address">Mitre 1225</div>
-            <a href="tel:100" class="phone-item-number">📞 100</a>
+            <div class="phone-item-details">
+              <span class="phone-item-address">Mitre 1225</span>
+              <a href="tel:100" class="phone-item-number">📞 100 / 423333</a>
+            </div>
           </div>
           <div class="phone-item">
             <div class="phone-item-name">Defensa Civil</div>
-            <div class="phone-item-address">Mitre 1225</div>
-            <a href="tel:103" class="phone-item-number">📞 103</a>
+            <div class="phone-item-details">
+              <span class="phone-item-address">Mitre 1225</span>
+              <a href="tel:103" class="phone-item-number">📞 103</a>
+            </div>
           </div>
         </div>
         
@@ -3443,28 +3499,112 @@
         <div class="phones-list" id="phones-municipio">
           <div class="phone-item">
             <div class="phone-item-name">Reclamos y Urgencias</div>
-            <div class="phone-item-address">San Martín 697</div>
-            <a href="tel:03442427626" class="phone-item-number">📞 (03442) 427626</a>
-          </div>
-          <div class="phone-item">
-            <div class="phone-item-name">Obras Sanitarias (Agua)</div>
-            <div class="phone-item-address"></div>
-            <a href="tel:03442427074" class="phone-item-number">📞 (03442) 427074</a>
+            <div class="phone-item-details">
+              <span class="phone-item-address">San Martín 697</span>
+              <a href="tel:03442427626" class="phone-item-number">📞 427626 / 3442405448</a>
+            </div>
           </div>
           <div class="phone-item">
             <div class="phone-item-name">Secretaría de Gobierno</div>
-            <div class="phone-item-address">San Martín 697</div>
-            <a href="tel:03442425959" class="phone-item-number">📞 (03442) 425959</a>
+            <div class="phone-item-details">
+              <span class="phone-item-address">San Martín 697</span>
+              <a href="tel:03442425959" class="phone-item-number">📞 425959</a>
+            </div>
           </div>
           <div class="phone-item">
-            <div class="phone-item-name">Desarrollo Social</div>
-            <div class="phone-item-address"></div>
-            <a href="tel:03442426914" class="phone-item-number">📞 (03442) 426914</a>
+            <div class="phone-item-name">Secretaría de Coordinación General</div>
+            <div class="phone-item-details">
+              <span class="phone-item-address">San Martín 697</span>
+              <a href="tel:03442423676" class="phone-item-number">📞 423676</a>
+            </div>
+          </div>
+          <div class="phone-item">
+            <div class="phone-item-name">Secretaría de Desarrollo Social</div>
+            <div class="phone-item-details">
+              <span class="phone-item-address"></span>
+              <a href="tel:03442426914" class="phone-item-number">📞 426914/425384/422697</a>
+            </div>
+          </div>
+          <div class="phone-item">
+            <div class="phone-item-name">Secretaría de Hacienda</div>
+            <div class="phone-item-details">
+              <span class="phone-item-address">San Martín 697</span>
+              <a href="tel:03442425518" class="phone-item-number">📞 425518</a>
+            </div>
+          </div>
+          <div class="phone-item">
+            <div class="phone-item-name">Secretaría de Obras Públicas</div>
+            <div class="phone-item-details">
+              <span class="phone-item-address">San Martín 697</span>
+              <a href="tel:03442425517" class="phone-item-number">📞 425517</a>
+            </div>
+          </div>
+          <div class="phone-item">
+            <div class="phone-item-name">Dirección de Salud</div>
+            <div class="phone-item-details">
+              <span class="phone-item-address">Perú 74</span>
+              <a href="tel:03442423676" class="phone-item-number">📞 423676</a>
+            </div>
+          </div>
+          <div class="phone-item">
+            <div class="phone-item-name">Dirección de Medio Ambiente</div>
+            <div class="phone-item-details">
+              <span class="phone-item-address">San Martín 697</span>
+              <a href="tel:03442425277" class="phone-item-number">📞 425277</a>
+            </div>
+          </div>
+          <div class="phone-item">
+            <div class="phone-item-name">Dirección de la Juventud</div>
+            <div class="phone-item-details">
+              <span class="phone-item-address">Galarza y 25 de Mayo</span>
+              <a href="tel:03442425387" class="phone-item-number">📞 425387</a>
+            </div>
+          </div>
+          <div class="phone-item">
+            <div class="phone-item-name">Asuntos Jurídicos</div>
+            <div class="phone-item-details">
+              <span class="phone-item-address">San Martín 697</span>
+              <a href="tel:03442425101" class="phone-item-number">📞 425101</a>
+            </div>
+          </div>
+          <div class="phone-item">
+            <div class="phone-item-name">Dirección de Prensa</div>
+            <div class="phone-item-details">
+              <span class="phone-item-address">San Martín 697</span>
+              <a href="tel:03442425520" class="phone-item-number">📞 425520</a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Otros -->
+        <div class="phones-list" id="phones-otros">
+          <div class="phone-item">
+            <div class="phone-item-name">Obras Sanitarias (Agua)</div>
+            <div class="phone-item-details">
+              <span class="phone-item-address"></span>
+              <a href="tel:03442427074" class="phone-item-number">📞 427074</a>
+            </div>
+          </div>
+          <div class="phone-item">
+            <div class="phone-item-name">Juzgado de Faltas</div>
+            <div class="phone-item-details">
+              <span class="phone-item-address"></span>
+              <a href="tel:03442421157" class="phone-item-number">📞 421157</a>
+            </div>
           </div>
           <div class="phone-item">
             <div class="phone-item-name">Policía Municipal</div>
-            <div class="phone-item-address">San Martín 697</div>
-            <a href="tel:03442427880" class="phone-item-number">📞 (03442) 427880</a>
+            <div class="phone-item-details">
+              <span class="phone-item-address">San Martín 697</span>
+              <a href="tel:03442427880" class="phone-item-number">📞 427880</a>
+            </div>
+          </div>
+          <div class="phone-item">
+            <div class="phone-item-name">Cementerio Municipal</div>
+            <div class="phone-item-details">
+              <span class="phone-item-address">9 de Julio s/n</span>
+              <a href="tel:03442443124" class="phone-item-number">📞 443124</a>
+            </div>
           </div>
         </div>
       </div>
