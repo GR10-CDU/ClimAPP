@@ -1088,6 +1088,99 @@
       color: var(--text-muted);
     }
 
+    /* Phones Card - Teléfonos Útiles */
+    .phones-card {
+      grid-column: span 4;
+      background: linear-gradient(145deg, #6366F1 0%, #4F46E5 100%);
+      color: white;
+    }
+
+    .phones-card .card-icon {
+      background: rgba(255,255,255,0.2);
+    }
+
+    .phones-categories {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .phone-category-btn {
+      padding: 10px 16px;
+      border: none;
+      border-radius: 25px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: rgba(255,255,255,0.15);
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .phone-category-btn:hover {
+      background: rgba(255,255,255,0.25);
+      transform: translateY(-2px);
+    }
+
+    .phone-category-btn.active {
+      background: white;
+      color: #4F46E5;
+    }
+
+    .phones-list {
+      display: none;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 16px;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .phones-list.active {
+      display: flex;
+    }
+
+    .phone-item {
+      padding: 12px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 10px;
+    }
+
+    .phone-item-name {
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 4px;
+    }
+
+    .phone-item-address {
+      font-size: 0.8rem;
+      opacity: 0.8;
+      margin-bottom: 6px;
+    }
+
+    .phone-item-number {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: white;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .phone-item-number:hover {
+      background: rgba(255,255,255,0.3);
+    }
+
     /* Finance Card */
     .finance-card {
       grid-column: span 4;
@@ -1439,7 +1532,7 @@
 
     /* Holidays Cards */
     .holidays-section {
-      grid-column: span 8;
+      grid-column: span 5;
     }
 
     .holidays-section .card-icon {
@@ -1871,9 +1964,10 @@
       .river-history { grid-column: span 3; }
       .fishing-index { grid-column: span 3; }
       .holidays-section { grid-column: span 6; }
-      .sun-moon-card { grid-column: span 3; }
+      .sun-moon-card { grid-column: span 6; }
       .pharmacy-card { grid-column: span 3; }
-      .finance-card { grid-column: span 6; }
+      .finance-card { grid-column: span 3; }
+      .phones-card { grid-column: span 6; }
     }
 
     @media (max-width: 768px) {
@@ -1899,7 +1993,8 @@
       .holidays-section,
       .sun-moon-card,
       .pharmacy-card,
-      .finance-card {
+      .finance-card,
+      .phones-card {
         grid-column: span 1;
       }
 
@@ -3064,6 +3159,49 @@
         </div>
       </div>
 
+      <!-- Sol y Luna -->
+      <div class="card sun-moon-card">
+        <div class="card-header">
+          <div class="card-icon">🌅</div>
+          <div>
+            <div class="card-title">Sol & Luna</div>
+            <div class="card-subtitle">Hoy, 25 marzo</div>
+          </div>
+        </div>
+        <div class="sun-moon-display">
+          <div class="sun-info">
+            <div class="celestial-icon">☀️</div>
+            <div class="celestial-times">
+              <div class="celestial-row">
+                <span class="celestial-label">Amanecer</span>
+                <span class="celestial-value">06:59</span>
+              </div>
+              <div class="celestial-row">
+                <span class="celestial-label">Atardecer</span>
+                <span class="celestial-value">18:57</span>
+              </div>
+              <div class="celestial-row">
+                <span class="celestial-label">Duración</span>
+                <span class="celestial-value">11h 58m</span>
+              </div>
+            </div>
+          </div>
+          <div class="moon-info">
+            <div class="celestial-icon">🌗</div>
+            <div class="celestial-times">
+              <div class="celestial-row">
+                <span class="celestial-label">Fase</span>
+                <span class="celestial-value">Menguante</span>
+              </div>
+              <div class="celestial-row">
+                <span class="celestial-label">Luna Llena</span>
+                <span class="celestial-value">31 Mar</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Feriados -->
       <div class="card holidays-section">
         <div class="card-header">
@@ -3175,49 +3313,6 @@
         </div>
       </div>
 
-      <!-- Sol y Luna -->
-      <div class="card sun-moon-card">
-        <div class="card-header">
-          <div class="card-icon">🌅</div>
-          <div>
-            <div class="card-title">Sol & Luna</div>
-            <div class="card-subtitle">Hoy, 25 marzo</div>
-          </div>
-        </div>
-        <div class="sun-moon-display">
-          <div class="sun-info">
-            <div class="celestial-icon">☀️</div>
-            <div class="celestial-times">
-              <div class="celestial-row">
-                <span class="celestial-label">Amanecer</span>
-                <span class="celestial-value">06:59</span>
-              </div>
-              <div class="celestial-row">
-                <span class="celestial-label">Atardecer</span>
-                <span class="celestial-value">18:57</span>
-              </div>
-              <div class="celestial-row">
-                <span class="celestial-label">Duración</span>
-                <span class="celestial-value">11h 58m</span>
-              </div>
-            </div>
-          </div>
-          <div class="moon-info">
-            <div class="celestial-icon">🌗</div>
-            <div class="celestial-times">
-              <div class="celestial-row">
-                <span class="celestial-label">Fase</span>
-                <span class="celestial-value">Menguante</span>
-              </div>
-              <div class="celestial-row">
-                <span class="celestial-label">Luna Llena</span>
-                <span class="celestial-value">31 Mar</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <!-- Farmacia de Turno -->
       <div class="card pharmacy-card">
         <div class="card-header">
@@ -3279,6 +3374,114 @@
               <span id="btcPrice">--</span>
               <span class="btc-currency">USD</span>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Teléfonos Útiles -->
+      <div class="card phones-card">
+        <div class="card-header">
+          <div class="card-icon">📞</div>
+          <div>
+            <div class="card-title">Teléfonos Útiles</div>
+            <div class="card-subtitle">Concepción del Uruguay</div>
+          </div>
+        </div>
+        <div class="phones-categories">
+          <button class="phone-category-btn" onclick="togglePhones('salud')">🏥 Salud</button>
+          <button class="phone-category-btn" onclick="togglePhones('seguridad')">🚔 Seguridad</button>
+          <button class="phone-category-btn" onclick="togglePhones('bomberos')">🚒 Bomberos</button>
+          <button class="phone-category-btn" onclick="togglePhones('municipio')">🏛️ Municipio</button>
+        </div>
+        
+        <!-- Salud -->
+        <div class="phones-list" id="phones-salud">
+          <div class="phone-item">
+            <div class="phone-item-name">Hospital Justo José de Urquiza</div>
+            <div class="phone-item-address">Uncal s/n</div>
+            <a href="tel:03442443900" class="phone-item-number">📞 (03442) 443900</a>
+          </div>
+          <div class="phone-item">
+            <div class="phone-item-name">Centro de Salud Bajada Grande</div>
+            <div class="phone-item-address">Alberdi 2069</div>
+            <a href="tel:03442441450" class="phone-item-number">📞 (03442) 441450</a>
+          </div>
+          <div class="phone-item">
+            <div class="phone-item-name">Centro de Salud Pública Municipal</div>
+            <div class="phone-item-address">Galarza 617</div>
+            <a href="tel:03442427792" class="phone-item-number">📞 (03442) 427792</a>
+          </div>
+        </div>
+        
+        <!-- Seguridad -->
+        <div class="phones-list" id="phones-seguridad">
+          <div class="phone-item">
+            <div class="phone-item-name">Comando Radioeléctrico</div>
+            <div class="phone-item-address">San Martín 713</div>
+            <a href="tel:101" class="phone-item-number">📞 101</a>
+          </div>
+          <div class="phone-item">
+            <div class="phone-item-name">Jefatura Departamental</div>
+            <div class="phone-item-address">San Martín 715</div>
+            <a href="tel:03442423131" class="phone-item-number">📞 (03442) 423131</a>
+          </div>
+          <div class="phone-item">
+            <div class="phone-item-name">Comisaría del Menor y la Mujer</div>
+            <div class="phone-item-address">Mitre 1207</div>
+            <a href="tel:03442430895" class="phone-item-number">📞 (03442) 430895</a>
+          </div>
+          <div class="phone-item">
+            <div class="phone-item-name">Prefectura</div>
+            <div class="phone-item-address">Spiro 349</div>
+            <a href="tel:03442425504" class="phone-item-number">📞 (03442) 425504</a>
+          </div>
+          <div class="phone-item">
+            <div class="phone-item-name">Policía Federal</div>
+            <div class="phone-item-address">San Martín 596</div>
+            <a href="tel:03442425505" class="phone-item-number">📞 (03442) 425505</a>
+          </div>
+        </div>
+        
+        <!-- Bomberos -->
+        <div class="phones-list" id="phones-bomberos">
+          <div class="phone-item">
+            <div class="phone-item-name">Bomberos</div>
+            <div class="phone-item-address">Mitre 1225</div>
+            <a href="tel:100" class="phone-item-number">📞 100</a>
+          </div>
+          <div class="phone-item">
+            <div class="phone-item-name">Defensa Civil</div>
+            <div class="phone-item-address">Mitre 1225</div>
+            <a href="tel:103" class="phone-item-number">📞 103</a>
+          </div>
+        </div>
+        
+        <!-- Municipio -->
+        <div class="phones-list" id="phones-municipio">
+          <div class="phone-item">
+            <div class="phone-item-name">Reclamos y Urgencias</div>
+            <div class="phone-item-address">San Martín 697</div>
+            <a href="tel:03442427626" class="phone-item-number">📞 (03442) 427626</a>
+          </div>
+          <div class="phone-item">
+            <div class="phone-item-name">Obras Sanitarias (Agua)</div>
+            <div class="phone-item-address"></div>
+            <a href="tel:03442427074" class="phone-item-number">📞 (03442) 427074</a>
+          </div>
+          <div class="phone-item">
+            <div class="phone-item-name">Secretaría de Gobierno</div>
+            <div class="phone-item-address">San Martín 697</div>
+            <a href="tel:03442425959" class="phone-item-number">📞 (03442) 425959</a>
+          </div>
+          <div class="phone-item">
+            <div class="phone-item-name">Desarrollo Social</div>
+            <div class="phone-item-address"></div>
+            <a href="tel:03442426914" class="phone-item-number">📞 (03442) 426914</a>
+          </div>
+          <div class="phone-item">
+            <div class="phone-item-name">Policía Municipal</div>
+            <div class="phone-item-address">San Martín 697</div>
+            <a href="tel:03442427880" class="phone-item-number">📞 (03442) 427880</a>
           </div>
         </div>
       </div>
@@ -4573,6 +4776,29 @@ _Actualizado: ${fecha} ${hora}_`;
       
       document.getElementById('holidays-' + country).classList.add('active');
       document.querySelector('.holiday-tab.' + country).classList.add('active');
+    }
+
+    // ============================================
+    // TELÉFONOS ÚTILES
+    // ============================================
+    function togglePhones(category) {
+      const list = document.getElementById('phones-' + category);
+      const btn = event.target.closest('.phone-category-btn');
+      
+      // Si ya está activo, cerrar
+      if (list.classList.contains('active')) {
+        list.classList.remove('active');
+        btn.classList.remove('active');
+        return;
+      }
+      
+      // Cerrar todos los demás
+      document.querySelectorAll('.phones-list').forEach(l => l.classList.remove('active'));
+      document.querySelectorAll('.phone-category-btn').forEach(b => b.classList.remove('active'));
+      
+      // Abrir el seleccionado
+      list.classList.add('active');
+      btn.classList.add('active');
     }
 
     // ============================================
