@@ -1439,7 +1439,7 @@
 
     /* Holidays Cards */
     .holidays-section {
-      
+      grid-column: span 6;
     }
 
     .holidays-section .card-icon {
@@ -1576,12 +1576,12 @@
 
     /* Sun/Moon Card */
     .sun-moon-card {
-      
+      grid-column: span 3;
     }
 
     /* River History Chart */
     .river-history {
-      
+      grid-column: span 4;
     }
 
     .river-history .card-icon {
@@ -1664,7 +1664,7 @@
 
     /* Fishing Index */
     .fishing-index {
-      
+      grid-column: span 4;
     }
 
     .fishing-index .card-icon {
@@ -1857,8 +1857,23 @@
     /* Responsive */
     @media (max-width: 1200px) {
       .dashboard-grid {
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        grid-template-columns: repeat(6, 1fr);
       }
+      
+      .weather-current { grid-column: span 6; }
+      .river-card { grid-column: span 3; }
+      .wind-card { grid-column: span 3; }
+      .forecast-3day { grid-column: span 6; }
+      .forecast-extended { grid-column: span 6; }
+      .river-stations { grid-column: span 6; }
+      .webcam-card { grid-column: span 6; }
+      .radar-card { grid-column: span 6; }
+      .river-history { grid-column: span 3; }
+      .fishing-index { grid-column: span 3; }
+      .holidays-section { grid-column: span 6; }
+      .sun-moon-card { grid-column: span 3; }
+      .pharmacy-card { grid-column: span 3; }
+      .finance-card { grid-column: span 6; }
     }
 
     @media (max-width: 768px) {
@@ -1885,7 +1900,7 @@
       .sun-moon-card,
       .pharmacy-card,
       .finance-card {
-        
+        grid-column: span 1;
       }
 
       /* Header mobile */
