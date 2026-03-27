@@ -82,6 +82,10 @@
   box-sizing: border-box;
 }
 
+html, body {
+  overflow-x: hidden;
+}
+
 body {
   font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   background: var(--bg-main);
@@ -92,6 +96,7 @@ body {
 
 .app-container {
   max-width: 1440px;
+  width: 100%;
   margin: 0 auto;
   padding: 24px;
 }
@@ -198,6 +203,8 @@ body {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   gap: 24px;
+  width: 100%;
+  max-width: 100%;
 }
 
 /* Cards Base */
@@ -1111,6 +1118,38 @@ body {
   color: rgba(255,255,255,0.9);
 }
 
+.finance-card .card-header {
+  display: flex;
+  align-items: center;
+}
+
+.finance-card .card-header > div:nth-child(2) {
+  flex: 1;
+}
+
+.share-btn {
+  background: rgba(255,255,255,0.15);
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.share-btn:hover {
+  background: rgba(37, 211, 102, 0.3);
+  transform: scale(1.1);
+}
+
+.share-btn:active {
+  transform: scale(0.95);
+}
+
 .finance-grid {
   display: flex;
   flex-direction: column;
@@ -1718,6 +1757,7 @@ body {
   .river-stations { grid-column: span 6; }
   .webcam-card { grid-column: span 6; }
   .radar-card { grid-column: span 6; }
+  .finance-card { grid-column: span 6; }
   .river-history { grid-column: span 3; }
   .fishing-index { grid-column: span 3; }
   .holidays-section { grid-column: span 6; }
@@ -1747,7 +1787,8 @@ body {
   .fishing-index,
   .holidays-section,
   .sun-moon-card,
-  .air-quality-card {
+  .air-quality-card,
+  .finance-card {
     grid-column: span 1;
   }
 
@@ -3093,6 +3134,9 @@ body {
         <div class="card-title">Cotizaciones</div>
         <div class="card-subtitle finance-timestamp">Cargando...</div>
       </div>
+      <button class="share-btn" onclick="shareFinance()" title="Compartir por WhatsApp">
+        📤
+      </button>
     </div>
     <div class="finance-grid">
       <div class="finance-item">
@@ -3253,6 +3297,40 @@ body {
       const day = date.getDate();
       const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
       return `${day} ${months[date.getMonth()]}`;
+    }
+
+    // ============================================
+    // COMPARTIR POR WHATSAPP
+    // ============================================
+    function shareFinance() {
+      const oficialCompra = document.getElementById('dolarOficialCompra').textContent;
+      const oficialVenta = document.getElementById('dolarOficialVenta').textContent;
+      const blueCompra = document.getElementById('dolarBlueCompra').textContent;
+      const blueVenta = document.getElementById('dolarBlueVenta').textContent;
+      const btc = document.getElementById('btcPrice').textContent;
+      
+      const nivel = DATOS_RIO.nivel?.toFixed(2) || '--';
+      const estado = DATOS_RIO.estado || '--';
+      
+      const now = new Date();
+      const fecha = now.toLocaleDateString('es-AR');
+      const hora = now.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });
+      
+      const mensaje = `🌤️ *Clima & Río Uruguay - CdU*
+
+💵 *Cotizaciones*
+• Dólar Oficial: ${oficialCompra} / ${oficialVenta}
+• Dólar Blue: ${blueCompra} / ${blueVenta}
+• Bitcoin: ${btc} USD
+
+🌊 *Río Uruguay*
+• Nivel CdU: ${nivel} m
+• Estado: ${estado}
+
+_Actualizado: ${fecha} ${hora}_`;
+
+      const url = `https://wa.me/?text=${encodeURIComponent(mensaje)}`;
+      window.open(url, '_blank');
     }
 
     // ============================================
