@@ -2942,29 +2942,23 @@ body {
     }
 
     // ============================================
-    // CARGAR ACUMULADO MENSUAL (Open-Meteo Historical)
+    // CARGAR ACUMULADO MENSUAL (Open-Meteo con past_days)
     // ============================================
     async function fetchMonthlyPrecip() {
       try {
         const now = new Date();
-        const year = now.getFullYear();
-        const month = now.getMonth(); // 0-indexed
+        const dayOfMonth = now.getDate();
         
-        // Primer día del mes
-        const startDate = `${year}-${String(month + 1).padStart(2, '0')}-01`;
-        
-        // Ayer (la API histórica no tiene el día actual)
-        const yesterday = new Date(now);
-        yesterday.setDate(yesterday.getDate() - 1);
-        const endDate = `${yesterday.getFullYear()}-${String(yesterday.getMonth() + 1).padStart(2, '0')}-${String(yesterday.getDate()).padStart(2, '0')}`;
-        
-        const url = `https://archive-api.open-meteo.com/v1/archive?latitude=${CONFIG.lat}&longitude=${CONFIG.lon}&start_date=${startDate}&end_date=${endDate}&daily=precipitation_sum&timezone=${CONFIG.timezone}`;
+        // Open-Meteo permite hasta 92 días de historia con past_days
+        const url = `https://api.open-meteo.com/v1/forecast?latitude=${CONFIG.lat}&longitude=${CONFIG.lon}&daily=precipitation_sum&timezone=${CONFIG.timezone}&past_days=${dayOfMonth}`;
         
         const response = await fetch(url);
         const data = await response.json();
         
         if (data.daily && data.daily.precipitation_sum) {
-          const totalPrecip = data.daily.precipitation_sum.reduce((a, b) => a + (b || 0), 0);
+          // Sumar solo los días del mes actual (los primeros dayOfMonth días del array)
+          const precips = data.daily.precipitation_sum.slice(0, dayOfMonth);
+          const totalPrecip = precips.reduce((a, b) => a + (b || 0), 0);
           
           // Actualizar el UI
           const stats2 = document.querySelectorAll('.weather-stats')[1]?.querySelectorAll('.stat-value');
@@ -2972,15 +2966,10 @@ body {
             stats2[3].textContent = `${totalPrecip.toFixed(1)} mm`;
           }
           
-          console.log(`✅ Acumulado mes (${startDate} a ${endDate}): ${totalPrecip.toFixed(1)}mm`);
+          console.log(`✅ Acumulado mes (${dayOfMonth} días): ${totalPrecip.toFixed(1)}mm`, precips);
         }
       } catch (error) {
         console.error('❌ Error cargando acumulado mensual:', error);
-        // Dejar el valor como estaba o poner --
-        const stats2 = document.querySelectorAll('.weather-stats')[1]?.querySelectorAll('.stat-value');
-        if (stats2 && stats2[3]) {
-          stats2[3].textContent = '-- mm';
-        }
       }
     }
 
