@@ -1441,6 +1441,7 @@
     /* Holidays Cards */
     .holidays-section {
       grid-column: span 6;
+      min-width: 350px;
     }
 
     .holidays-section .card-icon {
@@ -1497,8 +1498,8 @@
     .holiday-item {
       display: flex;
       align-items: center;
-      gap: 16px;
-      padding: 16px;
+      gap: 12px;
+      padding: 12px;
       border-radius: var(--radius-sm);
       transition: all 0.2s ease;
     }
@@ -1514,19 +1515,20 @@
     }
 
     .holiday-date-box {
-      min-width: 60px;
+      min-width: 50px;
       text-align: center;
+      flex-shrink: 0;
     }
 
     .holiday-day {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.8rem;
+      font-size: 1.5rem;
       font-weight: 700;
       line-height: 1;
     }
 
     .holiday-month {
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       text-transform: uppercase;
       letter-spacing: 0.5px;
       font-weight: 600;
@@ -1545,26 +1547,33 @@
 
     .holiday-info {
       flex: 1;
+      min-width: 0;
+      overflow: hidden;
     }
 
     .holiday-name {
       font-weight: 600;
       color: var(--text-primary);
       margin-bottom: 2px;
+      font-size: 0.9rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .holiday-type {
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       color: var(--text-muted);
     }
 
     .holiday-days-left {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       font-weight: 600;
-      padding: 6px 12px;
+      padding: 4px 10px;
       border-radius: 20px;
       white-space: nowrap;
+      flex-shrink: 0;
     }
 
     .holiday-item.argentina .holiday-days-left {
