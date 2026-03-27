@@ -1230,8 +1230,8 @@
     .pharmacy-card {
       background: linear-gradient(135deg, #10b981 0%, #059669 100%);
       color: white;
-      grid-column: span 3;
-      min-width: 280px;
+      grid-column: span 4;
+      min-width: 300px;
     }
 
     .pharmacy-info {
@@ -1242,21 +1242,9 @@
     }
 
     .pharmacy-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
       padding: 12px;
       background: rgba(255,255,255,0.1);
       border-radius: var(--radius-md);
-    }
-
-    .pharmacy-icon {
-      font-size: 1.5rem;
-      flex-shrink: 0;
-    }
-
-    .pharmacy-details {
-      flex: 1;
     }
 
     .pharmacy-name {
@@ -1271,25 +1259,14 @@
     }
 
     .pharmacy-phone {
-      font-size: 0.85rem;
-      opacity: 0.8;
-      margin-top: 4px;
+      font-size: 0.9rem;
+      margin-top: 6px;
     }
 
     .pharmacy-phone a {
       color: white;
       text-decoration: none;
-    }
-
-    .pharmacy-hours {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      margin-top: 12px;
-      padding: 8px 12px;
-      background: rgba(255,255,255,0.15);
-      border-radius: var(--radius-md);
-      font-size: 0.85rem;
+      font-weight: 600;
     }
 
     .pharmacy-fallback {
@@ -1795,43 +1772,6 @@
       font-weight: 600;
     }
 
-    /* Air Quality */
-    .air-quality-card {
-      grid-column: span 3;
-    }
-
-    .air-quality-card .card-icon {
-      background: linear-gradient(135deg, var(--accent-green) 0%, #16A34A 100%);
-    }
-
-    .aqi-display {
-      text-align: center;
-      padding: 20px 0;
-    }
-
-    .aqi-value {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 4rem;
-      font-weight: 700;
-      background: linear-gradient(135deg, var(--accent-green) 0%, var(--accent-teal) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .aqi-status {
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: var(--accent-green);
-      margin-top: 8px;
-    }
-
-    .aqi-message {
-      font-size: 0.85rem;
-      color: var(--text-secondary);
-      margin-top: 8px;
-    }
-
     /* Footer */
     .footer {
       margin-top: 32px;
@@ -1879,7 +1819,7 @@
       .fishing-index { grid-column: span 3; }
       .holidays-section { grid-column: span 6; }
       .sun-moon-card { grid-column: span 3; }
-      .air-quality-card { grid-column: span 3; }
+      .pharmacy-card { grid-column: span 4; }
     }
 
     @media (max-width: 768px) {
@@ -1904,7 +1844,7 @@
       .fishing-index,
       .holidays-section,
       .sun-moon-card,
-      .air-quality-card,
+      .pharmacy-card,
       .finance-card {
         grid-column: span 1;
       }
@@ -2199,10 +2139,6 @@
 
       .celestial-value {
         font-size: 0.9rem;
-      }
-
-      .aqi-value {
-        font-size: 3rem;
       }
 
       /* Footer mobile */
@@ -3228,44 +3164,20 @@
         </div>
       </div>
 
-      <!-- Calidad del Aire -->
-      <div class="card air-quality-card">
-        <div class="card-header">
-          <div class="card-icon">🌿</div>
-          <div>
-            <div class="card-title">Calidad del Aire</div>
-            <div class="card-subtitle">Índice AQI</div>
-          </div>
-        </div>
-        <div class="aqi-display">
-          <div class="aqi-value">26</div>
-          <div class="aqi-status">✓ Aceptable</div>
-          <div class="aqi-message">Apto para actividades al aire libre</div>
-        </div>
-      </div>
-
       <!-- Farmacia de Turno -->
       <div class="card pharmacy-card">
         <div class="card-header">
           <div class="card-icon">💊</div>
           <div>
             <div class="card-title">Farmacia de Turno</div>
-            <div class="card-subtitle">Guardia 08:00 a 08:00</div>
           </div>
         </div>
         <div class="pharmacy-info" id="pharmacyInfo">
           <div class="pharmacy-item">
-            <div class="pharmacy-icon">🏥</div>
-            <div class="pharmacy-details">
-              <div class="pharmacy-name" id="pharmacyName">Cargando...</div>
-              <div class="pharmacy-address" id="pharmacyAddress">--</div>
-              <div class="pharmacy-phone" id="pharmacyPhone"></div>
-            </div>
+            <div class="pharmacy-name" id="pharmacyName">Cargando...</div>
+            <div class="pharmacy-address" id="pharmacyAddress">--</div>
+            <div class="pharmacy-phone" id="pharmacyPhone"></div>
           </div>
-        </div>
-        <div class="pharmacy-hours">
-          <span>🕐</span>
-          <span>Turno: hoy 08:00 → mañana 08:00</span>
         </div>
       </div>
 
