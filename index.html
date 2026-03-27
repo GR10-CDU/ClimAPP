@@ -1230,8 +1230,7 @@
     .pharmacy-card {
       background: linear-gradient(135deg, #10b981 0%, #059669 100%);
       color: white;
-      grid-column: span 4;
-      min-width: 300px;
+      grid-column: span 6;
     }
 
     .pharmacy-info {
@@ -1440,8 +1439,7 @@
 
     /* Holidays Cards */
     .holidays-section {
-      grid-column: span 6;
-      min-width: 350px;
+      grid-column: span 5;
     }
 
     .holidays-section .card-icon {
@@ -1451,12 +1449,12 @@
     .holidays-tabs {
       display: flex;
       gap: 8px;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
     }
 
     .holiday-tab {
       flex: 1;
-      padding: 12px 16px;
+      padding: 10px 12px;
       border: none;
       border-radius: var(--radius-sm);
       font-family: 'Plus Jakarta Sans', sans-serif;
@@ -1498,41 +1496,37 @@
     .holiday-item {
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 12px;
+      gap: 10px;
+      padding: 10px;
       border-radius: var(--radius-sm);
-      transition: all 0.2s ease;
     }
 
     .holiday-item.argentina {
-      background: linear-gradient(90deg, #EFF6FF 0%, #DBEAFE 100%);
-      border-left: 4px solid #3B82F6;
+      background: #EFF6FF;
+      border-left: 3px solid #3B82F6;
     }
 
     .holiday-item.uruguay {
-      background: linear-gradient(90deg, #ECFDF5 0%, #D1FAE5 100%);
-      border-left: 4px solid #10B981;
+      background: #ECFDF5;
+      border-left: 3px solid #10B981;
     }
 
     .holiday-date-box {
-      min-width: 50px;
+      min-width: 40px;
       text-align: center;
-      flex-shrink: 0;
     }
 
     .holiday-day {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.5rem;
+      font-size: 1.3rem;
       font-weight: 700;
       line-height: 1;
     }
 
     .holiday-month {
-      font-size: 0.65rem;
+      font-size: 0.6rem;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
       font-weight: 600;
-      opacity: 0.8;
     }
 
     .holiday-item.argentina .holiday-day,
@@ -1547,43 +1541,21 @@
 
     .holiday-info {
       flex: 1;
-      min-width: 0;
-      overflow: hidden;
     }
 
     .holiday-name {
       font-weight: 600;
       color: var(--text-primary);
-      margin-bottom: 2px;
-      font-size: 0.9rem;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      font-size: 0.8rem;
+      line-height: 1.2;
     }
 
     .holiday-type {
-      font-size: 0.7rem;
-      color: var(--text-muted);
+      display: none;
     }
 
     .holiday-days-left {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 0.75rem;
-      font-weight: 600;
-      padding: 4px 10px;
-      border-radius: 20px;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-
-    .holiday-item.argentina .holiday-days-left {
-      background: #3B82F6;
-      color: white;
-    }
-
-    .holiday-item.uruguay .holiday-days-left {
-      background: #10B981;
-      color: white;
+      display: none;
     }
 
     /* Sun/Moon Card */
@@ -1880,12 +1852,12 @@
       .river-stations { grid-column: span 6; }
       .webcam-card { grid-column: span 6; }
       .radar-card { grid-column: span 6; }
-      .finance-card { grid-column: span 6; }
       .river-history { grid-column: span 3; }
       .fishing-index { grid-column: span 3; }
-      .holidays-section { grid-column: span 6; }
+      .holidays-section { grid-column: span 5; }
       .sun-moon-card { grid-column: span 3; }
-      .pharmacy-card { grid-column: span 4; }
+      .pharmacy-card { grid-column: span 6; }
+      .finance-card { grid-column: span 6; }
     }
 
     @media (max-width: 768px) {
