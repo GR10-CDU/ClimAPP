@@ -4199,54 +4199,56 @@ _Actualizado: ${fecha} ${hora}_`;
     // ACTUALIZAR ESTACIONES
     // ============================================
     function updateStationsUI() {
-      const stationsData = [
-        { selector: '.station-concordia', data: DATOS_RIO.estaciones.concordia, name: 'Concordia' },
-        { selector: '.station-colon', data: DATOS_RIO.estaciones.colon, name: 'Colón' },
-        { selector: '.station-cdu', data: DATOS_RIO.estaciones.cdu, name: 'CdU' },
-        { selector: '.station-salto-arriba', data: DATOS_RIO.estaciones.saltoArriba, name: 'Salto Grande ↑' },
-        { selector: '.station-salto-abajo', data: DATOS_RIO.estaciones.saltoAbajo, name: 'Salto Grande ↓' },
-        { selector: '.station-paysandu', data: DATOS_RIO.estaciones.paysandu, name: 'Paysandú' }
-      ];
+      // Mapeo de data-station a la key en DATOS_RIO.estaciones
+      const stationMap = {
+        'saltoGrandeArriba': 'saltoArriba',
+        'saltoGrandeAbajo': 'saltoAbajo',
+        'concordia': 'concordia',
+        'paysandu': 'paysandu',
+        'colon': 'colon',
+        'concepcion': 'cdu'
+      };
       
-      // Actualizar cada estación en el grid
-      const stationItems = document.querySelectorAll('.station-item');
-      const stationsArray = [
-        { name: 'Concordia', data: DATOS_RIO.estaciones.concordia },
-        { name: 'Colón', data: DATOS_RIO.estaciones.colon },
-        { name: 'CdU', data: DATOS_RIO.estaciones.cdu },
-        { name: 'Salto Grande ↑', data: DATOS_RIO.estaciones.saltoArriba },
-        { name: 'Salto Grande ↓', data: DATOS_RIO.estaciones.saltoAbajo },
-        { name: 'Paysandú', data: DATOS_RIO.estaciones.paysandu }
-      ];
+      // Actualizar cada estación usando data-station attribute
+      const stationItems = document.querySelectorAll('.station-item[data-station]');
       
-      stationItems.forEach((item, index) => {
-        if (stationsArray[index]) {
-          const station = stationsArray[index];
-          const valueEl = item.querySelector('.station-value');
-          const statusEl = item.querySelector('.station-status');
+      stationItems.forEach(item => {
+        const stationKey = item.getAttribute('data-station');
+        const dataKey = stationMap[stationKey];
+        const stationData = DATOS_RIO.estaciones?.[dataKey];
+        
+        if (!stationData) return;
+        
+        const valueEl = item.querySelector('.station-value');
+        const statusEl = item.querySelector('.station-status');
+        
+        if (valueEl && stationData.nivel !== undefined) {
+          valueEl.textContent = stationData.nivel.toFixed(2);
+        }
+        
+        if (statusEl) {
+          const var_ = stationData.variacion || 0;
+          const estado = stationData.estado || 'estable';
+          const signo = var_ > 0 ? '+' : '';
           
-          if (valueEl && station.data?.nivel) {
-            valueEl.textContent = station.data.nivel.toFixed(2);
-          }
-          
-          if (statusEl && station.data) {
-            const var_ = station.data.variacion || 0;
-            const estado = station.data.estado || 'estable';
-            const signo = var_ > 0 ? '+' : '';
-            
-            if (estado === 'crece') {
-              statusEl.innerHTML = `↑ Crece ${signo}${var_.toFixed(2)}m`;
-              statusEl.className = 'station-status crece';
-            } else if (estado === 'baja') {
-              statusEl.innerHTML = `↓ Baja ${var_.toFixed(2)}m`;
-              statusEl.className = 'station-status baja';
-            } else {
-              statusEl.innerHTML = '● Estable';
-              statusEl.className = 'station-status estable';
-            }
+          if (estado === 'crece') {
+            statusEl.innerHTML = `↑ Crece ${signo}${var_.toFixed(2)}m`;
+            statusEl.className = 'station-status crece';
+          } else if (estado === 'baja') {
+            statusEl.innerHTML = `↓ Baja ${var_.toFixed(2)}m`;
+            statusEl.className = 'station-status baja';
+          } else {
+            statusEl.innerHTML = '● Estable';
+            statusEl.className = 'station-status estable';
           }
         }
       });
+      
+      // También actualizar el subtítulo de la card de estaciones con la fecha
+      const stationsSubtitle = document.querySelector('.river-stations .card-subtitle');
+      if (stationsSubtitle && DATOS_RIO.ultimaActualizacion) {
+        stationsSubtitle.textContent = `Fuente: CARU · ${DATOS_RIO.ultimaActualizacion}`;
+      }
     }
 
     // ============================================
