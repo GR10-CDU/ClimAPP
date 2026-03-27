@@ -1230,6 +1230,8 @@
     .pharmacy-card {
       background: linear-gradient(135deg, #10b981 0%, #059669 100%);
       color: white;
+      grid-column: span 3;
+      min-width: 280px;
     }
 
     .pharmacy-info {
@@ -3773,21 +3775,26 @@
     const FARMACIAS_API = 'https://script.google.com/macros/s/AKfycbzvLnlLEklkeI3gWCS4-o5CJlUmgiXOUP9VK9Dc4pb66U_Dk5w2TaGENgs6t23Tr1rf/exec?action=farmacias';
     
     async function fetchFarmacia() {
-      const pharmacyName = document.getElementById('pharmacyName');
-      const pharmacyAddress = document.getElementById('pharmacyAddress');
-      const pharmacyPhone = document.getElementById('pharmacyPhone');
+      const pharmacyInfo = document.getElementById('pharmacyInfo');
       
       try {
         const response = await fetch(FARMACIAS_API);
         const data = await response.json();
         
         if (data.success && data.farmacias && data.farmacias.length > 0) {
-          const farmacia = data.farmacias[0];
-          pharmacyName.textContent = farmacia.nombre || 'Sin datos';
-          pharmacyAddress.textContent = farmacia.direccion || '';
-          if (farmacia.telefono) {
-            pharmacyPhone.innerHTML = `📞 <a href="tel:${farmacia.telefono.replace(/\D/g, '')}">${farmacia.telefono}</a>`;
-          }
+          // Mostrar todas las farmacias del día
+          let html = '';
+          data.farmacias.forEach((farmacia, idx) => {
+            const telLimpio = farmacia.telefono ? farmacia.telefono.replace(/\D/g, '') : '';
+            html += `
+              <div class="pharmacy-item" ${idx > 0 ? 'style="margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.2);"' : ''}>
+                <div class="pharmacy-name">${farmacia.nombre || 'Sin datos'}</div>
+                <div class="pharmacy-address">${farmacia.direccion || ''}</div>
+                ${telLimpio ? `<div class="pharmacy-phone">📞 <a href="tel:${telLimpio}">${farmacia.telefono}</a></div>` : ''}
+              </div>
+            `;
+          });
+          pharmacyInfo.innerHTML = html;
         } else {
           showPharmacyFallback();
         }
@@ -3802,7 +3809,7 @@
       pharmacyInfo.innerHTML = `
         <div class="pharmacy-fallback">
           <p>No se pudo cargar la información</p>
-          <p><a href="https://www.todoconcepcion.com/TodoConcepcion/farmacias-de-turno-disponibles-hoy/" target="_blank">Ver en TodoConcepción →</a></p>
+          <p><a href="https://www.elmiercolesdigital.com.ar/servicios/farmacias-de-turno/" target="_blank">Ver en El Miércoles Digital →</a></p>
         </div>
       `;
     }
@@ -4668,7 +4675,8 @@ _Actualizado: ${fecha} ${hora}_`;
         fetchWeatherData(),
         fetchRiverData(),
         fetchMonthlyPrecip(),
-        fetchFinanceData()
+        fetchFinanceData(),
+        fetchFarmacia()
       ]);
       
       document.getElementById('lastUpdate').textContent = 'ahora mismo';
