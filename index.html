@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <!--
   CLIMA & RÍO - Concepción del Uruguay
-  2026-03-28 13:30 ARG
-  Dashboard: clima, río, pronóstico horario lluvias
+  2026-03-28 13:45 ARG
+  Dashboard: clima, río, cards configurables
 -->
 <html lang="es">
 <head>
@@ -1446,6 +1446,179 @@
       text-decoration: underline;
     }
 
+    /* Settings Button & Modal */
+    .settings-btn {
+      background: rgba(99, 102, 241, 0.15);
+      border: none;
+      border-radius: 12px;
+      padding: 10px;
+      cursor: pointer;
+      font-size: 1.2rem;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .settings-btn:hover {
+      background: rgba(99, 102, 241, 0.25);
+      transform: scale(1.05);
+    }
+
+    .settings-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .settings-modal.active {
+      display: flex;
+    }
+
+    .settings-content {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      max-width: 400px;
+      width: 100%;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .settings-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .settings-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .settings-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--text-secondary);
+      padding: 4px;
+    }
+
+    .settings-close:hover {
+      color: var(--text-primary);
+    }
+
+    .settings-section {
+      margin-bottom: 16px;
+    }
+
+    .settings-section-title {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    .settings-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px;
+      background: var(--bg-main);
+      border-radius: var(--radius-sm);
+      margin-bottom: 8px;
+    }
+
+    .settings-item-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.9rem;
+      color: var(--text-primary);
+    }
+
+    .settings-item-icon {
+      font-size: 1.1rem;
+    }
+
+    /* Toggle Switch */
+    .toggle-switch {
+      position: relative;
+      width: 48px;
+      height: 26px;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: 0.3s;
+      border-radius: 26px;
+    }
+
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 20px;
+      width: 20px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: 0.3s;
+      border-radius: 50%;
+    }
+
+    .toggle-switch input:checked + .toggle-slider {
+      background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-purple) 100%);
+    }
+
+    .toggle-switch input:checked + .toggle-slider:before {
+      transform: translateX(22px);
+    }
+
+    .settings-reset {
+      width: 100%;
+      margin-top: 16px;
+      padding: 12px;
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      border-radius: var(--radius-sm);
+      color: #EF4444;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .settings-reset:hover {
+      background: rgba(239, 68, 68, 0.2);
+    }
+
     /* Daily Quote */
     .daily-quote {
       max-width: 600px;
@@ -2619,6 +2792,7 @@
         <div class="last-update">
           <span>Actualizado <span id="lastUpdate">hace 5 min</span></span>
           <button class="refresh-btn" onclick="refreshData()" title="Actualizar datos">🔄</button>
+          <button class="settings-btn" onclick="openSettings()" title="Configurar cards">⚙️</button>
         </div>
       </div>
     </header>
@@ -2631,6 +2805,153 @@
         <div class="alert-message">Mensaje de alerta</div>
       </div>
       <button class="alert-close" onclick="closeAlert()">✕</button>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="settings-modal" id="settingsModal">
+      <div class="settings-content">
+        <div class="settings-header">
+          <span class="settings-title">⚙️ Personalizar Dashboard</span>
+          <button class="settings-close" onclick="closeSettings()">✕</button>
+        </div>
+        <div class="settings-section">
+          <div class="settings-section-title">Mostrar / Ocultar Cards</div>
+          
+          <div class="settings-item">
+            <div class="settings-item-label">
+              <span class="settings-item-icon">📅</span>
+              <span>Próximos 3 Días</span>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="toggle-forecast3" checked onchange="toggleCard('forecast3')">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          
+          <div class="settings-item">
+            <div class="settings-item-label">
+              <span class="settings-item-icon">📆</span>
+              <span>Pronóstico Extendido</span>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="toggle-forecastExt" checked onchange="toggleCard('forecastExt')">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          
+          <div class="settings-item">
+            <div class="settings-item-label">
+              <span class="settings-item-icon">🌧️</span>
+              <span>Radar de Lluvia</span>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="toggle-radar" checked onchange="toggleCard('radar')">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          
+          <div class="settings-item">
+            <div class="settings-item-label">
+              <span class="settings-item-icon">📍</span>
+              <span>Estaciones del Río</span>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="toggle-stations" checked onchange="toggleCard('stations')">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          
+          <div class="settings-item">
+            <div class="settings-item-label">
+              <span class="settings-item-icon">📷</span>
+              <span>Cámara en Vivo</span>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="toggle-webcam" checked onchange="toggleCard('webcam')">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          
+          <div class="settings-item">
+            <div class="settings-item-label">
+              <span class="settings-item-icon">📈</span>
+              <span>Tendencia del Río</span>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="toggle-riverHistory" checked onchange="toggleCard('riverHistory')">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          
+          <div class="settings-item">
+            <div class="settings-item-label">
+              <span class="settings-item-icon">🎣</span>
+              <span>Índice de Pesca</span>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="toggle-fishing" checked onchange="toggleCard('fishing')">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          
+          <div class="settings-item">
+            <div class="settings-item-label">
+              <span class="settings-item-icon">☀️</span>
+              <span>Sol & Luna</span>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="toggle-sunmoon" checked onchange="toggleCard('sunmoon')">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          
+          <div class="settings-item">
+            <div class="settings-item-label">
+              <span class="settings-item-icon">🎉</span>
+              <span>Feriados</span>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="toggle-holidays" checked onchange="toggleCard('holidays')">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          
+          <div class="settings-item">
+            <div class="settings-item-label">
+              <span class="settings-item-icon">💵</span>
+              <span>Cotizaciones</span>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="toggle-finance" checked onchange="toggleCard('finance')">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          
+          <div class="settings-item">
+            <div class="settings-item-label">
+              <span class="settings-item-icon">📞</span>
+              <span>Teléfonos Útiles</span>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="toggle-phones" checked onchange="toggleCard('phones')">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          
+          <div class="settings-item">
+            <div class="settings-item-label">
+              <span class="settings-item-icon">💊</span>
+              <span>Farmacia de Turno</span>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="toggle-pharmacy" checked onchange="toggleCard('pharmacy')">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+        
+        <button class="settings-reset" onclick="resetSettings()">🔄 Restaurar todas las cards</button>
+      </div>
     </div>
 
     <!-- Dashboard Grid -->
@@ -2818,7 +3139,7 @@
       </div>
 
       <!-- Pronóstico 3 Días -->
-      <div class="card forecast-3day">
+      <div class="card forecast-3day" data-card-id="forecast3">
         <div class="card-header">
           <div class="card-icon">📅</div>
           <div>
@@ -2864,7 +3185,7 @@
       </div>
 
       <!-- Pronóstico Extendido -->
-      <div class="card forecast-extended">
+      <div class="card forecast-extended" data-card-id="forecastExt">
         <div class="card-header">
           <div class="card-icon">📆</div>
           <div>
@@ -2997,7 +3318,7 @@
       </div>
 
       <!-- Radar de Lluvia -->
-      <div class="card radar-card">
+      <div class="card radar-card" data-card-id="radar">
         <div class="card-header">
           <div class="card-icon">🌧️</div>
           <div>
@@ -3025,7 +3346,7 @@
       </div>
 
       <!-- Estaciones del Río -->
-      <div class="card river-stations">
+      <div class="card river-stations" data-card-id="stations">
         <div class="card-header">
           <div class="card-icon">📊</div>
           <div>
@@ -3074,7 +3395,7 @@
       </div>
 
       <!-- Cámara en Vivo -->
-      <div class="card webcam-card">
+      <div class="card webcam-card" data-card-id="webcam">
         <div class="card-header">
           <div class="card-icon">📹</div>
           <div>
@@ -3102,7 +3423,7 @@
       </div>
 
       <!-- Gráfico Histórico del Río -->
-      <div class="card river-history">
+      <div class="card river-history" data-card-id="riverHistory">
         <div class="card-header">
           <div class="card-icon">📈</div>
           <div>
@@ -3172,7 +3493,7 @@
       </div>
 
       <!-- Índice de Pesca -->
-      <div class="card fishing-index">
+      <div class="card fishing-index" data-card-id="fishing">
         <div class="card-header">
           <div class="card-icon">🎣</div>
           <div>
@@ -3241,7 +3562,7 @@
       </div>
 
       <!-- Sol y Luna -->
-      <div class="card sun-moon-card">
+      <div class="card sun-moon-card" data-card-id="sunmoon">
         <div class="card-header">
           <div class="card-icon">🌅</div>
           <div>
@@ -3284,7 +3605,7 @@
       </div>
 
       <!-- Feriados -->
-      <div class="card holidays-section">
+      <div class="card holidays-section" data-card-id="holidays">
         <div class="card-header">
           <div class="card-icon">🎉</div>
           <div>
@@ -3395,7 +3716,7 @@
       </div>
 
       <!-- Sección Financiera -->
-      <div class="card finance-card">
+      <div class="card finance-card" data-card-id="finance">
         <div class="card-header">
           <div class="card-icon">💵</div>
           <div>
@@ -3443,7 +3764,7 @@
       </div>
 
       <!-- Teléfonos Útiles -->
-      <div class="card phones-card">
+      <div class="card phones-card" data-card-id="phones">
         <div class="card-header">
           <div class="card-icon">📞</div>
           <div>
@@ -3684,7 +4005,7 @@
       </div>
 
       <!-- Farmacia de Turno -->
-      <div class="card pharmacy-card">
+      <div class="card pharmacy-card" data-card-id="pharmacy">
         <div class="card-header">
           <div class="card-icon">💊</div>
           <div>
@@ -3722,6 +4043,94 @@
   </div>
 
   <script>
+    // ============================================
+    // CONFIGURACIÓN DE CARDS (Settings)
+    // ============================================
+    const CARD_SETTINGS_KEY = 'climaCduCardSettings';
+    
+    const DEFAULT_CARD_SETTINGS = {
+      forecast3: true,
+      forecastExt: true,
+      radar: true,
+      stations: true,
+      webcam: true,
+      riverHistory: true,
+      fishing: true,
+      sunmoon: true,
+      holidays: true,
+      finance: true,
+      phones: true,
+      pharmacy: true
+    };
+
+    function getCardSettings() {
+      try {
+        const saved = localStorage.getItem(CARD_SETTINGS_KEY);
+        if (saved) {
+          return { ...DEFAULT_CARD_SETTINGS, ...JSON.parse(saved) };
+        }
+      } catch (e) {
+        console.error('Error loading settings:', e);
+      }
+      return { ...DEFAULT_CARD_SETTINGS };
+    }
+
+    function saveCardSettings(settings) {
+      try {
+        localStorage.setItem(CARD_SETTINGS_KEY, JSON.stringify(settings));
+      } catch (e) {
+        console.error('Error saving settings:', e);
+      }
+    }
+
+    function applyCardSettings() {
+      const settings = getCardSettings();
+      
+      Object.keys(settings).forEach(cardId => {
+        const card = document.querySelector(`[data-card-id="${cardId}"]`);
+        const toggle = document.getElementById(`toggle-${cardId}`);
+        
+        if (card) {
+          card.style.display = settings[cardId] ? '' : 'none';
+        }
+        if (toggle) {
+          toggle.checked = settings[cardId];
+        }
+      });
+    }
+
+    function toggleCard(cardId) {
+      const settings = getCardSettings();
+      settings[cardId] = !settings[cardId];
+      saveCardSettings(settings);
+      
+      const card = document.querySelector(`[data-card-id="${cardId}"]`);
+      if (card) {
+        card.style.display = settings[cardId] ? '' : 'none';
+      }
+    }
+
+    function openSettings() {
+      document.getElementById('settingsModal').classList.add('active');
+    }
+
+    function closeSettings() {
+      document.getElementById('settingsModal').classList.remove('active');
+    }
+
+    function resetSettings() {
+      saveCardSettings(DEFAULT_CARD_SETTINGS);
+      applyCardSettings();
+    }
+
+    // Cerrar modal al hacer click afuera
+    document.addEventListener('click', (e) => {
+      const modal = document.getElementById('settingsModal');
+      if (e.target === modal) {
+        closeSettings();
+      }
+    });
+
     // ============================================
     // CITAS DEL DÍA
     // ============================================
@@ -5124,6 +5533,9 @@ _Actualizado: ${fecha} ${hora}_`;
     // INICIALIZACIÓN
     // ============================================
     document.addEventListener('DOMContentLoaded', async () => {
+      // Aplicar configuración de cards guardada
+      applyCardSettings();
+      
       updateTime();
       setInterval(updateTime, 60000);
       
