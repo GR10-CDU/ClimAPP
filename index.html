@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <!--
   CLIMA & RÍO - Concepción del Uruguay
-  2026-03-28 14:00 ARG
-  Dashboard: clima (span 7), río+viento apiladas (span 5), cards configurables
+  2026-03-28 14:15 ARG
+  Dashboard con tema oscuro automático (20hs-7hs)
 -->
 <html lang="es">
 <head>
@@ -59,6 +59,7 @@
       --accent-green: #22C55E;
       --accent-amber: #F59E0B;
       --border-light: #E2E8F0;
+      --border-color: #E2E8F0;
       --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04);
       --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.08);
       --shadow-lg: 0 12px 40px rgba(15, 23, 42, 0.12);
@@ -67,6 +68,22 @@
       --radius-md: 20px;
       --radius-lg: 28px;
       --radius-xl: 36px;
+    }
+
+    /* Tema Oscuro (20:00 - 07:00) */
+    :root.dark-theme {
+      --bg-main: #0F172A;
+      --bg-card: #1E293B;
+      --bg-card-alt: linear-gradient(135deg, #1E293B 0%, #334155 100%);
+      --text-primary: #F1F5F9;
+      --text-secondary: #CBD5E1;
+      --text-muted: #64748B;
+      --border-light: #334155;
+      --border-color: #334155;
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+      --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
+      --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.4);
+      --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.5);
     }
 
     * {
@@ -2811,6 +2828,7 @@
         <div class="last-update">
           <span>Actualizado <span id="lastUpdate">hace 5 min</span></span>
           <button class="refresh-btn" onclick="refreshData()" title="Actualizar datos">🔄</button>
+          <button class="settings-btn" onclick="toggleThemeManual()" title="Cambiar tema" id="themeBtn">🌙</button>
           <button class="settings-btn" onclick="openSettings()" title="Configurar cards">⚙️</button>
         </div>
       </div>
@@ -5464,6 +5482,113 @@ _Actualizado: ${fecha} ${hora}_`;
       const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
       const dateStr = now.toLocaleDateString('es-AR', options);
       document.getElementById('currentDate').textContent = dateStr.charAt(0).toUpperCase() + dateStr.slice(1);
+      
+      // Actualizar tema según hora
+      updateTheme();
+    }
+
+    // ============================================
+    // TEMA OSCURO/CLARO AUTOMÁTICO
+    // ============================================
+    const THEME_KEY = 'climaCduTheme'; // 'auto', 'light', 'dark'
+    
+    function getThemePreference() {
+      return localStorage.getItem(THEME_KEY) || 'auto';
+    }
+    
+    function updateTheme() {
+      const preference = getThemePreference();
+      const hour = new Date().getHours();
+      const isDarkTime = hour >= 20 || hour < 7; // 20:00 a 06:59 = oscuro
+      
+      let isDark;
+      if (preference === 'auto') {
+        isDark = isDarkTime;
+      } else {
+        isDark = preference === 'dark';
+      }
+      
+      if (isDark) {
+        document.documentElement.classList.add('dark-theme');
+      } else {
+        document.documentElement.classList.remove('dark-theme');
+      }
+      
+      // Actualizar ícono del botón
+      const themeBtn = document.getElementById('themeBtn');
+      if (themeBtn) {
+        if (preference === 'auto') {
+          themeBtn.textContent = isDarkTime ? '🌙' : '☀️';
+          themeBtn.title = 'Tema automático (click para cambiar)';
+        } else {
+          themeBtn.textContent = isDark ? '🌙' : '☀️';
+          themeBtn.title = isDark ? 'Tema oscuro (click para cambiar)' : 'Tema claro (click para cambiar)';
+        }
+      }
+      
+      // Actualizar meta theme-color para la barra del navegador
+      const themeColor = isDark ? '#0F172A' : '#3B82F6';
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', themeColor);
+    }
+    
+    function toggleThemeManual() {
+      const current = getThemePreference();
+      const hour = new Date().getHours();
+      const isDarkTime = hour >= 20 || hour < 7;
+      
+      let newPref;
+      if (current === 'auto') {
+        // Si es auto, cambiar al opuesto de lo que sería automático
+        newPref = isDarkTime ? 'light' : 'dark';
+      } else if (current === 'dark') {
+        newPref = 'light';
+      } else {
+        // Si es light, volver a auto
+        newPref = 'auto';
+      }
+      
+      localStorage.setItem(THEME_KEY, newPref);
+      updateTheme();
+      
+      // Mostrar notificación breve
+      const msgs = {
+        'auto': '🔄 Tema automático activado',
+        'light': '☀️ Tema claro',
+        'dark': '🌙 Tema oscuro'
+      };
+      showThemeToast(msgs[newPref]);
+    }
+    
+    function showThemeToast(message) {
+      // Crear toast si no existe
+      let toast = document.getElementById('themeToast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'themeToast';
+        toast.style.cssText = `
+          position: fixed;
+          bottom: 20px;
+          left: 50%;
+          transform: translateX(-50%);
+          background: var(--bg-card);
+          color: var(--text-primary);
+          padding: 12px 24px;
+          border-radius: 12px;
+          box-shadow: var(--shadow-lg);
+          z-index: 9999;
+          opacity: 0;
+          transition: opacity 0.3s;
+          font-weight: 600;
+        `;
+        document.body.appendChild(toast);
+      }
+      
+      toast.textContent = message;
+      toast.style.opacity = '1';
+      
+      setTimeout(() => {
+        toast.style.opacity = '0';
+      }, 2000);
     }
 
     // ============================================
