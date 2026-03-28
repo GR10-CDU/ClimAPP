@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <!--
   CLIMA & RÍO - Concepción del Uruguay
-  2026-03-28 13:45 ARG
-  Dashboard: clima, río, cards configurables
+  2026-03-28 14:00 ARG
+  Dashboard: clima (span 7), río+viento apiladas (span 5), cards configurables
 -->
 <html lang="es">
 <head>
@@ -240,7 +240,7 @@
 
     /* Current Weather Card - Clima Actual */
     .weather-current {
-      grid-column: span 5;
+      grid-column: span 7;
       background: linear-gradient(145deg, #3B82F6 0%, #1D4ED8 50%, #1E40AF 100%);
       color: white;
       padding: 28px;
@@ -398,9 +398,21 @@
       color: rgba(255,255,255,0.9);
     }
 
+    /* Stacked Cards Container (Río + Viento) */
+    .stacked-cards {
+      grid-column: span 5;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .stacked-cards .card {
+      flex: 1;
+      min-height: 0;
+    }
+
     /* Río Uruguay Card */
     .river-card {
-      grid-column: span 4;
       background: linear-gradient(145deg, #14B8A6 0%, #0D9488 50%, #0F766E 100%);
       color: white;
       padding: 24px;
@@ -564,7 +576,6 @@
 
     /* Wind Card */
     .wind-card {
-      grid-column: span 3;
       background: linear-gradient(145deg, #8B5CF6 0%, #7C3AED 50%, #6D28D9 100%);
       color: white;
     }
@@ -2202,8 +2213,13 @@
       }
       
       .weather-current { grid-column: span 6; }
-      .river-card { grid-column: span 3; }
-      .wind-card { grid-column: span 3; }
+      .stacked-cards { 
+        grid-column: span 6; 
+        flex-direction: row;
+      }
+      .stacked-cards .card {
+        flex: 1;
+      }
       .forecast-3day { grid-column: span 6; }
       .forecast-extended { grid-column: span 6; }
       .radar-card { grid-column: span 6; }
@@ -2229,8 +2245,7 @@
       }
 
       .weather-current,
-      .river-card,
-      .wind-card,
+      .stacked-cards,
       .forecast-3day,
       .forecast-extended,
       .radar-card,
@@ -2244,6 +2259,10 @@
       .finance-card,
       .phones-card {
         grid-column: span 1;
+      }
+
+      .stacked-cards {
+        flex-direction: column;
       }
 
       /* Header mobile */
@@ -3056,84 +3075,87 @@
         </div>
       </div>
 
-      <!-- Río Uruguay -->
-      <div class="card river-card">
-        <div class="card-header">
-          <div class="card-icon">🌊</div>
-          <div>
-            <div class="card-title">Río Uruguay</div>
-            <div class="card-subtitle river-subtitle">Puerto CdU • Cargando...</div>
-          </div>
-        </div>
-        <div class="river-main">
-          <div class="river-level">
-            <span class="river-value">--</span>
-            <span class="river-unit">m</span>
-          </div>
-          <div>
-            <div class="river-status-badge">Cargando</div>
-            <div class="river-variation">-- en 12hs</div>
-          </div>
-        </div>
-        <div class="river-gauge">
-          <div class="gauge-labels">
-            <span>0m</span>
-            <span>Nivel normal</span>
-            <span>10m</span>
-          </div>
-          <div class="gauge-bar">
-            <div class="river-gauge-fill" style="width: 15%;">
+      <!-- Río Uruguay + Viento (apiladas) -->
+      <div class="stacked-cards">
+        <!-- Río Uruguay -->
+        <div class="card river-card">
+          <div class="card-header">
+            <div class="card-icon">🌊</div>
+            <div>
+              <div class="card-title">Río Uruguay</div>
+              <div class="card-subtitle river-subtitle">Puerto CdU • Cargando...</div>
             </div>
           </div>
-          <div class="gauge-legend">
-            <span class="normal">NORMAL</span>
-            <span class="alerta">ALERTA 4M</span>
-            <span class="evac">EVAC. 6M</span>
+          <div class="river-main">
+            <div class="river-level">
+              <span class="river-value">--</span>
+              <span class="river-unit">m</span>
+            </div>
+            <div>
+              <div class="river-status-badge">Cargando</div>
+              <div class="river-variation">-- en 12hs</div>
+            </div>
+          </div>
+          <div class="river-gauge">
+            <div class="gauge-labels">
+              <span>0m</span>
+              <span>Nivel normal</span>
+              <span>10m</span>
+            </div>
+            <div class="gauge-bar">
+              <div class="river-gauge-fill" style="width: 15%;">
+              </div>
+            </div>
+            <div class="gauge-legend">
+              <span class="normal">NORMAL</span>
+              <span class="alerta">ALERTA 4M</span>
+              <span class="evac">EVAC. 6M</span>
+            </div>
+          </div>
+          <div class="river-temp">
+            <span class="river-temp-icon">🌡️</span>
+            <div class="river-temp-info">
+              <div class="river-temp-label">Temp. del agua</div>
+              <div class="water-temp-value">--°C</div>
+            </div>
+            <div class="river-timestamp">
+              Actualizado<br>--/-- --:--
+            </div>
           </div>
         </div>
-        <div class="river-temp">
-          <span class="river-temp-icon">🌡️</span>
-          <div class="river-temp-info">
-            <div class="river-temp-label">Temp. del agua</div>
-            <div class="water-temp-value">--°C</div>
-          </div>
-          <div class="river-timestamp">
-            Actualizado<br>--/-- --:--
-          </div>
-        </div>
-      </div>
 
-      <!-- Viento -->
-      <div class="card wind-card">
-        <div class="card-header">
-          <div class="card-icon">💨</div>
-          <div>
-            <div class="card-title">Viento</div>
-            <div class="card-subtitle">Tiempo real</div>
+        <!-- Viento -->
+        <div class="card wind-card">
+          <div class="card-header">
+            <div class="card-icon">💨</div>
+            <div>
+              <div class="card-title">Viento</div>
+              <div class="card-subtitle">Tiempo real</div>
+            </div>
           </div>
-        </div>
-        <div class="wind-main">
-          <div>
-            <div class="wind-speed">9 km/h</div>
-            <div class="wind-direction">Este</div>
-            <div class="wind-gusts">Ráfagas: 21 km/h</div>
+          <div class="wind-main">
+            <div>
+              <div class="wind-speed">9 km/h</div>
+              <div class="wind-direction">Este</div>
+              <div class="wind-gusts">Ráfagas: 21 km/h</div>
+            </div>
+            <div class="wind-compass">
+              <div class="compass-arrow"></div>
+            </div>
           </div>
-          <div class="wind-compass">
-            <div class="compass-arrow"></div>
-          </div>
-        </div>
-        <div class="wind-details">
-          <div class="wind-detail-item">
-            <span class="wind-detail-label">Presión</span>
-            <span class="wind-detail-value">1015 hPa</span>
-          </div>
-          <div class="wind-detail-item">
-            <span class="wind-detail-label">Humedad</span>
-            <span class="wind-detail-value">42%</span>
-          </div>
-          <div class="wind-detail-item">
-            <span class="wind-detail-label">Punto rocío</span>
-            <span class="wind-detail-value">11°C</span>
+          <div class="wind-details">
+            <div class="wind-detail-item">
+              <span class="wind-detail-label">Presión</span>
+              <span class="wind-detail-value">1015 hPa</span>
+            </div>
+            <div class="wind-detail-item">
+              <span class="wind-detail-label">Humedad</span>
+              <span class="wind-detail-value">42%</span>
+            </div>
+            <div class="wind-detail-item">
+              <span class="wind-detail-label">Punto rocío</span>
+              <span class="wind-detail-value">11°C</span>
+            </div>
           </div>
         </div>
       </div>
