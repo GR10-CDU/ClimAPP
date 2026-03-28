@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <!--
   CLIMA & RÍO - Concepción del Uruguay
-  2026-03-28 15:50 ARG
-  Dashboard con cartelera Cine San Martín
+  2026-03-28 16:05 ARG
+  Fix mobile layout para card cine
 -->
 <html lang="es">
 <head>
@@ -2366,6 +2366,7 @@
       .finance-card { grid-column: span 6; }
       .phones-card { grid-column: span 3; }
       .pharmacy-card { grid-column: span 3; }
+      .cinema-card { grid-column: span 6; }
     }
 
     @media (max-width: 768px) {
@@ -2391,7 +2392,8 @@
       .sun-moon-card,
       .pharmacy-card,
       .finance-card,
-      .phones-card {
+      .phones-card,
+      .cinema-card {
         grid-column: span 1;
       }
 
