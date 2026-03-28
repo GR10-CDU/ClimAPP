@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <!--
   CLIMA & RÍO - Concepción del Uruguay
-  2026-03-25 15:30 ARG
-  Dashboard completo: clima, río Uruguay, viento, feriados
+  2026-03-28 13:30 ARG
+  Dashboard: clima, río, pronóstico horario lluvias
 -->
 <html lang="es">
 <head>
@@ -328,6 +328,74 @@
       opacity: 0.7;
       text-transform: uppercase;
       letter-spacing: 0.5px;
+    }
+
+    /* Rain Forecast Hourly */
+    .rain-forecast {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .rain-forecast-title {
+      font-size: 0.8rem;
+      font-weight: 600;
+      opacity: 0.9;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .rain-forecast-hours {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+    }
+
+    .rain-hour-item {
+      flex: 0 0 auto;
+      min-width: 50px;
+      text-align: center;
+      padding: 8px 6px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 8px;
+      font-size: 0.75rem;
+    }
+
+    .rain-hour-item.has-rain {
+      background: rgba(59, 130, 246, 0.3);
+      border: 1px solid rgba(59, 130, 246, 0.5);
+    }
+
+    .rain-hour-time {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .rain-hour-icon {
+      font-size: 1rem;
+      margin-bottom: 2px;
+    }
+
+    .rain-hour-prob {
+      font-weight: 700;
+      color: #60A5FA;
+    }
+
+    .rain-hour-mm {
+      font-size: 0.65rem;
+      opacity: 0.8;
+    }
+
+    .no-rain-message {
+      text-align: center;
+      padding: 12px;
+      background: rgba(34, 197, 94, 0.15);
+      border-radius: 8px;
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.9);
     }
 
     /* Río Uruguay Card */
@@ -2643,6 +2711,12 @@
             <div class="stat-label">Acum. mes ℹ️</div>
           </div>
         </div>
+        <div class="rain-forecast" id="rainForecast">
+          <div class="rain-forecast-title">🌧️ Pronóstico de Lluvias (próximas 24hs)</div>
+          <div class="rain-forecast-hours" id="rainHours">
+            <!-- Se llena con JS -->
+          </div>
+        </div>
       </div>
 
       <!-- Modal Desglose Lluvias -->
@@ -3636,7 +3710,6 @@
 
     <!-- Footer -->
     <footer class="footer">
-      <p>Datos actualizados al 25 de marzo de 2026</p>
       <div class="data-source">
         <span>🌊 <a href="http://190.0.152.194:8080/alturas/web/user/alturas" target="_blank">CARU - Alturas del Río</a></span>
         <span>🌤️ <a href="https://www.meteored.com.ar" target="_blank">Meteored Argentina</a></span>
@@ -4714,6 +4787,61 @@ _Actualizado: ${fecha} ${hora}_`;
       const avgTempNext3 = (daily.temperature_2m_max[1] + daily.temperature_2m_max[2] + daily.temperature_2m_max[3]) / 3;
       const trend = avgTempNext3 > todayMax ? 'sube temperatura' : avgTempNext3 < todayMax ? 'baja temperatura' : 'estable';
       document.querySelector('.weather-trend').innerHTML = `<span>→</span> Próximos días: Estable, ${trend}`;
+      
+      // Pronóstico horario de lluvias
+      updateRainForecast(data);
+    }
+
+    // ============================================
+    // PRONÓSTICO HORARIO DE LLUVIAS
+    // ============================================
+    function updateRainForecast(data) {
+      const hourly = data.hourly;
+      const container = document.getElementById('rainHours');
+      const forecastDiv = document.getElementById('rainForecast');
+      
+      if (!container || !hourly) return;
+      
+      const now = new Date();
+      const currentHour = now.getHours();
+      
+      // Buscar próximas 24 horas con probabilidad de lluvia
+      let hoursWithRain = [];
+      let html = '';
+      
+      for (let i = 0; i < 24; i++) {
+        const hourIndex = i; // Las primeras 24 horas del array
+        const prob = hourly.precipitation_probability[hourIndex] || 0;
+        const precip = hourly.precipitation[hourIndex] || 0;
+        
+        const hourTime = new Date(hourly.time[hourIndex]);
+        const hourNum = hourTime.getHours();
+        const hourStr = `${hourNum.toString().padStart(2, '0')}:00`;
+        
+        // Solo mostrar si hay probabilidad > 0 o si es cada 3 horas
+        const hasRain = prob >= 20;
+        const showHour = hasRain || (i % 3 === 0);
+        
+        if (hasRain) hoursWithRain.push({ hour: hourStr, prob, precip });
+        
+        if (showHour) {
+          const icon = prob >= 60 ? '🌧️' : prob >= 30 ? '🌦️' : prob >= 10 ? '☁️' : '☀️';
+          html += `
+            <div class="rain-hour-item ${hasRain ? 'has-rain' : ''}">
+              <div class="rain-hour-time">${hourStr}</div>
+              <div class="rain-hour-icon">${icon}</div>
+              <div class="rain-hour-prob">${prob}%</div>
+              ${precip > 0 ? `<div class="rain-hour-mm">${precip.toFixed(1)}mm</div>` : ''}
+            </div>
+          `;
+        }
+      }
+      
+      if (hoursWithRain.length === 0) {
+        container.innerHTML = '<div class="no-rain-message">☀️ No se esperan lluvias en las próximas 24 horas</div>';
+      } else {
+        container.innerHTML = html;
+      }
     }
 
     // ============================================
