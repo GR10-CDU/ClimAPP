@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <!--
   CLIMA & RÍO - Concepción del Uruguay
-  2026-03-28 16:05 ARG
-  Fix mobile layout para card cine
+  2026-03-28 16:25 ARG
+  Settings con reordenamiento de cards + citas sin repetir autor
 -->
 <html lang="es">
 <head>
@@ -11,7 +11,7 @@
   <title>Clima & Río Uruguay | Concepción del Uruguay</title>
   
   <!-- PWA Meta Tags -->
-  <meta name="description" content="Dashboard de clima, altura del Río Uruguay, viento y feriados para Concepción del Uruguay, Entre Ríos">
+  <meta name="description" content="Panel de clima, altura del Río Uruguay, viento y feriados para Concepción del Uruguay, Entre Ríos">
   <meta name="theme-color" content="#3B82F6">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -1690,6 +1690,49 @@
       margin-bottom: 8px;
     }
 
+    .settings-item-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .settings-item-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .settings-order-btns {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .settings-order-btn {
+      width: 24px;
+      height: 18px;
+      border: none;
+      background: rgba(99, 102, 241, 0.1);
+      color: var(--accent-blue);
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .settings-order-btn:hover {
+      background: var(--accent-blue);
+      color: white;
+    }
+
+    .settings-order-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
     .settings-item-label {
       display: flex;
       align-items: center;
@@ -2967,157 +3010,17 @@
     <div class="settings-modal" id="settingsModal">
       <div class="settings-content">
         <div class="settings-header">
-          <span class="settings-title">⚙️ Personalizar Dashboard</span>
+          <span class="settings-title">⚙️ Personalizar Panel</span>
           <button class="settings-close" onclick="closeSettings()">✕</button>
         </div>
         <div class="settings-section">
-          <div class="settings-section-title">Mostrar / Ocultar Cards</div>
-          
-          <div class="settings-item">
-            <div class="settings-item-label">
-              <span class="settings-item-icon">📅</span>
-              <span>Próximos 3 Días</span>
-            </div>
-            <label class="toggle-switch">
-              <input type="checkbox" id="toggle-forecast3" checked onchange="toggleCard('forecast3')">
-              <span class="toggle-slider"></span>
-            </label>
-          </div>
-          
-          <div class="settings-item">
-            <div class="settings-item-label">
-              <span class="settings-item-icon">📆</span>
-              <span>Pronóstico Extendido</span>
-            </div>
-            <label class="toggle-switch">
-              <input type="checkbox" id="toggle-forecastExt" checked onchange="toggleCard('forecastExt')">
-              <span class="toggle-slider"></span>
-            </label>
-          </div>
-          
-          <div class="settings-item">
-            <div class="settings-item-label">
-              <span class="settings-item-icon">🌧️</span>
-              <span>Radar de Lluvia</span>
-            </div>
-            <label class="toggle-switch">
-              <input type="checkbox" id="toggle-radar" checked onchange="toggleCard('radar')">
-              <span class="toggle-slider"></span>
-            </label>
-          </div>
-          
-          <div class="settings-item">
-            <div class="settings-item-label">
-              <span class="settings-item-icon">📍</span>
-              <span>Estaciones del Río</span>
-            </div>
-            <label class="toggle-switch">
-              <input type="checkbox" id="toggle-stations" checked onchange="toggleCard('stations')">
-              <span class="toggle-slider"></span>
-            </label>
-          </div>
-          
-          <div class="settings-item">
-            <div class="settings-item-label">
-              <span class="settings-item-icon">📷</span>
-              <span>Cámara en Vivo</span>
-            </div>
-            <label class="toggle-switch">
-              <input type="checkbox" id="toggle-webcam" checked onchange="toggleCard('webcam')">
-              <span class="toggle-slider"></span>
-            </label>
-          </div>
-          
-          <div class="settings-item">
-            <div class="settings-item-label">
-              <span class="settings-item-icon">📈</span>
-              <span>Tendencia del Río</span>
-            </div>
-            <label class="toggle-switch">
-              <input type="checkbox" id="toggle-riverHistory" checked onchange="toggleCard('riverHistory')">
-              <span class="toggle-slider"></span>
-            </label>
-          </div>
-          
-          <div class="settings-item">
-            <div class="settings-item-label">
-              <span class="settings-item-icon">🎣</span>
-              <span>Índice de Pesca</span>
-            </div>
-            <label class="toggle-switch">
-              <input type="checkbox" id="toggle-fishing" checked onchange="toggleCard('fishing')">
-              <span class="toggle-slider"></span>
-            </label>
-          </div>
-          
-          <div class="settings-item">
-            <div class="settings-item-label">
-              <span class="settings-item-icon">☀️</span>
-              <span>Sol & Luna</span>
-            </div>
-            <label class="toggle-switch">
-              <input type="checkbox" id="toggle-sunmoon" checked onchange="toggleCard('sunmoon')">
-              <span class="toggle-slider"></span>
-            </label>
-          </div>
-          
-          <div class="settings-item">
-            <div class="settings-item-label">
-              <span class="settings-item-icon">🎉</span>
-              <span>Feriados</span>
-            </div>
-            <label class="toggle-switch">
-              <input type="checkbox" id="toggle-holidays" checked onchange="toggleCard('holidays')">
-              <span class="toggle-slider"></span>
-            </label>
-          </div>
-          
-          <div class="settings-item">
-            <div class="settings-item-label">
-              <span class="settings-item-icon">💵</span>
-              <span>Cotizaciones</span>
-            </div>
-            <label class="toggle-switch">
-              <input type="checkbox" id="toggle-finance" checked onchange="toggleCard('finance')">
-              <span class="toggle-slider"></span>
-            </label>
-          </div>
-          
-          <div class="settings-item">
-            <div class="settings-item-label">
-              <span class="settings-item-icon">📞</span>
-              <span>Teléfonos Útiles</span>
-            </div>
-            <label class="toggle-switch">
-              <input type="checkbox" id="toggle-phones" checked onchange="toggleCard('phones')">
-              <span class="toggle-slider"></span>
-            </label>
-          </div>
-          
-          <div class="settings-item">
-            <div class="settings-item-label">
-              <span class="settings-item-icon">💊</span>
-              <span>Farmacia de Turno</span>
-            </div>
-            <label class="toggle-switch">
-              <input type="checkbox" id="toggle-pharmacy" checked onchange="toggleCard('pharmacy')">
-              <span class="toggle-slider"></span>
-            </label>
-          </div>
-          
-          <div class="settings-item">
-            <div class="settings-item-label">
-              <span class="settings-item-icon">🎬</span>
-              <span>Cartelera Cine</span>
-            </div>
-            <label class="toggle-switch">
-              <input type="checkbox" id="toggle-cinema" checked onchange="toggleCard('cinema')">
-              <span class="toggle-slider"></span>
-            </label>
+          <div class="settings-section-title">Mostrar / Ocultar y Ordenar Cards</div>
+          <div id="settingsCardList">
+            <!-- Se genera dinámicamente -->
           </div>
         </div>
         
-        <button class="settings-reset" onclick="resetSettings()">🔄 Restaurar todas las cards</button>
+        <button class="settings-reset" onclick="resetSettings()">🔄 Restaurar todo</button>
       </div>
     </div>
 
@@ -4235,25 +4138,34 @@
 
   <script>
     // ============================================
-    // CONFIGURACIÓN DE CARDS (Settings)
+    // CONFIGURACIÓN DE CARDS (Settings + Orden)
     // ============================================
     const CARD_SETTINGS_KEY = 'climaCduCardSettings';
+    const CARD_ORDER_KEY = 'climaCduCardOrder';
     
-    const DEFAULT_CARD_SETTINGS = {
-      forecast3: true,
-      forecastExt: true,
-      radar: true,
-      stations: true,
-      webcam: true,
-      riverHistory: true,
-      fishing: true,
-      sunmoon: true,
-      holidays: true,
-      finance: true,
-      phones: true,
-      pharmacy: true,
-      cinema: true
-    };
+    // Definición de cards con icono y nombre
+    const CARD_DEFINITIONS = [
+      { id: 'forecast3', icon: '📅', name: 'Próximos 3 Días' },
+      { id: 'forecastExt', icon: '📆', name: 'Pronóstico Extendido' },
+      { id: 'radar', icon: '🌧️', name: 'Radar de Lluvia' },
+      { id: 'stations', icon: '📍', name: 'Estaciones del Río' },
+      { id: 'webcam', icon: '📷', name: 'Cámara en Vivo' },
+      { id: 'riverHistory', icon: '📈', name: 'Tendencia del Río' },
+      { id: 'fishing', icon: '🎣', name: 'Índice de Pesca' },
+      { id: 'sunmoon', icon: '☀️', name: 'Sol & Luna' },
+      { id: 'holidays', icon: '🎉', name: 'Feriados' },
+      { id: 'finance', icon: '💵', name: 'Cotizaciones' },
+      { id: 'phones', icon: '📞', name: 'Teléfonos Útiles' },
+      { id: 'pharmacy', icon: '💊', name: 'Farmacia de Turno' },
+      { id: 'cinema', icon: '🎬', name: 'Cartelera Cine' }
+    ];
+    
+    const DEFAULT_CARD_SETTINGS = {};
+    const DEFAULT_CARD_ORDER = [];
+    CARD_DEFINITIONS.forEach(c => {
+      DEFAULT_CARD_SETTINGS[c.id] = true;
+      DEFAULT_CARD_ORDER.push(c.id);
+    });
 
     function getCardSettings() {
       try {
@@ -4267,6 +4179,23 @@
       return { ...DEFAULT_CARD_SETTINGS };
     }
 
+    function getCardOrder() {
+      try {
+        const saved = localStorage.getItem(CARD_ORDER_KEY);
+        if (saved) {
+          const order = JSON.parse(saved);
+          // Asegurar que todas las cards estén presentes
+          CARD_DEFINITIONS.forEach(c => {
+            if (!order.includes(c.id)) order.push(c.id);
+          });
+          return order;
+        }
+      } catch (e) {
+        console.error('Error loading order:', e);
+      }
+      return [...DEFAULT_CARD_ORDER];
+    }
+
     function saveCardSettings(settings) {
       try {
         localStorage.setItem(CARD_SETTINGS_KEY, JSON.stringify(settings));
@@ -4275,20 +4204,75 @@
       }
     }
 
+    function saveCardOrder(order) {
+      try {
+        localStorage.setItem(CARD_ORDER_KEY, JSON.stringify(order));
+      } catch (e) {
+        console.error('Error saving order:', e);
+      }
+    }
+
     function applyCardSettings() {
       const settings = getCardSettings();
+      const order = getCardOrder();
+      const grid = document.querySelector('.dashboard-grid');
       
+      // Aplicar visibilidad
       Object.keys(settings).forEach(cardId => {
         const card = document.querySelector(`[data-card-id="${cardId}"]`);
-        const toggle = document.getElementById(`toggle-${cardId}`);
-        
         if (card) {
           card.style.display = settings[cardId] ? '' : 'none';
         }
-        if (toggle) {
-          toggle.checked = settings[cardId];
+      });
+      
+      // Aplicar orden (mover cards en el DOM)
+      order.forEach(cardId => {
+        const card = document.querySelector(`[data-card-id="${cardId}"]`);
+        if (card && grid) {
+          grid.appendChild(card);
         }
       });
+      
+      // Renderizar lista de settings
+      renderSettingsList();
+    }
+
+    function renderSettingsList() {
+      const container = document.getElementById('settingsCardList');
+      if (!container) return;
+      
+      const settings = getCardSettings();
+      const order = getCardOrder();
+      
+      container.innerHTML = order.map((cardId, index) => {
+        const def = CARD_DEFINITIONS.find(c => c.id === cardId);
+        if (!def) return '';
+        
+        const isFirst = index === 0;
+        const isLast = index === order.length - 1;
+        const isEnabled = settings[cardId];
+        
+        return `
+          <div class="settings-item" data-card-id="${cardId}">
+            <div class="settings-item-left">
+              <div class="settings-order-btns">
+                <button class="settings-order-btn" onclick="moveCard('${cardId}', -1)" ${isFirst ? 'disabled' : ''}>▲</button>
+                <button class="settings-order-btn" onclick="moveCard('${cardId}', 1)" ${isLast ? 'disabled' : ''}>▼</button>
+              </div>
+              <div class="settings-item-label">
+                <span class="settings-item-icon">${def.icon}</span>
+                <span>${def.name}</span>
+              </div>
+            </div>
+            <div class="settings-item-right">
+              <label class="toggle-switch">
+                <input type="checkbox" id="toggle-${cardId}" ${isEnabled ? 'checked' : ''} onchange="toggleCard('${cardId}')">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </div>
+        `;
+      }).join('');
     }
 
     function toggleCard(cardId) {
@@ -4302,7 +4286,24 @@
       }
     }
 
+    function moveCard(cardId, direction) {
+      const order = getCardOrder();
+      const index = order.indexOf(cardId);
+      
+      if (index === -1) return;
+      
+      const newIndex = index + direction;
+      if (newIndex < 0 || newIndex >= order.length) return;
+      
+      // Swap
+      [order[index], order[newIndex]] = [order[newIndex], order[index]];
+      
+      saveCardOrder(order);
+      applyCardSettings();
+    }
+
     function openSettings() {
+      renderSettingsList();
       document.getElementById('settingsModal').classList.add('active');
     }
 
@@ -4312,6 +4313,7 @@
 
     function resetSettings() {
       saveCardSettings(DEFAULT_CARD_SETTINGS);
+      saveCardOrder([...DEFAULT_CARD_ORDER]);
       applyCardSettings();
     }
 
@@ -4695,16 +4697,54 @@
     ];
 
     function showDailyQuote() {
-      // Usar el día del año para seleccionar la cita (cambia cada día)
+      // Usar fecha + hora para más variación, evitando repetir autores seguidos
       const now = new Date();
       const start = new Date(now.getFullYear(), 0, 0);
       const diff = now - start;
       const dayOfYear = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const quoteIndex = dayOfYear % QUOTES.length;
       
-      const quote = QUOTES[quoteIndex];
+      // Shuffle quotes usando seed basado en el año para que sea diferente cada año
+      const year = now.getFullYear();
+      const shuffled = shuffleWithSeed(QUOTES, year);
+      
+      // Seleccionar cita del día
+      const quoteIndex = dayOfYear % shuffled.length;
+      const quote = shuffled[quoteIndex];
+      
       document.getElementById('quoteText').textContent = quote.text;
       document.getElementById('quoteAuthor').textContent = quote.author;
+    }
+    
+    // Fisher-Yates shuffle con seed para resultados reproducibles
+    function shuffleWithSeed(array, seed) {
+      const result = [...array];
+      
+      // Simple seeded random
+      const random = () => {
+        seed = (seed * 9301 + 49297) % 233280;
+        return seed / 233280;
+      };
+      
+      for (let i = result.length - 1; i > 0; i--) {
+        const j = Math.floor(random() * (i + 1));
+        [result[i], result[j]] = [result[j], result[i]];
+      }
+      
+      // Reorganizar para evitar autores consecutivos
+      for (let i = 1; i < result.length; i++) {
+        if (result[i].author === result[i-1].author) {
+          // Buscar una cita con autor diferente para intercambiar
+          for (let j = i + 1; j < result.length; j++) {
+            if (result[j].author !== result[i-1].author && 
+                (j === result.length - 1 || result[j].author !== result[j+1]?.author)) {
+              [result[i], result[j]] = [result[j], result[i]];
+              break;
+            }
+          }
+        }
+      }
+      
+      return result;
     }
 
     // ============================================
