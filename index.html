@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <!--
   CLIMA & RÍO - Concepción del Uruguay
-  2026-03-28 17:25 ARG
-  Fix: tipografía blanca forzada en cards oscuras
+  2026-03-28 17:45 ARG
+  Scraper deportes real: FlashScore + Fichajes + ESPN + ATP
 -->
 <html lang="es">
 <head>
@@ -6087,87 +6087,22 @@ _Actualizado: ${fecha} ${hora}_`;
     async function fetchSports() {
       const container = document.getElementById('sportsEvents');
       
-      // Datos de ejemplo mientras no esté el scraper deployado
-      // Cuando despliegues el nuevo Code.gs, esto se conectará automáticamente
-      const eventosEjemplo = getExampleSportsEvents();
-      allSportsEvents = eventosEjemplo;
-      renderSports(eventosEjemplo);
-      
-      /* 
-      // Descomentar cuando el Apps Script esté deployado con ?action=deportes:
       try {
         const response = await fetch(SCRAPER_URL + '?action=deportes');
         const data = await response.json();
         
-        if (data.success && data.eventos.length > 0) {
+        if (data.success && data.eventos && data.eventos.length > 0) {
           allSportsEvents = data.eventos;
           renderSports(data.eventos);
+          console.log('✅ Deportes cargados:', data.eventos.length, 'eventos');
         } else {
-          container.innerHTML = '<div class="sports-empty">⚽ No hay eventos próximos</div>';
+          // Si no hay datos del scraper, mostrar mensaje
+          container.innerHTML = '<div class="sports-empty">⚽ No hay eventos próximos<br><small>Actualizá el Code.gs con el nuevo scraper</small></div>';
         }
       } catch (error) {
         console.error('Error cargando deportes:', error);
-        // Usar datos de ejemplo como fallback
-        allSportsEvents = getExampleSportsEvents();
-        renderSports(allSportsEvents);
+        container.innerHTML = '<div class="sports-empty">⚠️ Error al cargar eventos</div>';
       }
-      */
-    }
-    
-    function getExampleSportsEvents() {
-      // Datos de ejemplo basados en fixture real
-      const hoy = new Date();
-      const eventos = [];
-      
-      // Generar eventos para los próximos 7 días
-      const partidosEjemplo = [
-        { equipo1: 'Boca Juniors', equipo2: 'Racing Club', comp: 'Liga Argentina', dias: 0, hora: '21:00' },
-        { equipo1: 'River Plate', equipo2: 'Independiente', comp: 'Liga Argentina', dias: 1, hora: '19:00' },
-        { equipo1: 'Real Madrid', equipo2: 'Barcelona', comp: 'La Liga', dias: 2, hora: '16:00' },
-        { equipo1: 'Manchester United', equipo2: 'Liverpool', comp: 'Premier League', dias: 3, hora: '13:30' },
-        { equipo1: 'Inter Miami', equipo2: 'LA Galaxy', comp: 'MLS', dias: 4, hora: '21:30' },
-        { equipo1: 'Juventus', equipo2: 'AC Milan', comp: 'Serie A', dias: 5, hora: '15:45' },
-        { equipo1: 'Argentina', equipo2: 'Brasil', comp: 'Eliminatorias', dias: 6, hora: '20:30' }
-      ];
-      
-      const meses = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
-      
-      partidosEjemplo.forEach(p => {
-        const fecha = new Date(hoy);
-        fecha.setDate(fecha.getDate() + p.dias);
-        const fechaStr = fecha.toISOString().split('T')[0];
-        
-        eventos.push({
-          tipo: 'futbol',
-          equipo1: p.equipo1,
-          equipo2: p.equipo2,
-          competicion: p.comp,
-          fecha: fechaStr,
-          dia: fecha.getDate(),
-          mes: meses[fecha.getMonth()],
-          hora: p.hora,
-          esHoy: p.dias === 0
-        });
-      });
-      
-      // Agregar final de tenis ejemplo
-      const fechaTenis = new Date(hoy);
-      fechaTenis.setDate(fechaTenis.getDate() + 5);
-      eventos.push({
-        tipo: 'tenis',
-        evento: 'Final Miami Open',
-        competicion: 'ATP 1000',
-        fecha: fechaTenis.toISOString().split('T')[0],
-        dia: fechaTenis.getDate(),
-        mes: meses[fechaTenis.getMonth()],
-        hora: '18:00',
-        esHoy: false
-      });
-      
-      // Ordenar por fecha
-      eventos.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
-      
-      return eventos;
     }
     
     function renderSports(eventos, filter = 'all') {
@@ -6186,9 +6121,18 @@ _Actualizado: ${fecha} ${hora}_`;
       container.innerHTML = filtered.map(evento => {
         const isFutbol = evento.tipo === 'futbol';
         const icon = isFutbol ? '⚽' : '🎾';
-        const teams = isFutbol 
-          ? `${evento.equipo1} vs ${evento.equipo2}`
-          : evento.evento;
+        
+        let teams;
+        if (isFutbol) {
+          teams = `${evento.equipo1} vs ${evento.equipo2}`;
+        } else {
+          // Tenis - mostrar jugadores si están disponibles
+          if (evento.jugador1 && evento.jugador2) {
+            teams = `${evento.evento}<br><small>${evento.jugador1} vs ${evento.jugador2}</small>`;
+          } else {
+            teams = evento.evento;
+          }
+        }
         
         return `
           <div class="sports-event ${evento.esHoy ? 'is-today' : ''}">
@@ -6211,10 +6155,8 @@ _Actualizado: ${fecha} ${hora}_`;
       // Actualizar tabs activos
       document.querySelectorAll('.sports-tab').forEach(tab => {
         tab.classList.remove('active');
-        if (tab.textContent.toLowerCase().includes(tipo === 'all' ? 'todos' : tipo)) {
-          tab.classList.add('active');
-        }
       });
+      event.target.classList.add('active');
       
       // Filtrar y renderizar
       renderSports(allSportsEvents, tipo);
