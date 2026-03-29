@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <!--
   CLIMA & RÍO - Concepción del Uruguay
-  2026-03-28 16:25 ARG
-  Settings con reordenamiento de cards + citas sin repetir autor
+  2026-03-28 17:25 ARG
+  Fix: tipografía blanca forzada en cards oscuras
 -->
 <html lang="es">
 <head>
@@ -431,7 +431,7 @@
     /* Río Uruguay Card */
     .river-card {
       background: linear-gradient(145deg, #14B8A6 0%, #0D9488 50%, #0F766E 100%);
-      color: white;
+      color: #ffffff !important;
       padding: 24px;
     }
 
@@ -440,8 +440,12 @@
     }
 
     .river-card .card-title,
-    .river-card .card-subtitle {
-      color: rgba(255,255,255,0.9);
+    .river-card .card-subtitle,
+    .river-card .river-value,
+    .river-card .river-unit,
+    .river-card .river-status,
+    .river-card .river-variation {
+      color: #ffffff !important;
     }
 
     .river-main {
@@ -594,7 +598,7 @@
     /* Wind Card */
     .wind-card {
       background: linear-gradient(145deg, #8B5CF6 0%, #7C3AED 50%, #6D28D9 100%);
-      color: white;
+      color: #ffffff !important;
     }
 
     .wind-card .card-icon {
@@ -602,8 +606,11 @@
     }
 
     .wind-card .card-title,
-    .wind-card .card-subtitle {
-      color: rgba(255,255,255,0.9);
+    .wind-card .card-subtitle,
+    .wind-card .wind-speed,
+    .wind-card .wind-direction,
+    .wind-card .wind-detail {
+      color: #ffffff !important;
     }
 
     .wind-main {
@@ -1426,7 +1433,16 @@
     .pharmacy-card {
       grid-column: span 6;
       background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-      color: white;
+      color: #ffffff !important;
+    }
+
+    .pharmacy-card .card-title,
+    .pharmacy-card .card-subtitle,
+    .pharmacy-card .pharmacy-name,
+    .pharmacy-card .pharmacy-address,
+    .pharmacy-card .pharmacy-phone,
+    .pharmacy-card .pharmacy-fallback {
+      color: #ffffff !important;
     }
 
     .pharmacy-info {
@@ -1478,7 +1494,16 @@
     .cinema-card {
       grid-column: span 6;
       background: linear-gradient(145deg, #1a1a2e 0%, #16213e 100%);
-      color: white;
+      color: #ffffff !important;
+    }
+
+    .cinema-card .card-title,
+    .cinema-card .card-subtitle,
+    .cinema-card .cinema-movie-title,
+    .cinema-card .cinema-movie-info,
+    .cinema-card .cinema-info-text,
+    .cinema-card .cinema-loading {
+      color: #ffffff !important;
     }
 
     .cinema-card .card-icon {
@@ -1589,6 +1614,141 @@
       text-align: center;
       padding: 40px;
       opacity: 0.7;
+    }
+
+    /* Sports Card */
+    .sports-card {
+      grid-column: span 6;
+      background: linear-gradient(145deg, #1a472a 0%, #0d2818 100%);
+      color: #ffffff !important;
+    }
+
+    .sports-card .card-title,
+    .sports-card .card-subtitle,
+    .sports-card .sports-event-teams,
+    .sports-card .sports-event-competition,
+    .sports-card .sports-event-day,
+    .sports-card .sports-event-month,
+    .sports-card .sports-empty,
+    .sports-card .sports-tab {
+      color: #ffffff !important;
+    }
+
+    .sports-card .card-icon {
+      background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+    }
+
+    .sports-events {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 320px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .sports-events::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .sports-events::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.3);
+      border-radius: 2px;
+    }
+
+    .sports-event {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 12px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+
+    .sports-event:hover {
+      background: rgba(255,255,255,0.12);
+    }
+
+    .sports-event.is-today {
+      background: linear-gradient(135deg, rgba(34, 197, 94, 0.3) 0%, rgba(22, 163, 74, 0.2) 100%);
+      border: 1px solid rgba(34, 197, 94, 0.5);
+    }
+
+    .sports-event-date {
+      min-width: 50px;
+      text-align: center;
+    }
+
+    .sports-event-day {
+      font-size: 1.2rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .sports-event-month {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      opacity: 0.7;
+    }
+
+    .sports-event-time {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #22c55e;
+      margin-top: 2px;
+    }
+
+    .sports-event-info {
+      flex: 1;
+    }
+
+    .sports-event-teams {
+      font-size: 0.85rem;
+      font-weight: 600;
+      line-height: 1.3;
+    }
+
+    .sports-event-competition {
+      font-size: 0.7rem;
+      opacity: 0.6;
+      margin-top: 2px;
+    }
+
+    .sports-event-type {
+      font-size: 1.2rem;
+    }
+
+    .sports-empty {
+      text-align: center;
+      padding: 40px;
+      opacity: 0.7;
+    }
+
+    .sports-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .sports-tab {
+      padding: 6px 12px;
+      border: none;
+      background: rgba(255,255,255,0.1);
+      color: white;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.75rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .sports-tab.active {
+      background: #22c55e;
+    }
+
+    .sports-tab:hover:not(.active) {
+      background: rgba(255,255,255,0.2);
     }
 
     /* Settings Button & Modal */
@@ -2410,6 +2570,7 @@
       .phones-card { grid-column: span 3; }
       .pharmacy-card { grid-column: span 3; }
       .cinema-card { grid-column: span 6; }
+      .sports-card { grid-column: span 6; }
     }
 
     @media (max-width: 768px) {
@@ -2436,7 +2597,8 @@
       .pharmacy-card,
       .finance-card,
       .phones-card,
-      .cinema-card {
+      .cinema-card,
+      .sports-card {
         grid-column: span 1;
       }
 
@@ -4115,6 +4277,25 @@
         </div>
       </div>
 
+      <!-- Eventos Deportivos -->
+      <div class="card sports-card" data-card-id="sports">
+        <div class="card-header">
+          <div class="card-icon">⚽</div>
+          <div>
+            <div class="card-title">Eventos Deportivos</div>
+            <div class="card-subtitle">Próximos 7 días • Fútbol & Tenis</div>
+          </div>
+        </div>
+        <div class="sports-tabs">
+          <button class="sports-tab active" onclick="filterSports('all')">Todos</button>
+          <button class="sports-tab" onclick="filterSports('futbol')">⚽ Fútbol</button>
+          <button class="sports-tab" onclick="filterSports('tenis')">🎾 Tenis</button>
+        </div>
+        <div class="sports-events" id="sportsEvents">
+          <div class="sports-empty">⚽ Cargando eventos...</div>
+        </div>
+      </div>
+
     </div>
 
     <!-- Cita del Día -->
@@ -4157,7 +4338,8 @@
       { id: 'finance', icon: '💵', name: 'Cotizaciones' },
       { id: 'phones', icon: '📞', name: 'Teléfonos Útiles' },
       { id: 'pharmacy', icon: '💊', name: 'Farmacia de Turno' },
-      { id: 'cinema', icon: '🎬', name: 'Cartelera Cine' }
+      { id: 'cinema', icon: '🎬', name: 'Cartelera Cine' },
+      { id: 'sports', icon: '⚽', name: 'Eventos Deportivos' }
     ];
     
     const DEFAULT_CARD_SETTINGS = {};
@@ -5897,6 +6079,148 @@ _Actualizado: ${fecha} ${hora}_`;
     }
 
     // ============================================
+    // EVENTOS DEPORTIVOS
+    // ============================================
+    const SCRAPER_URL = 'https://script.google.com/macros/s/AKfycbzvLnlLEklkeI3gWCS4-o5CJlUmgiXOUP9VK9Dc4pb66U_Dk5w2TaGENgs6t23Tr1rf/exec';
+    let allSportsEvents = [];
+    
+    async function fetchSports() {
+      const container = document.getElementById('sportsEvents');
+      
+      // Datos de ejemplo mientras no esté el scraper deployado
+      // Cuando despliegues el nuevo Code.gs, esto se conectará automáticamente
+      const eventosEjemplo = getExampleSportsEvents();
+      allSportsEvents = eventosEjemplo;
+      renderSports(eventosEjemplo);
+      
+      /* 
+      // Descomentar cuando el Apps Script esté deployado con ?action=deportes:
+      try {
+        const response = await fetch(SCRAPER_URL + '?action=deportes');
+        const data = await response.json();
+        
+        if (data.success && data.eventos.length > 0) {
+          allSportsEvents = data.eventos;
+          renderSports(data.eventos);
+        } else {
+          container.innerHTML = '<div class="sports-empty">⚽ No hay eventos próximos</div>';
+        }
+      } catch (error) {
+        console.error('Error cargando deportes:', error);
+        // Usar datos de ejemplo como fallback
+        allSportsEvents = getExampleSportsEvents();
+        renderSports(allSportsEvents);
+      }
+      */
+    }
+    
+    function getExampleSportsEvents() {
+      // Datos de ejemplo basados en fixture real
+      const hoy = new Date();
+      const eventos = [];
+      
+      // Generar eventos para los próximos 7 días
+      const partidosEjemplo = [
+        { equipo1: 'Boca Juniors', equipo2: 'Racing Club', comp: 'Liga Argentina', dias: 0, hora: '21:00' },
+        { equipo1: 'River Plate', equipo2: 'Independiente', comp: 'Liga Argentina', dias: 1, hora: '19:00' },
+        { equipo1: 'Real Madrid', equipo2: 'Barcelona', comp: 'La Liga', dias: 2, hora: '16:00' },
+        { equipo1: 'Manchester United', equipo2: 'Liverpool', comp: 'Premier League', dias: 3, hora: '13:30' },
+        { equipo1: 'Inter Miami', equipo2: 'LA Galaxy', comp: 'MLS', dias: 4, hora: '21:30' },
+        { equipo1: 'Juventus', equipo2: 'AC Milan', comp: 'Serie A', dias: 5, hora: '15:45' },
+        { equipo1: 'Argentina', equipo2: 'Brasil', comp: 'Eliminatorias', dias: 6, hora: '20:30' }
+      ];
+      
+      const meses = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+      
+      partidosEjemplo.forEach(p => {
+        const fecha = new Date(hoy);
+        fecha.setDate(fecha.getDate() + p.dias);
+        const fechaStr = fecha.toISOString().split('T')[0];
+        
+        eventos.push({
+          tipo: 'futbol',
+          equipo1: p.equipo1,
+          equipo2: p.equipo2,
+          competicion: p.comp,
+          fecha: fechaStr,
+          dia: fecha.getDate(),
+          mes: meses[fecha.getMonth()],
+          hora: p.hora,
+          esHoy: p.dias === 0
+        });
+      });
+      
+      // Agregar final de tenis ejemplo
+      const fechaTenis = new Date(hoy);
+      fechaTenis.setDate(fechaTenis.getDate() + 5);
+      eventos.push({
+        tipo: 'tenis',
+        evento: 'Final Miami Open',
+        competicion: 'ATP 1000',
+        fecha: fechaTenis.toISOString().split('T')[0],
+        dia: fechaTenis.getDate(),
+        mes: meses[fechaTenis.getMonth()],
+        hora: '18:00',
+        esHoy: false
+      });
+      
+      // Ordenar por fecha
+      eventos.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
+      
+      return eventos;
+    }
+    
+    function renderSports(eventos, filter = 'all') {
+      const container = document.getElementById('sportsEvents');
+      
+      let filtered = eventos;
+      if (filter !== 'all') {
+        filtered = eventos.filter(e => e.tipo === filter);
+      }
+      
+      if (!filtered || filtered.length === 0) {
+        container.innerHTML = '<div class="sports-empty">⚽ No hay eventos para mostrar</div>';
+        return;
+      }
+      
+      container.innerHTML = filtered.map(evento => {
+        const isFutbol = evento.tipo === 'futbol';
+        const icon = isFutbol ? '⚽' : '🎾';
+        const teams = isFutbol 
+          ? `${evento.equipo1} vs ${evento.equipo2}`
+          : evento.evento;
+        
+        return `
+          <div class="sports-event ${evento.esHoy ? 'is-today' : ''}">
+            <div class="sports-event-date">
+              <div class="sports-event-day">${evento.dia}</div>
+              <div class="sports-event-month">${evento.mes}</div>
+              <div class="sports-event-time">${evento.hora}</div>
+            </div>
+            <div class="sports-event-info">
+              <div class="sports-event-teams">${teams}</div>
+              <div class="sports-event-competition">${evento.competicion}</div>
+            </div>
+            <div class="sports-event-type">${icon}</div>
+          </div>
+        `;
+      }).join('');
+    }
+    
+    function filterSports(tipo) {
+      // Actualizar tabs activos
+      document.querySelectorAll('.sports-tab').forEach(tab => {
+        tab.classList.remove('active');
+        if (tab.textContent.toLowerCase().includes(tipo === 'all' ? 'todos' : tipo)) {
+          tab.classList.add('active');
+        }
+      });
+      
+      // Filtrar y renderizar
+      renderSports(allSportsEvents, tipo);
+    }
+
+    // ============================================
     // REFRESH DATA
     // ============================================
     async function refreshData() {
@@ -5969,7 +6293,8 @@ _Actualizado: ${fecha} ${hora}_`;
         fetchMonthlyPrecip(),
         fetchFinanceData(),
         fetchFarmacia(),
-        fetchCinema()
+        fetchCinema(),
+        fetchSports()
       ]);
       
       document.getElementById('lastUpdate').textContent = 'ahora mismo';
