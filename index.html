@@ -2766,8 +2766,8 @@
       .weather-current,
       .stacked-cards,
       .forecast-3day,
-      .forecast-extended,
       .hourly-forecast,
+      .forecast-extended,
       .radar-card,
       .river-stations,
       .webcam-card,
@@ -4062,6 +4062,27 @@
         </div>
       </div>
 
+      <!-- Pronóstico por Hora (siempre visible, no configurable) -->
+      <div class="card hourly-forecast">
+        <div class="card-header">
+          <div class="card-icon">🕐</div>
+          <div>
+            <div class="card-title">Pronóstico por Hora</div>
+            <div class="card-subtitle">Próximas 24 horas</div>
+          </div>
+        </div>
+        <div class="hourly-scroll" id="hourlyScroll">
+          <!-- Se llena con JavaScript -->
+          <div class="hourly-item now">
+            <div class="hourly-time">Ahora</div>
+            <div class="hourly-icon">☀️</div>
+            <div class="hourly-temp">26°</div>
+            <div class="hourly-feels">ST 30°</div>
+            <div class="hourly-rain">💧 1%</div>
+          </div>
+        </div>
+      </div>
+
       <!-- Pronóstico Extendido -->
       <div class="card forecast-extended" data-card-id="forecastExt">
         <div class="card-header">
@@ -4191,27 +4212,6 @@
               <span class="extended-min">15°</span>
             </div>
             <div class="extended-rain low">💧 0%</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Pronóstico por Hora -->
-      <div class="card hourly-forecast" data-card-id="hourly">
-        <div class="card-header">
-          <div class="card-icon">🕐</div>
-          <div>
-            <div class="card-title">Pronóstico por Hora</div>
-            <div class="card-subtitle">Próximas 24 horas</div>
-          </div>
-        </div>
-        <div class="hourly-scroll" id="hourlyScroll">
-          <!-- Se llena con JavaScript -->
-          <div class="hourly-item now">
-            <div class="hourly-time">Ahora</div>
-            <div class="hourly-icon">☀️</div>
-            <div class="hourly-temp">26°</div>
-            <div class="hourly-feels">ST 30°</div>
-            <div class="hourly-rain">💧 1%</div>
           </div>
         </div>
       </div>
@@ -4992,7 +4992,6 @@
     const CARD_DEFINITIONS = [
       { id: 'forecast3', icon: '📅', name: 'Próximos 3 Días' },
       { id: 'forecastExt', icon: '📆', name: 'Pronóstico Extendido' },
-      { id: 'hourly', icon: '🕐', name: 'Pronóstico por Hora' },
       { id: 'radar', icon: '🌧️', name: 'Radar de Lluvia' },
       { id: 'stations', icon: '📍', name: 'Estaciones del Río' },
       { id: 'webcam', icon: '📷', name: 'Cámara en Vivo' },
