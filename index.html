@@ -3681,6 +3681,11 @@
             <span class="share-option-icon">⚽</span>
             <span class="share-option-text">Eventos Deportivos</span>
           </label>
+          <label class="share-option">
+            <input type="checkbox" id="shareFrase">
+            <span class="share-option-icon">💬</span>
+            <span class="share-option-text">Frase del Día</span>
+          </label>
         </div>
         <button class="share-send-btn" onclick="sendWhatsApp()">
           <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" style="margin-right: 8px;">
@@ -7000,10 +7005,13 @@ _Actualizado: ${fecha} ${hora}_`;
         const dolarOficialVenta = document.getElementById('dolarOficialVenta')?.textContent || '--';
         const dolarBlueCompra = document.getElementById('dolarBlueCompra')?.textContent || '--';
         const dolarBlueVenta = document.getElementById('dolarBlueVenta')?.textContent || '--';
+        const btcPrice = document.getElementById('btcPrice')?.textContent || '--';
         
         mensaje += 'COTIZACIONES\n';
         mensaje += 'Dolar Oficial: ' + dolarOficialCompra + ' / ' + dolarOficialVenta + '\n';
-        mensaje += 'Dolar Blue: ' + dolarBlueCompra + ' / ' + dolarBlueVenta + '\n\n';
+        mensaje += 'Dolar Blue: ' + dolarBlueCompra + ' / ' + dolarBlueVenta + '\n';
+        if (btcPrice !== '--') mensaje += 'Bitcoin: ' + btcPrice + ' USD\n';
+        mensaje += '\n';
       }
 
       // Cartelera Cine
@@ -7032,6 +7040,19 @@ _Actualizado: ${fecha} ${hora}_`;
             const equipos = ev.querySelector('.sports-event-teams')?.textContent?.replace(/\s+/g, ' ').trim() || '';
             if (equipos) mensaje += fecha + ' ' + mes + ' ' + hora + ' - ' + equipos + '\n';
           });
+          mensaje += '\n';
+        }
+      }
+
+      // Frase del Día
+      if (document.getElementById('shareFrase').checked) {
+        const frase = document.querySelector('.quote-text')?.textContent?.replace(/"/g, '') || '';
+        const autor = document.querySelector('.quote-author')?.textContent?.replace('— ', '') || '';
+        
+        if (frase) {
+          mensaje += 'FRASE DEL DIA\n';
+          mensaje += '"' + frase + '"\n';
+          if (autor) mensaje += '- ' + autor + '\n';
           mensaje += '\n';
         }
       }
