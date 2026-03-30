@@ -6943,7 +6943,7 @@ _Actualizado: ${fecha} ${hora}_`;
     });
 
     function sendWhatsApp() {
-      let mensaje = 'GR10 App - Concepcion del Uruguay\n';
+      let mensaje = '*GR10 App - Concepcion del Uruguay*\n';
       mensaje += document.getElementById('currentDate').textContent + '\n';
       mensaje += '------------------------\n\n';
 
@@ -6954,7 +6954,7 @@ _Actualizado: ${fecha} ${hora}_`;
         const sensacion = document.querySelector('.weather-feels')?.textContent?.replace('Sensación térmica ', '') || '--';
         const humedad = document.querySelectorAll('.weather-stats')[0]?.querySelectorAll('.stat-value')[0]?.textContent || '--';
         
-        mensaje += 'CLIMA ACTUAL\n';
+        mensaje += '*CLIMA ACTUAL*\n';
         mensaje += 'Temp: ' + temp + 'C - ' + condicion + '\n';
         mensaje += 'Sensacion: ' + sensacion + '\n';
         mensaje += 'Humedad: ' + humedad + '\n\n';
@@ -6966,7 +6966,7 @@ _Actualizado: ${fecha} ${hora}_`;
         const statusBadge = document.querySelector('.river-status-badge')?.textContent || '';
         const variacion = document.querySelector('.river-variation')?.textContent || '';
         
-        mensaje += 'RIO URUGUAY\n';
+        mensaje += '*RIO URUGUAY*\n';
         mensaje += 'Nivel: ' + nivelValor + 'm\n';
         if (statusBadge) mensaje += 'Estado: ' + statusBadge + '\n';
         if (variacion && variacion !== '-- en 12hs') mensaje += variacion + '\n';
@@ -6979,7 +6979,7 @@ _Actualizado: ${fecha} ${hora}_`;
         const direccion = document.querySelector('.wind-direction')?.textContent || '--';
         const rafagas = document.querySelector('.wind-gusts')?.textContent?.replace('Ráfagas: ', '') || '--';
         
-        mensaje += 'VIENTO\n';
+        mensaje += '*VIENTO*\n';
         mensaje += direccion + ' a ' + velocidad + '\n';
         mensaje += 'Rafagas: ' + rafagas + '\n\n';
       }
@@ -6992,7 +6992,7 @@ _Actualizado: ${fecha} ${hora}_`;
         const duracion = celestialValues[2]?.textContent || '--';
         const faseLuna = celestialValues[3]?.textContent || '--';
         
-        mensaje += 'SOL Y LUNA\n';
+        mensaje += '*SOL Y LUNA*\n';
         mensaje += 'Amanecer: ' + amanecer + '\n';
         mensaje += 'Atardecer: ' + atardecer + '\n';
         mensaje += 'Duracion del dia: ' + duracion + '\n';
@@ -7007,7 +7007,7 @@ _Actualizado: ${fecha} ${hora}_`;
         const dolarBlueVenta = document.getElementById('dolarBlueVenta')?.textContent || '--';
         const btcPrice = document.getElementById('btcPrice')?.textContent || '--';
         
-        mensaje += 'COTIZACIONES\n';
+        mensaje += '*COTIZACIONES*\n';
         mensaje += 'Dolar Oficial: ' + dolarOficialCompra + ' / ' + dolarOficialVenta + '\n';
         mensaje += 'Dolar Blue: ' + dolarBlueCompra + ' / ' + dolarBlueVenta + '\n';
         if (btcPrice !== '--') mensaje += 'Bitcoin: ' + btcPrice + ' USD\n';
@@ -7018,7 +7018,7 @@ _Actualizado: ${fecha} ${hora}_`;
       if (document.getElementById('shareCine').checked) {
         const peliculas = document.querySelectorAll('.cinema-movie');
         if (peliculas.length > 0) {
-          mensaje += 'CINE SAN MARTIN\n';
+          mensaje += '*CINE SAN MARTIN*\n';
           peliculas.forEach(peli => {
             const nombre = peli.querySelector('.cinema-movie-title')?.textContent || '';
             const hora = peli.querySelector('.cinema-movie-time')?.textContent || '';
@@ -7032,7 +7032,7 @@ _Actualizado: ${fecha} ${hora}_`;
       if (document.getElementById('shareDeportes').checked) {
         const eventos = document.querySelectorAll('.sports-event');
         if (eventos.length > 0) {
-          mensaje += 'DEPORTES\n';
+          mensaje += '*DEPORTES*\n';
           eventos.forEach(ev => {
             const fecha = ev.querySelector('.sports-event-day')?.textContent || '';
             const mes = ev.querySelector('.sports-event-month')?.textContent || '';
@@ -7050,7 +7050,7 @@ _Actualizado: ${fecha} ${hora}_`;
         const autor = document.querySelector('.quote-author')?.textContent?.replace('— ', '') || '';
         
         if (frase) {
-          mensaje += 'FRASE DEL DIA\n';
+          mensaje += '*FRASE DEL DIA*\n';
           mensaje += '"' + frase + '"\n';
           if (autor) mensaje += '- ' + autor + '\n';
           mensaje += '\n';
