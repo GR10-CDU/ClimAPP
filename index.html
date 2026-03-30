@@ -933,7 +933,7 @@
 
     .newspapers-scroll {
       display: flex;
-      gap: 16px;
+      gap: 20px;
       overflow-x: auto;
       padding-bottom: 12px;
       scroll-behavior: smooth;
@@ -956,10 +956,11 @@
 
     .newspaper-item {
       flex: 0 0 auto;
-      width: 160px;
+      width: 220px;
       text-align: center;
       cursor: pointer;
       transition: all 0.2s;
+      text-decoration: none;
     }
 
     .newspaper-item:hover {
@@ -968,7 +969,7 @@
 
     .newspaper-cover {
       width: 100%;
-      height: 220px;
+      height: 310px;
       object-fit: cover;
       border-radius: 8px;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
@@ -977,7 +978,7 @@
 
     .newspaper-name {
       margin-top: 10px;
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       font-weight: 600;
       color: var(--text-primary);
     }
@@ -1005,6 +1006,30 @@
 
     .newspapers-link:hover {
       text-decoration: underline;
+    }
+
+    /* Mobile: tapas más grandes, una visible */
+    @media (max-width: 768px) {
+      .newspaper-item {
+        width: 85vw;
+        max-width: 320px;
+      }
+
+      .newspaper-cover {
+        height: auto;
+        aspect-ratio: 0.7;
+        max-height: 480px;
+      }
+
+      .newspapers-scroll {
+        gap: 16px;
+        scroll-snap-type: x mandatory;
+        padding: 0 4px;
+      }
+
+      .newspaper-item {
+        scroll-snap-align: center;
+      }
     }
 
     .forecast-extended .card-icon {
@@ -2785,10 +2810,19 @@
     /* Footer */
     .footer {
       margin-top: 32px;
-      padding: 20px;
+      padding: 24px 20px;
       text-align: center;
       color: var(--text-muted);
       font-size: 0.85rem;
+    }
+
+    .data-sources-title {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      font-weight: 600;
     }
 
     .footer a {
@@ -2796,18 +2830,24 @@
       text-decoration: none;
     }
 
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
     .data-source {
       display: flex;
       justify-content: center;
-      gap: 24px;
-      margin-top: 12px;
+      gap: 16px 24px;
       flex-wrap: wrap;
+      max-width: 800px;
+      margin: 0 auto;
     }
 
     .data-source span {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 4px;
+      font-size: 0.8rem;
     }
 
     /* Responsive */
@@ -5092,12 +5132,18 @@
 
     <!-- Footer -->
     <footer class="footer">
+      <div class="data-sources-title">Fuentes de datos</div>
       <div class="data-source">
-        <span>🌊 <a href="http://190.0.152.194:8080/alturas/web/user/alturas" target="_blank">CARU - Alturas del Río</a></span>
-        <span>🌤️ <a href="https://www.meteored.com.ar" target="_blank">Meteored Argentina</a></span>
-        <span>🇦🇷 <a href="https://www.argentina.gob.ar/jefatura/feriados-nacionales-2026" target="_blank">Feriados ARG</a></span>
+        <span>🌤️ <a href="https://open-meteo.com/" target="_blank">Open-Meteo</a></span>
+        <span>🌊 <a href="http://190.0.152.194:8080/alturas/web/user/alturas" target="_blank">CARU</a></span>
+        <span>🌧️ <a href="https://www.windy.com/" target="_blank">Windy</a></span>
+        <span>💵 <a href="https://dolarapi.com/" target="_blank">DolarAPI</a></span>
+        <span>💊 <a href="https://www.elmiercolesdigital.com.ar/" target="_blank">El Miércoles Digital</a></span>
+        <span>📰 <a href="https://es.kiosko.net/ar/" target="_blank">Kiosko.net</a></span>
+        <span>📷 <a href="https://myearthcam.com/coloner" target="_blank">EarthCam</a></span>
+        <span>🇦🇷 <a href="https://www.argentina.gob.ar/" target="_blank">Argentina.gob.ar</a></span>
       </div>
-      <p style="margin-top: 20px; font-size: 0.9rem; font-weight: 600; background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-purple) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+      <p style="margin-top: 24px; font-size: 0.9rem; font-weight: 600; background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-purple) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
         ⚡ Diseñado por <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700;">GR10</span>
       </p>
     </footer>
