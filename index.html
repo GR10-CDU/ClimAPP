@@ -6938,79 +6938,83 @@ _Actualizado: ${fecha} ${hora}_`;
     });
 
     function sendWhatsApp() {
-      let mensaje = '🌤️ *GR10 App - Concepción del Uruguay*\n';
-      mensaje += '📅 ' + document.getElementById('currentDate').textContent + '\n';
-      mensaje += '━━━━━━━━━━━━━━━━━━━━\n\n';
+      let mensaje = 'GR10 App - Concepcion del Uruguay\n';
+      mensaje += document.getElementById('currentDate').textContent + '\n';
+      mensaje += '------------------------\n\n';
 
       // Clima Actual
       if (document.getElementById('shareClima').checked) {
         const temp = document.querySelector('.temp-value')?.textContent || '--';
         const condicion = document.querySelector('.weather-condition')?.textContent || '--';
-        const sensacion = document.querySelector('.weather-feels')?.textContent || '--';
+        const sensacion = document.querySelector('.weather-feels')?.textContent?.replace('Sensación térmica ', '') || '--';
         const humedad = document.querySelectorAll('.weather-stats')[0]?.querySelectorAll('.stat-value')[0]?.textContent || '--';
         
-        mensaje += '🌡️ *CLIMA ACTUAL*\n';
-        mensaje += `Temperatura: ${temp}°C\n`;
-        mensaje += `${condicion}\n`;
-        mensaje += `${sensacion}\n`;
-        mensaje += `Humedad: ${humedad}\n\n`;
+        mensaje += 'CLIMA ACTUAL\n';
+        mensaje += 'Temp: ' + temp + 'C - ' + condicion + '\n';
+        mensaje += 'Sensacion: ' + sensacion + '\n';
+        mensaje += 'Humedad: ' + humedad + '\n\n';
       }
 
       // Altura del Río
       if (document.getElementById('shareRio').checked) {
-        const nivel = document.querySelector('.river-level')?.textContent || '--';
-        const tendencia = document.querySelector('.river-trend-text')?.textContent || '--';
+        const nivelValor = document.querySelector('.river-value')?.textContent?.trim() || '--';
+        const statusBadge = document.querySelector('.river-status-badge')?.textContent || '';
+        const variacion = document.querySelector('.river-variation')?.textContent || '';
         
-        mensaje += '🌊 *RÍO URUGUAY*\n';
-        mensaje += `Nivel: ${nivel}\n`;
-        mensaje += `Tendencia: ${tendencia}\n\n`;
+        mensaje += 'RIO URUGUAY\n';
+        mensaje += 'Nivel: ' + nivelValor + 'm\n';
+        if (statusBadge) mensaje += 'Estado: ' + statusBadge + '\n';
+        if (variacion && variacion !== '-- en 12hs') mensaje += variacion + '\n';
+        mensaje += '\n';
       }
 
       // Viento
       if (document.getElementById('shareViento').checked) {
         const velocidad = document.querySelector('.wind-speed')?.textContent || '--';
         const direccion = document.querySelector('.wind-direction')?.textContent || '--';
-        const rafagas = document.querySelector('.wind-gusts')?.textContent || '--';
+        const rafagas = document.querySelector('.wind-gusts')?.textContent?.replace('Ráfagas: ', '') || '--';
         
-        mensaje += '💨 *VIENTO*\n';
-        mensaje += `Velocidad: ${velocidad}\n`;
-        mensaje += `Dirección: ${direccion}\n`;
-        mensaje += `${rafagas}\n\n`;
+        mensaje += 'VIENTO\n';
+        mensaje += direccion + ' a ' + velocidad + '\n';
+        mensaje += 'Rafagas: ' + rafagas + '\n\n';
       }
 
       // Sol y Luna
       if (document.getElementById('shareSol').checked) {
-        const amanecer = document.getElementById('sunriseTime')?.textContent || '--';
-        const atardecer = document.getElementById('sunsetTime')?.textContent || '--';
-        const faseLuna = document.getElementById('moonPhase')?.textContent || '--';
+        const celestialValues = document.querySelectorAll('.sun-moon-card .celestial-value');
+        const amanecer = celestialValues[0]?.textContent || '--';
+        const atardecer = celestialValues[1]?.textContent || '--';
+        const duracion = celestialValues[2]?.textContent || '--';
+        const faseLuna = celestialValues[3]?.textContent || '--';
         
-        mensaje += '🌅 *SOL Y LUNA*\n';
-        mensaje += `🌅 Amanecer: ${amanecer}\n`;
-        mensaje += `🌇 Atardecer: ${atardecer}\n`;
-        mensaje += `🌙 ${faseLuna}\n\n`;
+        mensaje += 'SOL Y LUNA\n';
+        mensaje += 'Amanecer: ' + amanecer + '\n';
+        mensaje += 'Atardecer: ' + atardecer + '\n';
+        mensaje += 'Duracion del dia: ' + duracion + '\n';
+        mensaje += 'Fase lunar: ' + faseLuna + '\n\n';
       }
 
       // Cotizaciones
       if (document.getElementById('shareCotizaciones').checked) {
-        const dolarOficial = document.getElementById('dolarOficial')?.textContent || '--';
-        const dolarBlue = document.getElementById('dolarBlue')?.textContent || '--';
-        const bitcoin = document.getElementById('bitcoinPrice')?.textContent || '--';
+        const dolarOficialCompra = document.getElementById('dolarOficialCompra')?.textContent || '--';
+        const dolarOficialVenta = document.getElementById('dolarOficialVenta')?.textContent || '--';
+        const dolarBlueCompra = document.getElementById('dolarBlueCompra')?.textContent || '--';
+        const dolarBlueVenta = document.getElementById('dolarBlueVenta')?.textContent || '--';
         
-        mensaje += '💵 *COTIZACIONES*\n';
-        mensaje += `Dólar Oficial: ${dolarOficial}\n`;
-        mensaje += `Dólar Blue: ${dolarBlue}\n`;
-        mensaje += `Bitcoin: ${bitcoin}\n\n`;
+        mensaje += 'COTIZACIONES\n';
+        mensaje += 'Dolar Oficial: ' + dolarOficialCompra + ' / ' + dolarOficialVenta + '\n';
+        mensaje += 'Dolar Blue: ' + dolarBlueCompra + ' / ' + dolarBlueVenta + '\n\n';
       }
 
       // Cartelera Cine
       if (document.getElementById('shareCine').checked) {
         const peliculas = document.querySelectorAll('.cinema-movie');
         if (peliculas.length > 0) {
-          mensaje += '🎬 *CINE SAN MARTÍN*\n';
+          mensaje += 'CINE SAN MARTIN\n';
           peliculas.forEach(peli => {
             const nombre = peli.querySelector('.cinema-movie-title')?.textContent || '';
             const hora = peli.querySelector('.cinema-movie-time')?.textContent || '';
-            if (nombre) mensaje += `• ${nombre} - ${hora}\n`;
+            if (nombre) mensaje += '- ' + nombre + ' ' + hora + '\n';
           });
           mensaje += '\n';
         }
@@ -7020,23 +7024,23 @@ _Actualizado: ${fecha} ${hora}_`;
       if (document.getElementById('shareDeportes').checked) {
         const eventos = document.querySelectorAll('.sports-event');
         if (eventos.length > 0) {
-          mensaje += '⚽ *EVENTOS DEPORTIVOS*\n';
+          mensaje += 'DEPORTES\n';
           eventos.forEach(ev => {
             const fecha = ev.querySelector('.sports-event-day')?.textContent || '';
             const mes = ev.querySelector('.sports-event-month')?.textContent || '';
             const hora = ev.querySelector('.sports-event-time')?.textContent || '';
-            const equipos = ev.querySelector('.sports-event-teams')?.textContent || '';
-            if (equipos) mensaje += `${fecha} ${mes} ${hora} - ${equipos.trim()}\n`;
+            const equipos = ev.querySelector('.sports-event-teams')?.textContent?.replace(/\s+/g, ' ').trim() || '';
+            if (equipos) mensaje += fecha + ' ' + mes + ' ' + hora + ' - ' + equipos + '\n';
           });
           mensaje += '\n';
         }
       }
 
-      mensaje += '━━━━━━━━━━━━━━━━━━━━\n';
-      mensaje += '📲 gr10-cdu.github.io/ClimAPP';
+      mensaje += '------------------------\n';
+      mensaje += 'gr10-cdu.github.io/ClimAPP';
 
       // Abrir WhatsApp
-      const url = `https://wa.me/?text=${encodeURIComponent(mensaje)}`;
+      const url = 'https://wa.me/?text=' + encodeURIComponent(mensaje);
       window.open(url, '_blank');
       
       closeShareModal();
