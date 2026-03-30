@@ -935,7 +935,7 @@
       display: flex;
       gap: 20px;
       overflow-x: auto;
-      padding-bottom: 12px;
+      padding: 8px 4px 16px 4px;
       scroll-behavior: smooth;
       -webkit-overflow-scrolling: touch;
     }
@@ -5099,21 +5099,13 @@
             <img class="newspaper-cover" id="tapaCronista" src="" alt="El Cronista" loading="lazy">
             <div class="newspaper-name">El Cronista</div>
           </a>
-          <a class="newspaper-item" href="https://es.kiosko.net/ar/np/ar_pagina12.html" target="_blank">
-            <img class="newspaper-cover" id="tapaPagina12" src="" alt="Página 12" loading="lazy">
-            <div class="newspaper-name">Página 12</div>
+          <a class="newspaper-item" href="https://es.kiosko.net/ar/np/ar_voz_interior.html" target="_blank">
+            <img class="newspaper-cover" id="tapaVozInterior" src="" alt="La Voz del Interior" loading="lazy">
+            <div class="newspaper-name">La Voz</div>
           </a>
-          <a class="newspaper-item" href="https://es.kiosko.net/ar/np/ar_ambito.html" target="_blank">
-            <img class="newspaper-cover" id="tapaAmbito" src="" alt="Ámbito" loading="lazy">
-            <div class="newspaper-name">Ámbito</div>
-          </a>
-          <a class="newspaper-item" href="https://es.kiosko.net/ar/np/ar_popular.html" target="_blank">
-            <img class="newspaper-cover" id="tapaPopular" src="" alt="Diario Popular" loading="lazy">
-            <div class="newspaper-name">Diario Popular</div>
-          </a>
-          <a class="newspaper-item" href="https://es.kiosko.net/ar/np/ar_uno_er.html" target="_blank">
-            <img class="newspaper-cover" id="tapaUNO" src="" alt="UNO Entre Ríos" loading="lazy">
-            <div class="newspaper-name">UNO E. Ríos</div>
+          <a class="newspaper-item" href="https://es.kiosko.net/ar/np/ar_capital_rosario.html" target="_blank">
+            <img class="newspaper-cover" id="tapaCapitalRosario" src="" alt="La Capital Rosario" loading="lazy">
+            <div class="newspaper-name">La Capital</div>
           </a>
         </div>
         <div class="newspapers-footer">
@@ -7462,10 +7454,8 @@ _Actualizado: ${fecha} ${hora}_`;
         { id: 'tapaNacion', file: 'nacion' },
         { id: 'tapaOle', file: 'ole' },
         { id: 'tapaCronista', file: 'ar_cronista' },
-        { id: 'tapaPagina12', file: 'ar_pagina12' },
-        { id: 'tapaAmbito', file: 'ar_ambito' },
-        { id: 'tapaPopular', file: 'ar_popular' },
-        { id: 'tapaUNO', file: 'ar_uno_er' }
+        { id: 'tapaVozInterior', file: 'ar_voz_interior' },
+        { id: 'tapaCapitalRosario', file: 'ar_capital_rosario' }
       ];
       
       newspapers.forEach(paper => {
@@ -7477,8 +7467,8 @@ _Actualizado: ${fecha} ${hora}_`;
             // Si falla, intentar con 200px
             this.src = `${baseUrl}/${paper.file}.200.jpg`;
             this.onerror = function() {
-              // Si también falla, usar placeholder
-              this.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 220"><rect fill="%23e5e7eb" width="160" height="220"/><text x="80" y="110" text-anchor="middle" fill="%239ca3af" font-size="14">No disponible</text></svg>';
+              // Si también falla, ocultar el item
+              this.closest('.newspaper-item').style.display = 'none';
             };
           };
         }
