@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <!--
   CLIMA & RÍO - Concepción del Uruguay
-  2026-03-30 00:00 ARG
-  Deportes: estados en vivo/finalizado + resultados automáticos
+  2026-03-30 08:30 ARG
+  + Animación fade-in escalonado de cards
+  + Popup de alerta meteorológica (lluvia >10mm o granizo)
+  + Notificaciones del navegador
 -->
 <html lang="es">
 <head>
@@ -3173,9 +3175,244 @@
       align-items: center;
       gap: 4px;
     }
+
+    /* ============================================
+       ANIMACIÓN FADE-IN ESCALONADO DE CARDS
+       ============================================ */
+    .card {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.5s ease forwards;
+    }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Delay escalonado para cada card */
+    .card:nth-child(1) { animation-delay: 0.05s; }
+    .card:nth-child(2) { animation-delay: 0.1s; }
+    .card:nth-child(3) { animation-delay: 0.15s; }
+    .card:nth-child(4) { animation-delay: 0.2s; }
+    .card:nth-child(5) { animation-delay: 0.25s; }
+    .card:nth-child(6) { animation-delay: 0.3s; }
+    .card:nth-child(7) { animation-delay: 0.35s; }
+    .card:nth-child(8) { animation-delay: 0.4s; }
+    .card:nth-child(9) { animation-delay: 0.45s; }
+    .card:nth-child(10) { animation-delay: 0.5s; }
+    .card:nth-child(11) { animation-delay: 0.55s; }
+    .card:nth-child(12) { animation-delay: 0.6s; }
+    .card:nth-child(13) { animation-delay: 0.65s; }
+    .card:nth-child(14) { animation-delay: 0.7s; }
+    .card:nth-child(15) { animation-delay: 0.75s; }
+
+    /* Header también con fade-in */
+    .header {
+      opacity: 0;
+      transform: translateY(-10px);
+      animation: fadeInDown 0.4s ease forwards;
+    }
+
+    @keyframes fadeInDown {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ============================================
+       POPUP DE ALERTA METEOROLÓGICA
+       ============================================ */
+    .weather-alert-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .weather-alert-overlay.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .weather-alert-popup {
+      background: linear-gradient(145deg, #1a1a2e 0%, #16213e 100%);
+      border-radius: 24px;
+      padding: 32px;
+      max-width: 420px;
+      width: 90%;
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+      transform: scale(0.8) translateY(20px);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      text-align: center;
+    }
+
+    .weather-alert-overlay.show .weather-alert-popup {
+      transform: scale(1) translateY(0);
+    }
+
+    .alert-icon-large {
+      font-size: 4rem;
+      margin-bottom: 16px;
+      animation: alertPulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes alertPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    .alert-title-large {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+
+    .alert-subtitle {
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 20px;
+    }
+
+    .alert-details {
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+
+    .alert-detail-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .alert-detail-row:last-child {
+      border-bottom: none;
+    }
+
+    .alert-detail-label {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .alert-detail-value {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .alert-detail-value.danger {
+      color: #f87171;
+    }
+
+    .alert-detail-value.warning {
+      color: #fbbf24;
+    }
+
+    .alert-close-btn {
+      background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
+      border: none;
+      color: white;
+      padding: 14px 40px;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+
+    .alert-close-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+    }
+
+    .alert-close-btn:active {
+      transform: translateY(0);
+    }
+
+    .alert-time-remaining {
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.5);
+      margin-top: 16px;
+    }
+
+    /* Variante para granizo - más dramática */
+    .weather-alert-popup.hail {
+      background: linear-gradient(145deg, #2d1b4e 0%, #1a1a2e 100%);
+      border-color: rgba(139, 92, 246, 0.3);
+    }
+
+    .weather-alert-popup.hail .alert-icon-large {
+      animation: hailShake 0.5s ease-in-out infinite;
+    }
+
+    @keyframes hailShake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+
+    /* Variante para lluvia fuerte */
+    .weather-alert-popup.rain {
+      background: linear-gradient(145deg, #1e3a5f 0%, #1a1a2e 100%);
+      border-color: rgba(59, 130, 246, 0.3);
+    }
   </style>
 </head>
 <body>
+  <!-- Popup de Alerta Meteorológica -->
+  <div class="weather-alert-overlay" id="weatherAlertOverlay">
+    <div class="weather-alert-popup" id="weatherAlertPopup">
+      <div class="alert-icon-large" id="alertIconLarge">⛈️</div>
+      <h2 class="alert-title-large" id="alertTitleLarge">Alerta Meteorológica</h2>
+      <p class="alert-subtitle" id="alertSubtitle">Precipitación intensa en las próximas horas</p>
+      
+      <div class="alert-details">
+        <div class="alert-detail-row">
+          <span class="alert-detail-label">Precipitación esperada</span>
+          <span class="alert-detail-value danger" id="alertPrecip">15 mm</span>
+        </div>
+        <div class="alert-detail-row">
+          <span class="alert-detail-label">Probabilidad</span>
+          <span class="alert-detail-value" id="alertProb">85%</span>
+        </div>
+        <div class="alert-detail-row">
+          <span class="alert-detail-label">Hora estimada</span>
+          <span class="alert-detail-value" id="alertTime">14:00 - 16:00</span>
+        </div>
+        <div class="alert-detail-row" id="alertHailRow" style="display: none;">
+          <span class="alert-detail-label">⚠️ Riesgo de granizo</span>
+          <span class="alert-detail-value danger">Alto</span>
+        </div>
+      </div>
+      
+      <button class="alert-close-btn" onclick="closeWeatherAlert()">Entendido</button>
+      <p class="alert-time-remaining" id="alertTimeRemaining">Alerta válida por 2 horas</p>
+    </div>
+  </div>
+
   <div class="app-container">
     <!-- Header -->
     <header class="header">
@@ -6272,11 +6509,188 @@ _Actualizado: ${fecha} ${hora}_`;
     }
 
     function checkAlerts() {
+      // Alertas del río
       if (DATOS_RIO.nivel >= 6) {
         showAlert('danger', '🚨 ALERTA: Nivel de evacuación', `El río alcanzó ${DATOS_RIO.nivel}m. Nivel de evacuación superado.`);
       } else if (DATOS_RIO.nivel >= 4) {
         showAlert('warning', '⚠️ ALERTA: Río en nivel de alerta', `El río alcanzó ${DATOS_RIO.nivel}m. Monitorear situación.`);
       }
+    }
+
+    // ============================================
+    // SISTEMA DE ALERTAS METEOROLÓGICAS (POPUP)
+    // ============================================
+    const WEATHER_ALERT_KEY = 'climaCduWeatherAlertDismissed';
+    const ALERT_VALIDITY_HOURS = 2;
+
+    async function checkWeatherAlerts() {
+      try {
+        // Verificar si ya se cerró una alerta reciente
+        const dismissed = localStorage.getItem(WEATHER_ALERT_KEY);
+        if (dismissed) {
+          const dismissedTime = new Date(dismissed);
+          const now = new Date();
+          const hoursSinceDismissed = (now - dismissedTime) / (1000 * 60 * 60);
+          if (hoursSinceDismissed < ALERT_VALIDITY_HOURS) {
+            console.log('⏳ Alerta ya cerrada hace menos de 2 horas');
+            return;
+          }
+        }
+
+        // Obtener datos horarios de las próximas 2 horas
+        const url = `https://api.open-meteo.com/v1/forecast?latitude=${CONFIG.lat}&longitude=${CONFIG.lon}&hourly=precipitation,precipitation_probability,weather_code&timezone=${CONFIG.timezone}&forecast_hours=3`;
+        
+        const response = await fetch(url);
+        const data = await response.json();
+        
+        const hourly = data.hourly;
+        let alertData = null;
+        
+        // Revisar próximas 2 horas
+        for (let i = 0; i < 2; i++) {
+          const precip = hourly.precipitation[i] || 0;
+          const prob = hourly.precipitation_probability[i] || 0;
+          const code = hourly.weather_code[i] || 0;
+          const hora = new Date(hourly.time[i]);
+          
+          // Condiciones de alerta:
+          // - Precipitación > 10mm en la próxima hora
+          // - Granizo (weather_code 96, 99)
+          const isHail = code === 96 || code === 99;
+          const isHeavyRain = precip >= 10;
+          
+          if (isHail || isHeavyRain) {
+            alertData = {
+              isHail: isHail,
+              precip: precip,
+              prob: prob,
+              code: code,
+              hora: hora,
+              horaStr: hora.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' })
+            };
+            break;
+          }
+        }
+        
+        if (alertData) {
+          showWeatherAlertPopup(alertData);
+          requestNotificationPermission(alertData);
+        }
+        
+      } catch (error) {
+        console.error('Error verificando alertas meteorológicas:', error);
+      }
+    }
+
+    function showWeatherAlertPopup(alertData) {
+      const overlay = document.getElementById('weatherAlertOverlay');
+      const popup = document.getElementById('weatherAlertPopup');
+      const iconEl = document.getElementById('alertIconLarge');
+      const titleEl = document.getElementById('alertTitleLarge');
+      const subtitleEl = document.getElementById('alertSubtitle');
+      const precipEl = document.getElementById('alertPrecip');
+      const probEl = document.getElementById('alertProb');
+      const timeEl = document.getElementById('alertTime');
+      const hailRow = document.getElementById('alertHailRow');
+      const remainingEl = document.getElementById('alertTimeRemaining');
+      
+      // Configurar según tipo de alerta
+      if (alertData.isHail) {
+        popup.className = 'weather-alert-popup hail';
+        iconEl.textContent = '🧊';
+        titleEl.textContent = '¡Alerta de Granizo!';
+        subtitleEl.textContent = 'Se esperan precipitaciones con granizo';
+        hailRow.style.display = 'flex';
+      } else {
+        popup.className = 'weather-alert-popup rain';
+        iconEl.textContent = '⛈️';
+        titleEl.textContent = '¡Lluvia Intensa!';
+        subtitleEl.textContent = 'Se esperan precipitaciones fuertes';
+        hailRow.style.display = 'none';
+      }
+      
+      precipEl.textContent = `${alertData.precip.toFixed(1)} mm`;
+      precipEl.className = alertData.precip >= 15 ? 'alert-detail-value danger' : 'alert-detail-value warning';
+      
+      probEl.textContent = `${alertData.prob}%`;
+      
+      // Calcular rango horario
+      const horaFin = new Date(alertData.hora);
+      horaFin.setHours(horaFin.getHours() + 1);
+      const horaFinStr = horaFin.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });
+      timeEl.textContent = `${alertData.horaStr} - ${horaFinStr}`;
+      
+      remainingEl.textContent = `Alerta válida por ${ALERT_VALIDITY_HOURS} horas`;
+      
+      // Mostrar popup con animación
+      overlay.classList.add('show');
+      
+      // Agregar listener para cerrar con ESC
+      document.addEventListener('keydown', handleEscClose);
+      
+      console.log('🚨 Mostrando alerta meteorológica:', alertData);
+    }
+
+    function closeWeatherAlert() {
+      const overlay = document.getElementById('weatherAlertOverlay');
+      overlay.classList.remove('show');
+      
+      // Guardar timestamp de cierre
+      localStorage.setItem(WEATHER_ALERT_KEY, new Date().toISOString());
+      
+      // Remover listener ESC
+      document.removeEventListener('keydown', handleEscClose);
+    }
+
+    function handleEscClose(e) {
+      if (e.key === 'Escape') {
+        closeWeatherAlert();
+      }
+    }
+
+    // Click fuera del popup para cerrar
+    document.getElementById('weatherAlertOverlay')?.addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeWeatherAlert();
+      }
+    });
+
+    // ============================================
+    // NOTIFICACIONES DEL NAVEGADOR
+    // ============================================
+    async function requestNotificationPermission(alertData) {
+      if (!('Notification' in window)) {
+        console.log('Este navegador no soporta notificaciones');
+        return;
+      }
+      
+      if (Notification.permission === 'granted') {
+        sendBrowserNotification(alertData);
+      } else if (Notification.permission !== 'denied') {
+        const permission = await Notification.requestPermission();
+        if (permission === 'granted') {
+          sendBrowserNotification(alertData);
+        }
+      }
+    }
+
+    function sendBrowserNotification(alertData) {
+      const title = alertData.isHail ? '🧊 ¡Alerta de Granizo!' : '⛈️ ¡Lluvia Intensa!';
+      const body = alertData.isHail 
+        ? `Se esperan precipitaciones con granizo a las ${alertData.horaStr}`
+        : `Se esperan ${alertData.precip.toFixed(1)}mm de lluvia a las ${alertData.horaStr}`;
+      
+      const notification = new Notification(title, {
+        body: body,
+        icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">⛈️</text></svg>',
+        tag: 'weather-alert',
+        requireInteraction: true
+      });
+      
+      notification.onclick = function() {
+        window.focus();
+        notification.close();
+      };
     }
 
     // ============================================
@@ -6314,6 +6728,12 @@ _Actualizado: ${fecha} ${hora}_`;
       setInterval(() => fetchRiverData(false), 30 * 60 * 1000);
       
       checkAlerts();
+      
+      // Verificar alertas meteorológicas (lluvia >10mm o granizo)
+      checkWeatherAlerts();
+      
+      // Verificar alertas cada 30 minutos
+      setInterval(checkWeatherAlerts, 30 * 60 * 1000);
       
       // Modal de lluvias
       document.getElementById('acumMesBtn')?.addEventListener('click', showRainBreakdown);
