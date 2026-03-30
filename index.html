@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <!--
   CLIMA & RÍO - Concepción del Uruguay
-  2026-03-30 09:45 ARG
+  2026-03-30 15:45 ARG
   + Animación fade-in escalonado de cards
   + Popup de alerta meteorológica (lluvia >10mm o granizo)
   + Notificaciones del navegador
   + Compartir por WhatsApp (múltiples cards)
   + Card Pronóstico por Hora (estilo AccuWeather)
+  + Card Tapas de Diarios (kiosko.net)
 -->
 <html lang="es">
 <head>
@@ -853,10 +854,10 @@
 
     .hourly-item {
       flex: 0 0 auto;
-      width: 90px;
+      width: 100px;
       background: rgba(255, 255, 255, 0.08);
       border-radius: 16px;
-      padding: 16px 12px;
+      padding: 18px 14px;
       text-align: center;
       transition: all 0.2s;
     }
@@ -871,7 +872,7 @@
     }
 
     .hourly-time {
-      font-size: 0.9rem;
+      font-size: 1rem;
       font-weight: 600;
       color: rgba(255, 255, 255, 0.8);
       margin-bottom: 8px;
@@ -882,21 +883,21 @@
     }
 
     .hourly-icon {
-      font-size: 2rem;
-      margin: 8px 0;
+      font-size: 2.2rem;
+      margin: 10px 0;
     }
 
     .hourly-temp {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.5rem;
+      font-size: 1.7rem;
       font-weight: 700;
       color: white;
     }
 
     .hourly-feels {
-      font-size: 0.75rem;
+      font-size: 0.85rem;
       color: rgba(255, 255, 255, 0.6);
-      margin-top: 4px;
+      margin-top: 6px;
     }
 
     .hourly-item.now .hourly-feels {
@@ -908,9 +909,9 @@
       align-items: center;
       justify-content: center;
       gap: 4px;
-      font-size: 0.75rem;
+      font-size: 0.85rem;
       color: rgba(255, 255, 255, 0.6);
-      margin-top: 8px;
+      margin-top: 10px;
     }
 
     .hourly-rain.high {
@@ -919,6 +920,91 @@
 
     .hourly-rain.very-high {
       color: #f87171;
+    }
+
+    /* Tapas de Diarios */
+    .newspapers-card {
+      grid-column: span 12;
+    }
+
+    .newspapers-card .card-icon {
+      background: linear-gradient(135deg, #1e3a5f 0%, #0f172a 100%);
+    }
+
+    .newspapers-scroll {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      padding-bottom: 12px;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .newspapers-scroll::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    .newspapers-scroll::-webkit-scrollbar-track {
+      background: var(--border-light);
+      border-radius: 3px;
+    }
+
+    .newspapers-scroll::-webkit-scrollbar-thumb {
+      background: var(--text-muted);
+      border-radius: 3px;
+    }
+
+    .newspaper-item {
+      flex: 0 0 auto;
+      width: 160px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .newspaper-item:hover {
+      transform: translateY(-4px);
+    }
+
+    .newspaper-cover {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+      border: 1px solid var(--border-light);
+    }
+
+    .newspaper-name {
+      margin-top: 10px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .newspapers-footer {
+      margin-top: 16px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border-light);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .newspapers-source {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .newspapers-link {
+      font-size: 0.8rem;
+      color: var(--accent-blue);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .newspapers-link:hover {
+      text-decoration: underline;
     }
 
     .forecast-extended .card-icon {
@@ -2693,6 +2779,7 @@
     .celestial-value {
       font-family: 'Space Grotesk', sans-serif;
       font-weight: 600;
+      color: var(--text-primary);
     }
 
     /* Footer */
@@ -2779,7 +2866,8 @@
       .finance-card,
       .phones-card,
       .cinema-card,
-      .sports-card {
+      .sports-card,
+      .newspapers-card {
         grid-column: span 1;
       }
 
@@ -3968,16 +4056,6 @@
               <span class="evac">EVAC. 6M</span>
             </div>
           </div>
-          <div class="river-temp">
-            <span class="river-temp-icon">🌡️</span>
-            <div class="river-temp-info">
-              <div class="river-temp-label">Temp. del agua</div>
-              <div class="water-temp-value">--°C</div>
-            </div>
-            <div class="river-timestamp">
-              Actualizado<br>--/-- --:--
-            </div>
-          </div>
         </div>
 
         <!-- Viento -->
@@ -4423,11 +4501,6 @@
             <div class="fishing-label">MUY BUENO</div>
           </div>
           <div class="fishing-factors">
-            <div class="factor-item good">
-              <span class="factor-icon">🌡️</span>
-              <span class="factor-name">Agua 24°C</span>
-              <span class="factor-score">✓</span>
-            </div>
             <div class="factor-item good">
               <span class="factor-icon">🌊</span>
               <span class="factor-name">Río bajando</span>
@@ -4960,6 +5033,55 @@
         </div>
       </div>
 
+      <!-- Tapas de Diarios -->
+      <div class="card newspapers-card" data-card-id="newspapers">
+        <div class="card-header">
+          <div class="card-icon">📰</div>
+          <div>
+            <div class="card-title">Tapas de Diarios</div>
+            <div class="card-subtitle">Edición de hoy</div>
+          </div>
+        </div>
+        <div class="newspapers-scroll" id="newspapersScroll">
+          <a class="newspaper-item" href="https://es.kiosko.net/ar/np/ar_clarin.html" target="_blank">
+            <img class="newspaper-cover" id="tapaClarin" src="" alt="Clarín" loading="lazy">
+            <div class="newspaper-name">Clarín</div>
+          </a>
+          <a class="newspaper-item" href="https://es.kiosko.net/ar/np/nacion.html" target="_blank">
+            <img class="newspaper-cover" id="tapaNacion" src="" alt="La Nación" loading="lazy">
+            <div class="newspaper-name">La Nación</div>
+          </a>
+          <a class="newspaper-item" href="https://es.kiosko.net/ar/np/ole.html" target="_blank">
+            <img class="newspaper-cover" id="tapaOle" src="" alt="Olé" loading="lazy">
+            <div class="newspaper-name">Olé</div>
+          </a>
+          <a class="newspaper-item" href="https://es.kiosko.net/ar/np/ar_cronista.html" target="_blank">
+            <img class="newspaper-cover" id="tapaCronista" src="" alt="El Cronista" loading="lazy">
+            <div class="newspaper-name">El Cronista</div>
+          </a>
+          <a class="newspaper-item" href="https://es.kiosko.net/ar/np/ar_pagina12.html" target="_blank">
+            <img class="newspaper-cover" id="tapaPagina12" src="" alt="Página 12" loading="lazy">
+            <div class="newspaper-name">Página 12</div>
+          </a>
+          <a class="newspaper-item" href="https://es.kiosko.net/ar/np/ar_ambito.html" target="_blank">
+            <img class="newspaper-cover" id="tapaAmbito" src="" alt="Ámbito" loading="lazy">
+            <div class="newspaper-name">Ámbito</div>
+          </a>
+          <a class="newspaper-item" href="https://es.kiosko.net/ar/np/ar_popular.html" target="_blank">
+            <img class="newspaper-cover" id="tapaPopular" src="" alt="Diario Popular" loading="lazy">
+            <div class="newspaper-name">Diario Popular</div>
+          </a>
+          <a class="newspaper-item" href="https://es.kiosko.net/ar/np/ar_uno_er.html" target="_blank">
+            <img class="newspaper-cover" id="tapaUNO" src="" alt="UNO Entre Ríos" loading="lazy">
+            <div class="newspaper-name">UNO E. Ríos</div>
+          </a>
+        </div>
+        <div class="newspapers-footer">
+          <span class="newspapers-source">Fuente: Kiosko.net</span>
+          <a class="newspapers-link" href="https://es.kiosko.net/ar/" target="_blank">Ver todos los diarios →</a>
+        </div>
+      </div>
+
     </div>
 
     <!-- Cita del Día -->
@@ -5003,7 +5125,8 @@
       { id: 'phones', icon: '📞', name: 'Teléfonos Útiles' },
       { id: 'pharmacy', icon: '💊', name: 'Farmacia de Turno' },
       { id: 'cinema', icon: '🎬', name: 'Cartelera Cine' },
-      { id: 'sports', icon: '⚽', name: 'Eventos Deportivos' }
+      { id: 'sports', icon: '⚽', name: 'Eventos Deportivos' },
+      { id: 'newspapers', icon: '📰', name: 'Tapas de Diarios' }
     ];
     
     const DEFAULT_CARD_SETTINGS = {};
@@ -5702,13 +5825,9 @@
       nivel: null,
       variacion: null,
       estado: 'Cargando...',
-      tempAgua: 24, // Valor por defecto si no hay data
       ultimaActualizacion: 'Cargando...',
       estaciones: {}
     };
-    
-    // Último valor conocido de temp del agua (para cuando la API devuelve null)
-    let LAST_KNOWN_WATER_TEMP = 24;
 
     // ============================================
     // FUNCIONES DE UTILIDAD
@@ -5999,17 +6118,10 @@ _Actualizado: ${fecha} ${hora}_`;
           // Actualizar DATOS_RIO global
           const cdu = data.puertos?.concepcion || {};
           
-          // Guardar tempAgua solo si tiene un valor válido, sino usar el último conocido
-          const newTempAgua = data.tempAgua;
-          if (newTempAgua && newTempAgua > 0) {
-            LAST_KNOWN_WATER_TEMP = newTempAgua;
-          }
-          
           DATOS_RIO = {
             nivel: cdu.nivel || 0,
             variacion: cdu.variacion || 0,
             estado: cdu.estado === 'crece' ? 'Subiendo' : cdu.estado === 'baja' ? 'Bajando' : 'Estable',
-            tempAgua: LAST_KNOWN_WATER_TEMP,
             ultimaActualizacion: cdu.fechaHora || new Date().toLocaleString('es-AR'),
             estaciones: {
               concordia: data.puertos?.concordia || {},
@@ -6032,7 +6144,6 @@ _Actualizado: ${fecha} ${hora}_`;
           nivel: 1.46,
           variacion: -0.14,
           estado: 'Bajando',
-          tempAgua: 24.2,
           ultimaActualizacion: 'Sin conexión',
           estaciones: {}
         };
@@ -6063,17 +6174,9 @@ _Actualizado: ${fecha} ${hora}_`;
         statusEl.className = 'river-status-badge ' + (DATOS_RIO.estado === 'Subiendo' ? 'rising' : DATOS_RIO.estado === 'Bajando' ? 'falling' : 'stable');
       }
       
-      // Temperatura del agua
-      const tempAguaEl = document.querySelector('.water-temp-value');
-      if (tempAguaEl) tempAguaEl.textContent = `${DATOS_RIO.tempAgua?.toFixed(1) || '--'}°C`;
-      
       // Subtítulo con fecha/hora completa
       const subtitleEl = document.querySelector('.river-subtitle');
       if (subtitleEl) subtitleEl.textContent = `Puerto CdU • ${DATOS_RIO.ultimaActualizacion}`;
-      
-      // Timestamp abajo
-      const timestampEl = document.querySelector('.river-timestamp');
-      if (timestampEl) timestampEl.innerHTML = `Actualizado<br>${DATOS_RIO.ultimaActualizacion}`;
       
       // Gauge del río
       updateRiverGauge(DATOS_RIO.nivel);
@@ -6459,15 +6562,6 @@ _Actualizado: ${fecha} ${hora}_`;
       const current = data.current;
       let score = 5; // Base
       const factors = [];
-      
-      // Factor: Temperatura del agua (ideal 20-26°C)
-      const waterTemp = DATOS_RIO.tempAgua;
-      if (waterTemp >= 20 && waterTemp <= 26) {
-        score += 1;
-        factors.push({ name: `Agua ${waterTemp}°C`, icon: '🌡️', status: 'good' });
-      } else {
-        factors.push({ name: `Agua ${waterTemp}°C`, icon: '🌡️', status: 'neutral' });
-      }
       
       // Factor: Río bajando (bueno para pesca)
       if (DATOS_RIO.estado === 'Bajando') {
@@ -7306,6 +7400,46 @@ _Actualizado: ${fecha} ${hora}_`;
     }
 
     // ============================================
+    // CARGAR TAPAS DE DIARIOS
+    // ============================================
+    function loadNewspaperCovers() {
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = String(today.getMonth() + 1).padStart(2, '0');
+      const day = String(today.getDate()).padStart(2, '0');
+      
+      // Base URL de kiosko.net
+      const baseUrl = `https://img.kiosko.net/${year}/${month}/${day}/ar`;
+      
+      const newspapers = [
+        { id: 'tapaClarin', file: 'ar_clarin' },
+        { id: 'tapaNacion', file: 'nacion' },
+        { id: 'tapaOle', file: 'ole' },
+        { id: 'tapaCronista', file: 'ar_cronista' },
+        { id: 'tapaPagina12', file: 'ar_pagina12' },
+        { id: 'tapaAmbito', file: 'ar_ambito' },
+        { id: 'tapaPopular', file: 'ar_popular' },
+        { id: 'tapaUNO', file: 'ar_uno_er' }
+      ];
+      
+      newspapers.forEach(paper => {
+        const img = document.getElementById(paper.id);
+        if (img) {
+          // Usar la versión 750px para mejor calidad
+          img.src = `${baseUrl}/${paper.file}.750.jpg`;
+          img.onerror = function() {
+            // Si falla, intentar con 200px
+            this.src = `${baseUrl}/${paper.file}.200.jpg`;
+            this.onerror = function() {
+              // Si también falla, usar placeholder
+              this.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 220"><rect fill="%23e5e7eb" width="160" height="220"/><text x="80" y="110" text-anchor="middle" fill="%239ca3af" font-size="14">No disponible</text></svg>';
+            };
+          };
+        }
+      });
+    }
+
+    // ============================================
     // INICIALIZACIÓN
     // ============================================
     document.addEventListener('DOMContentLoaded', async () => {
@@ -7317,6 +7451,9 @@ _Actualizado: ${fecha} ${hora}_`;
       
       // Mostrar cita del día
       showDailyQuote();
+      
+      // Cargar tapas de diarios
+      loadNewspaperCovers();
       
       // Cargar todos los datos al iniciar
       document.getElementById('lastUpdate').textContent = 'cargando...';
