@@ -209,11 +209,19 @@
       transform: rotate(360deg) scale(0.95);
     }
 
-    /* Grid Layout */
+    /* Flexbox Layout - Cards adaptativas */
     .dashboard-grid {
-      display: grid;
-      grid-template-columns: repeat(12, 1fr);
+      display: flex;
+      flex-wrap: wrap;
       gap: 24px;
+    }
+    
+    /* Filas para agrupar cards */
+    .dashboard-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      width: 100%;
     }
 
     /* Cards Base */
@@ -225,6 +233,8 @@
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       position: relative;
       overflow: hidden;
+      flex: 1 1 300px;
+      min-width: 280px;
     }
 
     .card:hover {
@@ -263,7 +273,8 @@
 
     /* Current Weather Card - Clima Actual */
     .weather-current {
-      grid-column: span 7;
+      flex: 2 1 400px;
+      min-width: 350px;
       background: linear-gradient(145deg, #3B82F6 0%, #1D4ED8 50%, #1E40AF 100%);
       color: white;
       padding: 28px;
@@ -423,15 +434,16 @@
 
     /* Stacked Cards Container (Río + Viento) */
     .stacked-cards {
-      grid-column: span 5;
+      flex: 1 1 300px;
+      min-width: 280px;
       display: flex;
       flex-direction: column;
       gap: 16px;
     }
 
     .stacked-cards .card {
-      flex: 1;
-      min-height: 0;
+      flex: 1 1 auto;
+      min-width: unset;
     }
 
     /* Río Uruguay Card */
@@ -691,7 +703,8 @@
 
     /* 3-Day Forecast - Grande */
     .forecast-3day {
-      grid-column: span 7;
+      flex: 2 1 400px;
+      min-width: 350px;
     }
 
     .forecast-3day .card-icon {
@@ -699,13 +712,15 @@
     }
 
     .forecast-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      display: flex;
+      flex-wrap: wrap;
       gap: 20px;
       margin-top: 20px;
     }
 
     .forecast-day {
+      flex: 1 1 120px;
+      min-width: 100px;
       background: linear-gradient(145deg, #FEF3C7 0%, #FDE68A 100%);
       border-radius: var(--radius-md);
       padding: 24px;
@@ -784,12 +799,14 @@
 
     /* Extended Forecast */
     .forecast-extended {
-      grid-column: span 5;
+      flex: 1 1 300px;
+      min-width: 280px;
     }
 
     /* Hourly Forecast Card - Pronóstico por Hora */
     .hourly-forecast {
-      grid-column: span 12;
+      flex: 1 1 100%;
+      min-width: 100%;
       background: linear-gradient(145deg, #1e3a5f 0%, #0f172a 100%);
       color: white;
     }
@@ -925,7 +942,8 @@
 
     /* Tapas de Diarios */
     .newspapers-card {
-      grid-column: span 12;
+      flex: 1 1 100%;
+      min-width: 100%;
     }
 
     .newspapers-card .card-icon {
@@ -1113,12 +1131,14 @@
 
     /* River Stations */
     .river-stations {
-      grid-column: span 6;
+      flex: 1 1 350px;
+      min-width: 300px;
     }
 
     /* Webcam Card */
     .webcam-card {
-      grid-column: span 4;
+      flex: 1 1 250px;
+      min-width: 220px;
     }
 
     .webcam-card .card-icon {
@@ -1232,7 +1252,8 @@
 
     /* Radar Card */
     .radar-card {
-      grid-column: span 6;
+      flex: 1 1 350px;
+      min-width: 300px;
     }
 
     .radar-card .card-icon {
@@ -1445,7 +1466,8 @@
 
     /* Phones Card - Teléfonos Útiles */
     .phones-card {
-      grid-column: span 6;
+      flex: 1 1 350px;
+      min-width: 300px;
       background: linear-gradient(145deg, #6366F1 0%, #4F46E5 100%);
       color: white;
     }
@@ -1545,7 +1567,8 @@
 
     /* Finance Card */
     .finance-card {
-      grid-column: span 4;
+      flex: 1 1 280px;
+      min-width: 250px;
       background: linear-gradient(145deg, #1E293B 0%, #0F172A 100%);
       color: white;
     }
@@ -1683,7 +1706,8 @@
 
     /* Pharmacy Card */
     .pharmacy-card {
-      grid-column: span 6;
+      flex: 1 1 350px;
+      min-width: 300px;
       background: linear-gradient(135deg, #10b981 0%, #059669 100%);
       color: #ffffff !important;
     }
@@ -1744,7 +1768,8 @@
 
     /* Cinema Card */
     .cinema-card {
-      grid-column: span 6;
+      flex: 1 1 350px;
+      min-width: 300px;
       background: linear-gradient(145deg, #1a1a2e 0%, #16213e 100%);
       color: #ffffff !important;
     }
@@ -1870,7 +1895,8 @@
 
     /* Sports Card */
     .sports-card {
-      grid-column: span 6;
+      flex: 1 1 350px;
+      min-width: 300px;
       background: linear-gradient(145deg, #1a472a 0%, #0d2818 100%);
       color: #ffffff !important;
     }
@@ -2418,7 +2444,8 @@
 
     /* Holidays Cards */
     .holidays-section {
-      grid-column: span 5;
+      flex: 1 1 300px;
+      min-width: 280px;
     }
 
     .holidays-section .card-icon {
@@ -2557,12 +2584,14 @@
 
     /* Sun/Moon Card */
     .sun-moon-card {
-      grid-column: span 3;
+      flex: 1 1 220px;
+      min-width: 200px;
     }
 
     /* River History Chart */
     .river-history {
-      grid-column: span 4;
+      flex: 1 1 280px;
+      min-width: 250px;
     }
 
     .river-history .card-icon {
@@ -2645,7 +2674,8 @@
 
     /* Fishing Index */
     .fishing-index {
-      grid-column: span 4;
+      flex: 1 1 280px;
+      min-width: 250px;
     }
 
     .fishing-index .card-icon {
@@ -2880,32 +2910,32 @@
 
     /* Responsive */
     @media (max-width: 1200px) {
-      .dashboard-grid {
-        grid-template-columns: repeat(6, 1fr);
-      }
-      
-      .weather-current { grid-column: span 6; }
       .stacked-cards { 
-        grid-column: span 6; 
         flex-direction: row;
       }
       .stacked-cards .card {
         flex: 1;
       }
-      .forecast-3day { grid-column: span 6; }
-      .forecast-extended { grid-column: span 6; }
-      .radar-card { grid-column: span 6; }
-      .river-stations { grid-column: span 6; }
-      .webcam-card { grid-column: span 2; }
-      .river-history { grid-column: span 2; }
-      .fishing-index { grid-column: span 2; }
-      .sun-moon-card { grid-column: span 6; }
-      .holidays-section { grid-column: span 6; }
-      .finance-card { grid-column: span 6; }
-      .phones-card { grid-column: span 3; }
-      .pharmacy-card { grid-column: span 3; }
-      .cinema-card { grid-column: span 6; }
-      .sports-card { grid-column: span 6; }
+    }
+
+    @media (max-width: 768px) {
+      .stacked-cards { 
+        flex-direction: column;
+      }
+      
+      .card {
+        flex: 1 1 100%;
+        min-width: 100%;
+      }
+      
+      .forecast-grid {
+        flex-direction: column;
+      }
+      
+      .forecast-day {
+        flex: 1 1 auto;
+        min-width: auto;
+      }
     }
 
     @media (max-width: 600px) {
@@ -2914,29 +2944,7 @@
       }
 
       .dashboard-grid {
-        grid-template-columns: 1fr;
         gap: 16px;
-      }
-
-      .weather-current,
-      .stacked-cards,
-      .forecast-3day,
-      .hourly-forecast,
-      .forecast-extended,
-      .radar-card,
-      .river-stations,
-      .webcam-card,
-      .river-history,
-      .fishing-index,
-      .holidays-section,
-      .sun-moon-card,
-      .pharmacy-card,
-      .finance-card,
-      .phones-card,
-      .cinema-card,
-      .sports-card,
-      .newspapers-card {
-        grid-column: span 1;
       }
 
       .stacked-cards {
@@ -4213,27 +4221,6 @@
         </div>
       </div>
 
-      <!-- Pronóstico por Hora (siempre visible, no configurable) -->
-      <div class="card hourly-forecast">
-        <div class="card-header">
-          <div class="card-icon">🕐</div>
-          <div>
-            <div class="card-title">Pronóstico por Hora</div>
-            <div class="card-subtitle">Próximas 24 horas</div>
-          </div>
-        </div>
-        <div class="hourly-scroll" id="hourlyScroll">
-          <!-- Se llena con JavaScript -->
-          <div class="hourly-item now">
-            <div class="hourly-time">Ahora</div>
-            <div class="hourly-icon">☀️</div>
-            <div class="hourly-temp">26°</div>
-            <div class="hourly-feels">ST 30°</div>
-            <div class="hourly-rain">💧 1%</div>
-          </div>
-        </div>
-      </div>
-
       <!-- Pronóstico Extendido -->
       <div class="card forecast-extended" data-card-id="forecastExt">
         <div class="card-header">
@@ -4363,6 +4350,27 @@
               <span class="extended-min">15°</span>
             </div>
             <div class="extended-rain low">💧 0%</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pronóstico por Hora (siempre visible, no configurable) -->
+      <div class="card hourly-forecast">
+        <div class="card-header">
+          <div class="card-icon">🕐</div>
+          <div>
+            <div class="card-title">Pronóstico por Hora</div>
+            <div class="card-subtitle">Próximas 24 horas</div>
+          </div>
+        </div>
+        <div class="hourly-scroll" id="hourlyScroll">
+          <!-- Se llena con JavaScript -->
+          <div class="hourly-item now">
+            <div class="hourly-time">Ahora</div>
+            <div class="hourly-icon">☀️</div>
+            <div class="hourly-temp">26°</div>
+            <div class="hourly-feels">ST 30°</div>
+            <div class="hourly-rain">💧 1%</div>
           </div>
         </div>
       </div>
