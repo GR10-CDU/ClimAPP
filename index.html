@@ -4152,16 +4152,16 @@
           </div>
           <div class="wind-details">
             <div class="wind-detail-item">
-              <span class="wind-detail-label">Presión</span>
-              <span class="wind-detail-value">1015 hPa</span>
+              <span class="wind-detail-label">Ráfaga máx.</span>
+              <span class="wind-detail-value wind-gust-max">21 km/h</span>
             </div>
             <div class="wind-detail-item">
-              <span class="wind-detail-label">Humedad</span>
-              <span class="wind-detail-value">42%</span>
+              <span class="wind-detail-label">Promedio</span>
+              <span class="wind-detail-value wind-avg">9 km/h</span>
             </div>
             <div class="wind-detail-item">
-              <span class="wind-detail-label">Punto rocío</span>
-              <span class="wind-detail-value">11°C</span>
+              <span class="wind-detail-label">Beaufort</span>
+              <span class="wind-detail-value wind-beaufort">2 - Brisa</span>
             </div>
           </div>
         </div>
@@ -4612,7 +4612,7 @@
           <div class="card-icon">🌅</div>
           <div>
             <div class="card-title">Sol & Luna</div>
-            <div class="card-subtitle">Hoy, 25 marzo</div>
+            <div class="card-subtitle sun-moon-date">Hoy</div>
           </div>
         </div>
         <div class="sun-moon-display">
@@ -4634,15 +4634,15 @@
             </div>
           </div>
           <div class="moon-info">
-            <div class="celestial-icon">🌗</div>
+            <div class="celestial-icon" id="moon-icon">🌗</div>
             <div class="celestial-times">
               <div class="celestial-row">
                 <span class="celestial-label">Fase</span>
-                <span class="celestial-value">Menguante</span>
+                <span class="celestial-value" id="moon-phase">Calculando...</span>
               </div>
               <div class="celestial-row">
-                <span class="celestial-label">Luna Llena</span>
-                <span class="celestial-value">31 Mar</span>
+                <span class="celestial-label" id="next-moon-label">Próxima fase</span>
+                <span class="celestial-value" id="next-moon-date">--</span>
               </div>
             </div>
           </div>
@@ -6325,8 +6325,10 @@ _Actualizado: ${fecha} ${hora}_`;
       // (se actualiza en fetchMonthlyPrecip)
       
       // Viento
-      document.querySelector('.wind-speed').textContent = `${Math.round(current.wind_speed_10m)} km/h`;
-      document.querySelector('.wind-gusts').textContent = `Ráfagas: ${Math.round(current.wind_gusts_10m)} km/h`;
+      const windSpeed = Math.round(current.wind_speed_10m);
+      const windGusts = Math.round(current.wind_gusts_10m);
+      document.querySelector('.wind-speed').textContent = `${windSpeed} km/h`;
+      document.querySelector('.wind-gusts').textContent = `Ráfagas: ${windGusts} km/h`;
       
       const windDir = current.wind_direction_10m;
       const directions = ['Norte', 'Noreste', 'Este', 'Sureste', 'Sur', 'Suroeste', 'Oeste', 'Noroeste'];
@@ -6338,16 +6340,36 @@ _Actualizado: ${fecha} ${hora}_`;
       
       // Actualizar detalles del viento
       const windDetails = document.querySelectorAll('.wind-detail-value');
-      windDetails[0].textContent = `${Math.round(current.pressure_msl)} hPa`;
-      windDetails[1].textContent = `${current.relative_humidity_2m}%`;
+      windDetails[0].textContent = `${windGusts} km/h`; // Ráfaga máx
+      windDetails[1].textContent = `${windSpeed} km/h`; // Promedio
       
-      // Punto de rocío (cálculo aproximado)
-      const dewPoint = current.temperature_2m - ((100 - current.relative_humidity_2m) / 5);
-      windDetails[2].textContent = `${Math.round(dewPoint)}°C`;
+      // Escala Beaufort
+      const beaufortScale = [
+        { max: 1, name: '0 - Calma' },
+        { max: 5, name: '1 - Ventolina' },
+        { max: 11, name: '2 - Brisa' },
+        { max: 19, name: '3 - Brisa suave' },
+        { max: 28, name: '4 - Brisa moderada' },
+        { max: 38, name: '5 - Brisa fresca' },
+        { max: 49, name: '6 - Viento fuerte' },
+        { max: 61, name: '7 - Viento muy fuerte' },
+        { max: 74, name: '8 - Temporal' },
+        { max: 88, name: '9 - Temporal fuerte' },
+        { max: 102, name: '10 - Temporal muy fuerte' },
+        { max: 117, name: '11 - Borrasca' },
+        { max: Infinity, name: '12 - Huracán' }
+      ];
+      const beaufort = beaufortScale.find(b => windSpeed <= b.max);
+      windDetails[2].textContent = beaufort ? beaufort.name : '0 - Calma';
       
       // Sol y luna
       const sunrise = new Date(daily.sunrise[0]).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });
       const sunset = new Date(daily.sunset[0]).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });
+      
+      // Actualizar fecha de Sol y Luna
+      const mesesLargos = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+      const hoyFecha = new Date();
+      document.querySelector('.sun-moon-date').textContent = `Hoy, ${hoyFecha.getDate()} ${mesesLargos[hoyFecha.getMonth()]}`;
       
       const celestialValues = document.querySelectorAll('.sun-info .celestial-value');
       celestialValues[0].textContent = sunrise;
@@ -6366,8 +6388,85 @@ _Actualizado: ${fecha} ${hora}_`;
       const trend = avgTempNext3 > todayMax ? 'sube temperatura' : avgTempNext3 < todayMax ? 'baja temperatura' : 'estable';
       document.querySelector('.weather-trend').innerHTML = `<span>→</span> Próximos días: Estable, ${trend}`;
       
+      // Actualizar fase lunar
+      updateMoonPhase();
+      
       // Pronóstico horario de lluvias
       updateRainForecast(data);
+    }
+
+    // ============================================
+    // FASE LUNAR (cálculo astronómico)
+    // ============================================
+    function updateMoonPhase() {
+      const now = new Date();
+      
+      // Algoritmo de cálculo de fase lunar
+      // Basado en el ciclo sinódico de 29.53 días
+      // Referencia: Luna nueva el 29 de diciembre de 2024
+      const lunarCycle = 29.53058867;
+      const refNewMoon = new Date(2024, 11, 30, 22, 27); // 30 dic 2024, 22:27 UTC
+      
+      const daysSinceRef = (now - refNewMoon) / (1000 * 60 * 60 * 24);
+      const lunarAge = daysSinceRef % lunarCycle;
+      const phase = lunarAge / lunarCycle; // 0 a 1
+      
+      // Determinar fase y emoji
+      let phaseName, emoji, nextPhase, daysToNext;
+      
+      if (phase < 0.0625) {
+        phaseName = 'Luna Nueva';
+        emoji = '🌑';
+        nextPhase = 'Cuarto Creciente';
+        daysToNext = Math.round((0.25 - phase) * lunarCycle);
+      } else if (phase < 0.1875) {
+        phaseName = 'Creciente';
+        emoji = '🌒';
+        nextPhase = 'Cuarto Creciente';
+        daysToNext = Math.round((0.25 - phase) * lunarCycle);
+      } else if (phase < 0.3125) {
+        phaseName = 'Cuarto Creciente';
+        emoji = '🌓';
+        nextPhase = 'Luna Llena';
+        daysToNext = Math.round((0.5 - phase) * lunarCycle);
+      } else if (phase < 0.4375) {
+        phaseName = 'Gibosa Creciente';
+        emoji = '🌔';
+        nextPhase = 'Luna Llena';
+        daysToNext = Math.round((0.5 - phase) * lunarCycle);
+      } else if (phase < 0.5625) {
+        phaseName = 'Luna Llena';
+        emoji = '🌕';
+        nextPhase = 'Cuarto Menguante';
+        daysToNext = Math.round((0.75 - phase) * lunarCycle);
+      } else if (phase < 0.6875) {
+        phaseName = 'Gibosa Menguante';
+        emoji = '🌖';
+        nextPhase = 'Cuarto Menguante';
+        daysToNext = Math.round((0.75 - phase) * lunarCycle);
+      } else if (phase < 0.8125) {
+        phaseName = 'Cuarto Menguante';
+        emoji = '🌗';
+        nextPhase = 'Luna Nueva';
+        daysToNext = Math.round((1 - phase) * lunarCycle);
+      } else {
+        phaseName = 'Menguante';
+        emoji = '🌘';
+        nextPhase = 'Luna Nueva';
+        daysToNext = Math.round((1 - phase) * lunarCycle);
+      }
+      
+      // Calcular fecha de próxima fase
+      const nextDate = new Date(now);
+      nextDate.setDate(nextDate.getDate() + daysToNext);
+      const mesesCortos = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+      const nextDateStr = `${nextDate.getDate()} ${mesesCortos[nextDate.getMonth()]}`;
+      
+      // Actualizar UI
+      document.getElementById('moon-icon').textContent = emoji;
+      document.getElementById('moon-phase').textContent = phaseName;
+      document.getElementById('next-moon-label').textContent = nextPhase;
+      document.getElementById('next-moon-date').textContent = nextDateStr;
     }
 
     // ============================================
