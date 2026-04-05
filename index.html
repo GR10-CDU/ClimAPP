@@ -2007,6 +2007,13 @@
       line-height: 1.3;
     }
 
+    .sports-event-scorers {
+      font-size: 0.7rem;
+      opacity: 0.75;
+      margin-top: 4px;
+      font-style: italic;
+    }
+
     .sports-event-competition {
       font-size: 0.7rem;
       opacity: 0.6;
@@ -7182,10 +7189,27 @@ _Actualizado: ${fecha} ${hora}_`;
         
         // Mostrar resultado si existe
         let teams;
+        let goleadores = '';
+        
         if (isFutbol) {
           if (evento.resultado || evento.golesLocal !== undefined) {
             // Partido con resultado
             teams = `${evento.equipo1} <strong>${evento.golesLocal}</strong> - <strong>${evento.golesVisitante}</strong> ${evento.equipo2}`;
+            
+            // Agregar goleadores si existen
+            const golesLocal = evento.goleadoresLocal || [];
+            const golesVisitante = evento.goleadoresVisitante || [];
+            
+            if (golesLocal.length > 0 || golesVisitante.length > 0) {
+              let golesTexto = [];
+              if (golesLocal.length > 0) {
+                golesTexto.push(golesLocal.join(', '));
+              }
+              if (golesVisitante.length > 0) {
+                golesTexto.push(golesVisitante.join(', '));
+              }
+              goleadores = `<div class="sports-event-scorers">⚽ ${golesTexto.join(' · ')}</div>`;
+            }
           } else {
             teams = `${evento.equipo1} vs ${evento.equipo2}`;
           }
@@ -7212,6 +7236,7 @@ _Actualizado: ${fecha} ${hora}_`;
             <div class="sports-event-info">
               ${estadoIndicator}
               <div class="sports-event-teams">${teams}</div>
+              ${goleadores}
               <div class="sports-event-competition">${evento.competicion}</div>
             </div>
             <div class="sports-event-type">${icon}</div>
