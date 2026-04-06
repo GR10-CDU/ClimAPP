@@ -1928,14 +1928,16 @@
       background: rgba(255,255,255,0.12);
     }
 
+    /* Próximo partido (hoy, aún no empezó) - Verde suave */
     .sports-event.is-today {
-      background: linear-gradient(135deg, rgba(34, 197, 94, 0.3) 0%, rgba(22, 163, 74, 0.2) 100%);
-      border: 1px solid rgba(34, 197, 94, 0.5);
+      background: linear-gradient(135deg, rgba(34, 197, 94, 0.25) 0%, rgba(22, 163, 74, 0.15) 100%);
+      border-left: 3px solid #22c55e;
     }
 
+    /* En vivo - Rojo pulsante */
     .sports-event.is-live {
-      background: linear-gradient(135deg, rgba(239, 68, 68, 0.4) 0%, rgba(220, 38, 38, 0.3) 100%);
-      border: 1px solid rgba(239, 68, 68, 0.7);
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.35) 0%, rgba(220, 38, 38, 0.25) 100%);
+      border-left: 3px solid #ef4444;
       animation: pulse-live 2s ease-in-out infinite;
     }
 
@@ -1944,14 +1946,14 @@
       50% { box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
     }
 
+    /* Finalizado - Azul/gris suave */
     .sports-event.is-finished {
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.15);
-      opacity: 0.85;
+      background: linear-gradient(135deg, rgba(100, 116, 139, 0.2) 0%, rgba(71, 85, 105, 0.15) 100%);
+      border-left: 3px solid #64748b;
     }
 
     .sports-event.is-finished .sports-event-time {
-      color: #94a3b8;
+      color: #22c55e;
     }
 
     .live-indicator {
