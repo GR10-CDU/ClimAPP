@@ -4516,29 +4516,17 @@
         </div>
         <div class="river-chart">
           <div class="chart-container">
-            <div class="chart-y-axis">
+            <div class="chart-y-axis" id="chart-y-axis">
               <span>3m</span>
               <span>2m</span>
               <span>1m</span>
               <span>0m</span>
             </div>
             <div class="chart-area">
-              <svg viewBox="0 0 300 100" preserveAspectRatio="none" class="chart-svg">
+              <svg viewBox="0 0 300 100" preserveAspectRatio="none" class="chart-svg" id="river-chart-svg">
                 <!-- Línea de alerta -->
                 <line x1="0" y1="20" x2="300" y2="20" stroke="#FCD34D" stroke-width="1" stroke-dasharray="4"/>
-                <!-- Área bajo la curva -->
-                <path d="M0,70 L43,65 L86,60 L129,55 L172,52 L215,50 L258,48 L300,51 L300,100 L0,100 Z" fill="url(#riverGradient)" opacity="0.3"/>
-                <!-- Línea principal -->
-                <path d="M0,70 L43,65 L86,60 L129,55 L172,52 L215,50 L258,48 L300,51" fill="none" stroke="#14B8A6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <!-- Puntos -->
-                <circle cx="0" cy="70" r="4" fill="#14B8A6"/>
-                <circle cx="43" cy="65" r="4" fill="#14B8A6"/>
-                <circle cx="86" cy="60" r="4" fill="#14B8A6"/>
-                <circle cx="129" cy="55" r="4" fill="#14B8A6"/>
-                <circle cx="172" cy="52" r="4" fill="#14B8A6"/>
-                <circle cx="215" cy="50" r="4" fill="#14B8A6"/>
-                <circle cx="258" cy="48" r="4" fill="#14B8A6"/>
-                <circle cx="300" cy="51" r="5" fill="#0D9488" stroke="#fff" stroke-width="2"/>
+                <!-- Se genera dinámicamente -->
                 <defs>
                   <linearGradient id="riverGradient" x1="0%" y1="0%" x2="0%" y2="100%">
                     <stop offset="0%" style="stop-color:#14B8A6;stop-opacity:0.4"/>
@@ -4546,30 +4534,23 @@
                   </linearGradient>
                 </defs>
               </svg>
-              <div class="chart-x-axis">
-                <span>19</span>
-                <span>20</span>
-                <span>21</span>
-                <span>22</span>
-                <span>23</span>
-                <span>24</span>
-                <span>25</span>
-                <span>Hoy</span>
+              <div class="chart-x-axis" id="chart-x-axis">
+                <!-- Se genera dinámicamente -->
               </div>
             </div>
           </div>
           <div class="chart-stats">
             <div class="chart-stat">
               <span class="chart-stat-label">Máx 7d</span>
-              <span class="chart-stat-value">1.82m</span>
+              <span class="chart-stat-value" id="river-max">--</span>
             </div>
             <div class="chart-stat">
               <span class="chart-stat-label">Mín 7d</span>
-              <span class="chart-stat-value">1.44m</span>
+              <span class="chart-stat-value" id="river-min">--</span>
             </div>
             <div class="chart-stat">
               <span class="chart-stat-label">Tendencia</span>
-              <span class="chart-stat-value trend-down">↓ Bajando</span>
+              <span class="chart-stat-value" id="river-trend">--</span>
             </div>
           </div>
         </div>
@@ -6155,6 +6136,12 @@ _Actualizado: ${fecha} ${hora}_`;
           
           console.log('✅ Datos del río cargados:', DATOS_RIO);
           updateRiverUI();
+          
+          // Actualizar gráfico de tendencia si hay historial
+          if (result.historial && result.historial.length > 0) {
+            updateRiverChart(result.historial);
+          }
+          
           return true;
         }
       } catch (error) {
@@ -6170,6 +6157,115 @@ _Actualizado: ${fecha} ${hora}_`;
         updateRiverUI();
       }
       return false;
+    }
+    
+    // ============================================
+    // ACTUALIZAR GRÁFICO DE TENDENCIA DEL RÍO
+    // ============================================
+    function updateRiverChart(historial) {
+      if (!historial || historial.length === 0) return;
+      
+      const svg = document.getElementById('river-chart-svg');
+      const xAxis = document.getElementById('chart-x-axis');
+      if (!svg || !xAxis) return;
+      
+      // Extraer alturas y calcular min/max
+      const alturas = historial.map(h => h.altura);
+      const maxAltura = Math.max(...alturas);
+      const minAltura = Math.min(...alturas);
+      
+      // Calcular rango para el eje Y (con margen)
+      const rangoMax = Math.ceil(maxAltura + 0.5);
+      const rangoMin = Math.max(0, Math.floor(minAltura - 0.5));
+      const rango = rangoMax - rangoMin;
+      
+      // Actualizar eje Y
+      const yAxis = document.getElementById('chart-y-axis');
+      if (yAxis) {
+        yAxis.innerHTML = `
+          <span>${rangoMax}m</span>
+          <span>${((rangoMax + rangoMin) / 2).toFixed(1)}m</span>
+          <span>${rangoMin}m</span>
+        `;
+      }
+      
+      // Calcular puntos del gráfico
+      const width = 300;
+      const height = 100;
+      const padding = 5;
+      const numPoints = historial.length;
+      const stepX = (width - padding * 2) / Math.max(numPoints - 1, 1);
+      
+      let points = [];
+      let circles = '';
+      
+      historial.forEach((h, i) => {
+        const x = padding + (i * stepX);
+        // Invertir Y (0 arriba, 100 abajo)
+        const y = height - padding - ((h.altura - rangoMin) / rango * (height - padding * 2));
+        points.push({ x, y });
+        
+        // Punto (el último es más grande y con borde blanco)
+        if (i === historial.length - 1) {
+          circles += `<circle cx="${x}" cy="${y}" r="5" fill="#0D9488" stroke="#fff" stroke-width="2"/>`;
+        } else {
+          circles += `<circle cx="${x}" cy="${y}" r="4" fill="#14B8A6"/>`;
+        }
+      });
+      
+      // Crear path de la línea
+      const linePath = points.map((p, i) => `${i === 0 ? 'M' : 'L'}${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
+      
+      // Crear path del área
+      const areaPath = linePath + ` L${points[points.length-1].x.toFixed(1)},${height} L${points[0].x.toFixed(1)},${height} Z`;
+      
+      // Línea de alerta (4m)
+      const alertaY = height - padding - ((4 - rangoMin) / rango * (height - padding * 2));
+      
+      // Actualizar SVG
+      svg.innerHTML = `
+        <defs>
+          <linearGradient id="riverGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#14B8A6;stop-opacity:0.4"/>
+            <stop offset="100%" style="stop-color:#14B8A6;stop-opacity:0"/>
+          </linearGradient>
+        </defs>
+        <line x1="0" y1="${alertaY}" x2="300" y2="${alertaY}" stroke="#FCD34D" stroke-width="1" stroke-dasharray="4"/>
+        <path d="${areaPath}" fill="url(#riverGradient)" opacity="0.3"/>
+        <path d="${linePath}" fill="none" stroke="#14B8A6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        ${circles}
+      `;
+      
+      // Actualizar eje X con fechas
+      const diasSemana = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+      xAxis.innerHTML = historial.map((h, i) => {
+        if (i === historial.length - 1) return '<span>Hoy</span>';
+        const fecha = new Date(h.fecha + 'T12:00:00');
+        return `<span>${fecha.getDate()}</span>`;
+      }).join('');
+      
+      // Actualizar estadísticas
+      document.getElementById('river-max').textContent = maxAltura.toFixed(2) + 'm';
+      document.getElementById('river-min').textContent = minAltura.toFixed(2) + 'm';
+      
+      // Calcular tendencia
+      const trendEl = document.getElementById('river-trend');
+      if (historial.length >= 2) {
+        const ultimo = historial[historial.length - 1].altura;
+        const anterior = historial[historial.length - 2].altura;
+        const diff = ultimo - anterior;
+        
+        if (diff > 0.05) {
+          trendEl.innerHTML = '↑ Subiendo';
+          trendEl.className = 'chart-stat-value trend-up';
+        } else if (diff < -0.05) {
+          trendEl.innerHTML = '↓ Bajando';
+          trendEl.className = 'chart-stat-value trend-down';
+        } else {
+          trendEl.innerHTML = '● Estable';
+          trendEl.className = 'chart-stat-value';
+        }
+      }
     }
 
     // ============================================
