@@ -7196,19 +7196,19 @@ _Actualizado: ${fecha} ${hora}_`;
             // Partido con resultado
             teams = `${evento.equipo1} <strong>${evento.golesLocal}</strong> - <strong>${evento.golesVisitante}</strong> ${evento.equipo2}`;
             
-            // Agregar goleadores si existen
+            // Agregar goleadores si existen - separados por equipo
             const golesLocal = evento.goleadoresLocal || [];
             const golesVisitante = evento.goleadoresVisitante || [];
             
             if (golesLocal.length > 0 || golesVisitante.length > 0) {
-              let golesTexto = [];
+              let golesHTML = [];
               if (golesLocal.length > 0) {
-                golesTexto.push(golesLocal.join(', '));
+                golesHTML.push(`⚽ ${golesLocal.join(', ')}`);
               }
               if (golesVisitante.length > 0) {
-                golesTexto.push(golesVisitante.join(', '));
+                golesHTML.push(`⚽ ${golesVisitante.join(', ')}`);
               }
-              goleadores = `<div class="sports-event-scorers">⚽ ${golesTexto.join(' · ')}</div>`;
+              goleadores = `<div class="sports-event-scorers">${golesHTML.join('<br>')}</div>`;
             }
           } else {
             teams = `${evento.equipo1} vs ${evento.equipo2}`;
