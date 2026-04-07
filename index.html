@@ -5673,6 +5673,15 @@
       const diff = now - start;
       const dayOfYear = Math.floor(diff / (1000 * 60 * 60 * 24));
       
+      // Cita especial para el 7 de abril de 2026
+      const esHoy7Abril = now.getDate() === 7 && now.getMonth() === 3 && now.getFullYear() === 2026;
+      
+      if (esHoy7Abril) {
+        document.getElementById('quoteText').textContent = "El tiempo me dará la razón";
+        document.getElementById('quoteAuthor').textContent = "NC";
+        return;
+      }
+      
       // Shuffle quotes usando seed basado en el año para que sea diferente cada año
       const year = now.getFullYear();
       const shuffled = shuffleWithSeed(QUOTES, year);
