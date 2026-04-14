@@ -1,14 +1,10 @@
 <!DOCTYPE html>
 <!--
   CLIMA & RÍO - Concepción del Uruguay
-  2026-03-31 13:10 ARG
-  + Deportes: Scraper ESPN corregido (3 días, Argentina + equipos seguidos)
-  + Animación fade-in escalonado de cards
-  + Popup de alerta meteorológica (lluvia >10mm o granizo)
-  + Notificaciones del navegador
-  + Compartir por WhatsApp (múltiples cards)
-  + Card Pronóstico por Hora (estilo AccuWeather)
-  + Card Tapas de Diarios (kiosko.net)
+  2026-04-14 14:30 ARG
+  + Eliminada card Cine San Martín (no se puede scrapear cartelera específica)
+  + Deportes: Agregada Copa Sudamericana
+  + Deportes: Filtro mejorado para excluir falsos positivos (Independiente Medellín, etc.)
 -->
 <html lang="es">
 <head>
@@ -1800,132 +1796,6 @@
       text-decoration: underline;
     }
 
-    /* Cinema Card */
-    .cinema-card {
-      grid-column: span 6;
-      background: linear-gradient(145deg, #1a1a2e 0%, #16213e 100%);
-      color: #ffffff !important;
-    }
-
-    .cinema-card .card-title,
-    .cinema-card .card-subtitle,
-    .cinema-card .cinema-movie-title,
-    .cinema-card .cinema-movie-info,
-    .cinema-card .cinema-info-text,
-    .cinema-card .cinema-loading {
-      color: #ffffff !important;
-    }
-
-    .cinema-card .card-icon {
-      background: linear-gradient(135deg, #E50914 0%, #B20710 100%);
-    }
-
-    .cinema-movies {
-      display: flex;
-      gap: 12px;
-      overflow-x: auto;
-      padding: 8px 0 12px 0;
-      scrollbar-width: thin;
-      scrollbar-color: rgba(255,255,255,0.3) transparent;
-    }
-
-    .cinema-movies::-webkit-scrollbar {
-      height: 6px;
-    }
-
-    .cinema-movies::-webkit-scrollbar-thumb {
-      background: rgba(255,255,255,0.3);
-      border-radius: 3px;
-    }
-
-    .cinema-movie {
-      flex: 0 0 auto;
-      width: 120px;
-      text-align: center;
-      cursor: pointer;
-      transition: transform 0.2s;
-    }
-
-    .cinema-movie:hover {
-      transform: scale(1.05);
-    }
-
-    .cinema-poster {
-      width: 100%;
-      height: 160px;
-      object-fit: cover;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-      background: #333;
-    }
-
-    .cinema-movie-title {
-      font-size: 0.75rem;
-      font-weight: 600;
-      margin-top: 8px;
-      line-height: 1.2;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-
-    .cinema-movie-info {
-      font-size: 0.65rem;
-      opacity: 0.7;
-      margin-top: 4px;
-    }
-
-    .cinema-movie-time {
-      display: inline-block;
-      background: #E50914;
-      color: white;
-      padding: 2px 8px;
-      border-radius: 4px;
-      font-size: 0.7rem;
-      font-weight: 700;
-      margin-top: 6px;
-    }
-
-    .cinema-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 12px;
-      padding-top: 12px;
-      border-top: 1px solid rgba(255,255,255,0.1);
-    }
-
-    .cinema-info-text {
-      font-size: 0.75rem;
-      opacity: 0.7;
-    }
-
-    .cinema-btn {
-      background: #E50914;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 8px;
-      font-weight: 700;
-      font-size: 0.85rem;
-      cursor: pointer;
-      transition: all 0.2s;
-      text-decoration: none;
-      display: inline-block;
-    }
-
-    .cinema-btn:hover {
-      background: #f40612;
-      transform: scale(1.05);
-    }
-
-    .cinema-loading {
-      text-align: center;
-      padding: 40px;
-      opacity: 0.7;
-    }
-
     /* Sports Card */
     .sports-card {
       grid-column: span 6;
@@ -2989,7 +2859,6 @@
       .finance-card { grid-column: span 6; }
       .phones-card { grid-column: span 3; }
       .pharmacy-card { grid-column: span 3; }
-      .cinema-card { grid-column: span 6; }
       .sports-card { grid-column: span 6; }
     }
 
@@ -3018,7 +2887,6 @@
       .pharmacy-card,
       .finance-card,
       .phones-card,
-      .cinema-card,
       .sports-card,
       .newspapers-card {
         grid-column: span 1;
@@ -4057,11 +3925,6 @@
             <span class="share-option-text">Cotizaciones</span>
           </label>
           <label class="share-option">
-            <input type="checkbox" id="shareCine">
-            <span class="share-option-icon">🎬</span>
-            <span class="share-option-text">Cartelera Cine</span>
-          </label>
-          <label class="share-option">
             <input type="checkbox" id="shareDeportes">
             <span class="share-option-icon">⚽</span>
             <span class="share-option-text">Eventos Deportivos</span>
@@ -5059,27 +4922,6 @@
         </div>
       </div>
 
-      <!-- Cartelera Cine San Martín -->
-      <div class="card cinema-card" data-card-id="cinema">
-        <div class="card-header">
-          <div class="card-icon">🎬</div>
-          <div>
-            <div class="card-title">Cartelera Cine San Martín</div>
-            <div class="card-subtitle">Estrada 820 • Cinema Concept</div>
-          </div>
-        </div>
-        <div class="cinema-movies" id="cinemaMovies">
-          <div class="cinema-loading">🎬 Cargando cartelera...</div>
-        </div>
-        <div class="cinema-footer">
-          <div class="cinema-info-text">
-            <div>📍 Estrada 820, C. del Uruguay</div>
-            <div>💵 2D: $8000 | 3D: $9000 | Miércoles: $6000</div>
-          </div>
-          <a href="https://www.cinemaconcept.com.ar/cartelera/cartelera" target="_blank" class="cinema-btn">🎟️ Comprar entradas</a>
-        </div>
-      </div>
-
       <!-- Eventos Deportivos -->
       <div class="card sports-card" data-card-id="sports">
         <div class="card-header">
@@ -5190,7 +5032,6 @@
       { id: 'finance', icon: '💵', name: 'Cotizaciones' },
       { id: 'phones', icon: '📞', name: 'Teléfonos Útiles' },
       { id: 'pharmacy', icon: '💊', name: 'Farmacia de Turno' },
-      { id: 'cinema', icon: '🎬', name: 'Cartelera Cine' },
       { id: 'sports', icon: '⚽', name: 'Eventos Deportivos' },
       { id: 'newspapers', icon: '📰', name: 'Tapas de Diarios' }
     ];
@@ -6054,9 +5895,14 @@ _Actualizado: ${fecha} ${hora}_`;
 
         // Petróleo WTI - desde preciopetroleo.net via Apps Script
         try {
+          console.log('🛢️ Cargando petróleo desde:', CONFIG.CARU_API + '?action=petroleo');
           const oilRes = await fetch(CONFIG.CARU_API + '?action=petroleo');
+          console.log('🛢️ Respuesta petróleo:', oilRes.status, oilRes.ok);
+          
           if (oilRes && oilRes.ok) {
             const oilData = await oilRes.json();
+            console.log('🛢️ Datos petróleo:', oilData);
+            
             if (oilData.success && oilData.wti) {
               const wti = oilData.wti;
               
@@ -6077,10 +5923,12 @@ _Actualizado: ${fecha} ${hora}_`;
               if (oilData.news) {
                 document.getElementById('oilNews').textContent = `📰 ${oilData.news}`;
               }
+              
+              console.log('✅ Petróleo cargado: $' + wti.price);
             }
           }
         } catch (oilError) {
-          console.error('Error cargando petróleo:', oilError);
+          console.error('❌ Error cargando petróleo:', oilError);
         }
 
         // Timestamp
@@ -7266,82 +7114,6 @@ _Actualizado: ${fecha} ${hora}_`;
     // ============================================
     // CARTELERA CINE SAN MARTÍN
     // ============================================
-    const CINE_SCRAPER_URL = 'https://script.google.com/macros/s/DEPLOY_ID_AQUI/exec';
-    
-    async function fetchCinema() {
-      const container = document.getElementById('cinemaMovies');
-      
-      // Por ahora, datos de ejemplo basados en la cartelera actual
-      // Cuando despliegues el Apps Script, reemplazá DEPLOY_ID_AQUI con el ID real
-      const peliculas = [
-        {
-          nombre: 'Hamnet',
-          horario: '21:00',
-          formato: '2D',
-          duracion: '125 min',
-          poster: 'https://cinemaconcept.com.ar/images/posters/200_51.jpg'
-        },
-        {
-          nombre: 'Hoppers',
-          horario: '17:00',
-          formato: '3D',
-          duracion: '105 min',
-          poster: 'https://cinemaconcept.com.ar/images/posters/200_61.jpg'
-        },
-        {
-          nombre: 'Proyecto Fin del Mundo',
-          horario: '19:00',
-          formato: '2D',
-          duracion: '157 min',
-          poster: 'https://cinemaconcept.com.ar/images/posters/200_67.jpg'
-        },
-        {
-          nombre: 'Super Mario Galaxy',
-          horario: '18:00',
-          formato: '3D',
-          duracion: '100 min',
-          poster: 'https://cinemaconcept.com.ar/images/posters/200_65.jpg'
-        }
-      ];
-      
-      renderCinema(peliculas);
-      
-      /* 
-      // Descomentar cuando el Apps Script esté deployado:
-      try {
-        const response = await fetch(CINE_SCRAPER_URL);
-        const data = await response.json();
-        
-        if (data.success && data.peliculas.length > 0) {
-          renderCinema(data.peliculas);
-        } else {
-          container.innerHTML = '<div class="cinema-loading">🎬 Sin datos disponibles</div>';
-        }
-      } catch (error) {
-        console.error('Error cargando cartelera:', error);
-        container.innerHTML = '<div class="cinema-loading">⚠️ Error al cargar</div>';
-      }
-      */
-    }
-    
-    function renderCinema(peliculas) {
-      const container = document.getElementById('cinemaMovies');
-      
-      if (!peliculas || peliculas.length === 0) {
-        container.innerHTML = '<div class="cinema-loading">🎬 No hay películas disponibles</div>';
-        return;
-      }
-      
-      container.innerHTML = peliculas.map(peli => `
-        <div class="cinema-movie" onclick="window.open('https://www.cinemaconcept.com.ar/cartelera/cartelera', '_blank')">
-          <img class="cinema-poster" src="${peli.poster}" alt="${peli.nombre}" onerror="this.src='https://via.placeholder.com/200x300/1a1a2e/ffffff?text=🎬'">
-          <div class="cinema-movie-title">${peli.nombre}</div>
-          <div class="cinema-movie-info">${peli.formato} • ${peli.duracion || ''}</div>
-          <div class="cinema-movie-time">${peli.horario}</div>
-        </div>
-      `).join('');
-    }
-
     // ============================================
     // EVENTOS DEPORTIVOS
     // ============================================
@@ -7805,20 +7577,6 @@ _Actualizado: ${fecha} ${hora}_`;
         mensaje += '\n';
       }
 
-      // Cartelera Cine
-      if (document.getElementById('shareCine').checked) {
-        const peliculas = document.querySelectorAll('.cinema-movie');
-        if (peliculas.length > 0) {
-          mensaje += '*CINE SAN MARTIN*\n';
-          peliculas.forEach(peli => {
-            const nombre = peli.querySelector('.cinema-movie-title')?.textContent || '';
-            const hora = peli.querySelector('.cinema-movie-time')?.textContent || '';
-            if (nombre) mensaje += '- ' + nombre + ' ' + hora + '\n';
-          });
-          mensaje += '\n';
-        }
-      }
-
       // Eventos Deportivos
       if (document.getElementById('shareDeportes').checked) {
         const eventos = document.querySelectorAll('.sports-event');
@@ -7921,7 +7679,6 @@ _Actualizado: ${fecha} ${hora}_`;
         fetchMonthlyPrecip(),
         fetchFinanceData(),
         fetchFarmacia(),
-        fetchCinema(),
         fetchSports()
       ]);
       
