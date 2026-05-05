@@ -6422,8 +6422,11 @@ _Actualizado: ${fecha} ${hora}_`;
       if (windDirEl) windDirEl.textContent = directions[dirIndex];
       
       // Rotar flecha del viento
+      // La flecha debe apuntar de donde VIENE el viento
+      // windDir es la dirección meteorológica (de donde viene)
+      // Sumamos 180° para que la flecha apunte hacia la fuente del viento
       const compassArrow = document.querySelector('.compass-arrow');
-      if (compassArrow) compassArrow.style.transform = `rotate(${windDir}deg)`;
+      if (compassArrow) compassArrow.style.transform = `rotate(${windDir + 180}deg)`;
       
       // Actualizar detalles del viento
       const windDetails = document.querySelectorAll('.wind-detail-value');
