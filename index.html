@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <!--
   CLIMA & RÍO - Concepción del Uruguay
-  2026-04-14 15:00 ARG
-  + CORS fix: clima ahora via proxy Apps Script (Open-Meteo bloqueaba CORS)
+  2026-06-12 14:00 ARG
+  + Mundial FIFA 2026: fixture completo con partidos de hoy y mañana
+  + Clima: WeatherAPI como backup cuando Open-Meteo falla
   + Eliminada card Cine San Martín
-  + Deportes: Agregada Copa Sudamericana
   + Flecha del viento corregida (apunta de donde viene)
 -->
 <html lang="es">
@@ -1953,6 +1953,36 @@
       text-align: center;
       padding: 40px;
       opacity: 0.7;
+    }
+
+    /* Mundial 2026 - Estilos especiales */
+    .mundial-section-header {
+      background: linear-gradient(90deg, rgba(118, 75, 162, 0.4) 0%, transparent 100%);
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+      border-left: 3px solid #a855f7;
+    }
+
+    .sports-event.mundial-argentina,
+    .sports-event.mundial-destacado {
+      background: linear-gradient(135deg, rgba(117, 212, 243, 0.3) 0%, rgba(255, 255, 255, 0.15) 50%, rgba(117, 212, 243, 0.3) 100%);
+      border-left: 4px solid #75d4f3;
+      animation: argentina-shine 3s ease-in-out infinite;
+    }
+
+    @keyframes argentina-shine {
+      0%, 100% { box-shadow: 0 0 10px rgba(117, 212, 243, 0.3); }
+      50% { box-shadow: 0 0 20px rgba(117, 212, 243, 0.5); }
+    }
+
+    .sports-event-sede {
+      font-size: 0.65rem;
+      opacity: 0.5;
+      margin-top: 2px;
     }
 
     .sports-tabs {
@@ -4928,17 +4958,12 @@
         <div class="card-header">
           <div class="card-icon">⚽</div>
           <div>
-            <div class="card-title">Eventos Deportivos</div>
-            <div class="card-subtitle">Próximos 3 días • Fútbol & Tenis</div>
+            <div class="card-title">🏆 Mundial 2026</div>
+            <div class="card-subtitle">Partidos de hoy y mañana • Horario ARG</div>
           </div>
         </div>
-        <div class="sports-tabs">
-          <button class="sports-tab active" onclick="filterSports('all')">Todos</button>
-          <button class="sports-tab" onclick="filterSports('futbol')">⚽ Fútbol</button>
-          <button class="sports-tab" onclick="filterSports('tenis')">🎾 Tenis</button>
-        </div>
         <div class="sports-events" id="sportsEvents">
-          <div class="sports-empty">⚽ Cargando eventos...</div>
+          <div class="sports-empty">⚽ Cargando partidos...</div>
         </div>
       </div>
 
@@ -7140,131 +7165,75 @@ _Actualizado: ${fecha} ${hora}_`;
     // CARTELERA CINE SAN MARTÍN
     // ============================================
     // ============================================
-    // EVENTOS DEPORTIVOS
+    // MUNDIAL FIFA 2026
     // ============================================
     const SCRAPER_URL = 'https://script.google.com/macros/s/AKfycbzvLnlLEklkeI3gWCS4-o5CJlUmgiXOUP9VK9Dc4pb66U_Dk5w2TaGENgs6t23Tr1rf/exec';
-    let allSportsEvents = [];
     
     async function fetchSports() {
       const container = document.getElementById('sportsEvents');
       
       try {
-        const response = await fetch(SCRAPER_URL + '?action=deportes');
+        const response = await fetch(SCRAPER_URL + '?action=mundial');
         const data = await response.json();
         
         if (data.success && data.eventos && data.eventos.length > 0) {
-          allSportsEvents = data.eventos;
-          renderSports(data.eventos);
-          console.log('✅ Deportes cargados:', data.eventos.length, 'eventos');
+          renderMundial(data);
+          console.log('✅ Mundial 2026:', data.totalHoy, 'hoy,', data.totalManana, 'mañana');
         } else {
-          // Si no hay datos del scraper, mostrar mensaje
-          container.innerHTML = '<div class="sports-empty">⚽ No hay eventos próximos<br><small>Actualizá el Code.gs con el nuevo scraper</small></div>';
+          container.innerHTML = '<div class="sports-empty">⚽ No hay partidos hoy ni mañana<br><small>El Mundial empieza el 11 de junio</small></div>';
         }
       } catch (error) {
-        console.error('Error cargando deportes:', error);
-        container.innerHTML = '<div class="sports-empty">⚠️ Error al cargar eventos</div>';
+        console.error('Error cargando Mundial:', error);
+        container.innerHTML = '<div class="sports-empty">⚠️ Error al cargar partidos</div>';
       }
     }
     
-    function renderSports(eventos, filter = 'all') {
+    function renderMundial(data) {
       const container = document.getElementById('sportsEvents');
       
-      let filtered = eventos;
-      if (filter !== 'all') {
-        filtered = eventos.filter(e => e.tipo === filter);
+      // Separar partidos de hoy y mañana
+      const partidosHoy = data.eventos.filter(e => e.esHoy);
+      const partidosManana = data.eventos.filter(e => e.esManana);
+      
+      let html = '';
+      
+      // Sección HOY
+      if (partidosHoy.length > 0) {
+        html += '<div class="mundial-section-header">📅 HOY</div>';
+        html += partidosHoy.map(partido => renderPartidoMundial(partido)).join('');
       }
       
-      if (!filtered || filtered.length === 0) {
-        container.innerHTML = '<div class="sports-empty">⚽ No hay eventos para mostrar</div>';
-        return;
+      // Sección MAÑANA
+      if (partidosManana.length > 0) {
+        html += '<div class="mundial-section-header">📅 MAÑANA</div>';
+        html += partidosManana.map(partido => renderPartidoMundial(partido)).join('');
       }
       
-      container.innerHTML = filtered.map(evento => {
-        const isFutbol = evento.tipo === 'futbol';
-        const icon = isFutbol ? '⚽' : '🎾';
-        
-        // Determinar estado visual
-        let estadoClass = '';
-        let estadoIndicator = '';
-        let horaDisplay = evento.hora;
-        
-        if (evento.estado === 'en_vivo') {
-          estadoClass = 'is-live';
-          estadoIndicator = '<span class="live-indicator">🔴 EN VIVO</span>';
-        } else if (evento.estado === 'finalizado') {
-          estadoClass = 'is-finished';
-          horaDisplay = '✓ Final';
-        } else if (evento.esHoy) {
-          estadoClass = 'is-today';
-        }
-        
-        // Mostrar resultado si existe
-        let teams;
-        let goleadores = '';
-        
-        if (isFutbol) {
-          if (evento.resultado || evento.golesLocal !== undefined) {
-            // Partido con resultado
-            teams = `${evento.equipo1} <strong>${evento.golesLocal}</strong> - <strong>${evento.golesVisitante}</strong> ${evento.equipo2}`;
-            
-            // Agregar goleadores si existen - separados por equipo
-            const golesLocal = evento.goleadoresLocal || [];
-            const golesVisitante = evento.goleadoresVisitante || [];
-            
-            if (golesLocal.length > 0 || golesVisitante.length > 0) {
-              let golesHTML = [];
-              if (golesLocal.length > 0) {
-                golesHTML.push(`⚽ ${golesLocal.join(', ')}`);
-              }
-              if (golesVisitante.length > 0) {
-                golesHTML.push(`⚽ ${golesVisitante.join(', ')}`);
-              }
-              goleadores = `<div class="sports-event-scorers">${golesHTML.join('<br>')}</div>`;
-            }
-          } else {
-            teams = `${evento.equipo1} vs ${evento.equipo2}`;
-          }
-        } else {
-          // Tenis
-          if (evento.jugador1 && evento.jugador2) {
-            if (evento.resultado) {
-              teams = `${evento.evento}<br><small>${evento.jugador1} ${evento.resultado} ${evento.jugador2}</small>`;
-            } else {
-              teams = `${evento.evento}<br><small>${evento.jugador1} vs ${evento.jugador2}</small>`;
-            }
-          } else {
-            teams = evento.evento;
-          }
-        }
-        
-        return `
-          <div class="sports-event ${estadoClass}">
-            <div class="sports-event-date">
-              <div class="sports-event-day">${evento.dia}</div>
-              <div class="sports-event-month">${evento.mes}</div>
-              <div class="sports-event-time">${horaDisplay}</div>
-            </div>
-            <div class="sports-event-info">
-              ${estadoIndicator}
-              <div class="sports-event-teams">${teams}</div>
-              ${goleadores}
-              <div class="sports-event-competition">${evento.competicion}</div>
-            </div>
-            <div class="sports-event-type">${icon}</div>
-          </div>
-        `;
-      }).join('');
+      container.innerHTML = html;
     }
     
-    function filterSports(tipo) {
-      // Actualizar tabs activos
-      document.querySelectorAll('.sports-tab').forEach(tab => {
-        tab.classList.remove('active');
-      });
-      event.target.classList.add('active');
+    function renderPartidoMundial(partido) {
+      const destacadoClass = partido.destacado ? 'mundial-destacado' : '';
+      const argentinaClass = partido.equipo1.includes('Argentina') || partido.equipo2.includes('Argentina') ? 'mundial-argentina' : '';
       
-      // Filtrar y renderizar
-      renderSports(allSportsEvents, tipo);
+      // Para fases eliminatorias sin equipo2
+      const vsText = partido.equipo2 ? `vs ${partido.equipo2}` : '';
+      
+      return `
+        <div class="sports-event ${destacadoClass} ${argentinaClass}">
+          <div class="sports-event-date">
+            <div class="sports-event-day">${partido.dia}</div>
+            <div class="sports-event-month">${partido.mes}</div>
+            <div class="sports-event-time">${partido.hora}</div>
+          </div>
+          <div class="sports-event-info">
+            <div class="sports-event-teams">${partido.equipo1} ${vsText}</div>
+            <div class="sports-event-competition">${partido.competicion}</div>
+            <div class="sports-event-sede">📍 ${partido.sede}</div>
+          </div>
+          <div class="sports-event-type">⚽</div>
+        </div>
+      `;
     }
 
     // ============================================
