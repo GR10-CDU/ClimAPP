@@ -7214,22 +7214,59 @@ _Actualizado: ${fecha} ${hora}_`;
     
     function renderPartidoMundial(partido) {
       const destacadoClass = partido.destacado ? 'mundial-destacado' : '';
-      const argentinaClass = partido.equipo1.includes('Argentina') || partido.equipo2.includes('Argentina') ? 'mundial-argentina' : '';
+      const argentinaClass = partido.equipo1.includes('Argentina') || (partido.equipo2 && partido.equipo2.includes('Argentina')) ? 'mundial-argentina' : '';
       
-      // Para fases eliminatorias sin equipo2
-      const vsText = partido.equipo2 ? `vs ${partido.equipo2}` : '';
+      // Estado del partido
+      let estadoClass = '';
+      let estadoIndicator = '';
+      let horaDisplay = partido.hora;
+      
+      if (partido.estado === 'en_vivo') {
+        estadoClass = 'is-live';
+        estadoIndicator = '<span class="live-indicator">🔴 EN VIVO</span>';
+      } else if (partido.estado === 'finalizado') {
+        estadoClass = 'is-finished';
+        horaDisplay = '✓ Final';
+      } else if (partido.esHoy) {
+        estadoClass = 'is-today';
+      }
+      
+      // Mostrar resultado si existe
+      let teamsDisplay;
+      if (partido.golesLocal !== undefined && partido.golesVisitante !== undefined) {
+        teamsDisplay = `${partido.equipo1} <strong>${partido.golesLocal}</strong> - <strong>${partido.golesVisitante}</strong> ${partido.equipo2 || ''}`;
+      } else {
+        const vsText = partido.equipo2 ? `vs ${partido.equipo2}` : '';
+        teamsDisplay = `${partido.equipo1} ${vsText}`;
+      }
+      
+      // Goleadores
+      let goleadores = '';
+      const golesLocal = partido.goleadoresLocal || [];
+      const golesVisitante = partido.goleadoresVisitante || [];
+      if (golesLocal.length > 0 || golesVisitante.length > 0) {
+        let golesHTML = [];
+        if (golesLocal.length > 0) golesHTML.push(`⚽ ${golesLocal.join(', ')}`);
+        if (golesVisitante.length > 0) golesHTML.push(`⚽ ${golesVisitante.join(', ')}`);
+        goleadores = `<div class="sports-event-scorers">${golesHTML.join('<br>')}</div>`;
+      }
+      
+      // Sede (solo si no hay resultado aún)
+      const sedeHTML = partido.sede && !partido.golesLocal ? `<div class="sports-event-sede">📍 ${partido.sede}</div>` : '';
       
       return `
-        <div class="sports-event ${destacadoClass} ${argentinaClass}">
+        <div class="sports-event ${estadoClass} ${destacadoClass} ${argentinaClass}">
           <div class="sports-event-date">
             <div class="sports-event-day">${partido.dia}</div>
             <div class="sports-event-month">${partido.mes}</div>
-            <div class="sports-event-time">${partido.hora}</div>
+            <div class="sports-event-time">${horaDisplay}</div>
           </div>
           <div class="sports-event-info">
-            <div class="sports-event-teams">${partido.equipo1} ${vsText}</div>
+            ${estadoIndicator}
+            <div class="sports-event-teams">${teamsDisplay}</div>
+            ${goleadores}
             <div class="sports-event-competition">${partido.competicion}</div>
-            <div class="sports-event-sede">📍 ${partido.sede}</div>
+            ${sedeHTML}
           </div>
           <div class="sports-event-type">⚽</div>
         </div>
