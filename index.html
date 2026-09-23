@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <!--
   CLIMA & RÍO - Concepción del Uruguay
-  2026-06-12 14:00 ARG
-  + Mundial FIFA 2026: fixture completo con partidos de hoy y mañana
+  2026-06-12 15:00 ARG
+  + Feriados: colores pasteles con mejor contraste
+  + Deportes: vuelve al scraper ESPN con todas las ligas
   + Clima: WeatherAPI como backup cuando Open-Meteo falla
-  + Eliminada card Cine San Martín
-  + Flecha del viento corregida (apunta de donde viene)
+  + Mundial 2026 agregado a ligas ESPN (fifa.worldcup)
 -->
 <html lang="es">
 <head>
@@ -116,7 +116,8 @@
       align-items: center;
       margin-bottom: 32px;
       padding: 20px 28px;
-      background: var(--bg-card);
+      background: linear-gradient(145deg, #BFDBFE 0%, #93C5FD 100%);
+      border-left: 4px solid #3B82F6;
       border-radius: var(--radius-lg);
       box-shadow: var(--shadow-md);
     }
@@ -130,7 +131,7 @@
     .location-icon {
       width: 48px;
       height: 48px;
-      background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-teal) 100%);
+      background: rgba(59, 130, 246, 0.2);
       border-radius: 14px;
       display: flex;
       align-items: center;
@@ -142,13 +143,13 @@
       font-family: 'Space Grotesk', sans-serif;
       font-size: 1.5rem;
       font-weight: 700;
-      color: var(--text-primary);
+      color: #1E3A5F;
       letter-spacing: -0.02em;
     }
 
     .location-info p {
       font-size: 0.9rem;
-      color: var(--text-secondary);
+      color: #1E40AF;
     }
 
     .header-right {
@@ -162,17 +163,14 @@
     .current-date {
       font-size: 1rem;
       font-weight: 600;
-      color: var(--text-primary);
+      color: #1E3A5F;
     }
 
     .current-time {
       font-family: 'Space Grotesk', sans-serif;
       font-size: 2rem;
       font-weight: 700;
-      background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-purple) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      color: #1E40AF;
     }
 
     .last-update {
@@ -180,7 +178,7 @@
       align-items: center;
       gap: 8px;
       font-size: 0.8rem;
-      color: var(--text-muted);
+      color: #1E40AF;
     }
 
     .refresh-btn {
@@ -261,18 +259,19 @@
     /* Current Weather Card - Clima Actual */
     .weather-current {
       grid-column: span 7;
-      background: linear-gradient(145deg, #3B82F6 0%, #1D4ED8 50%, #1E40AF 100%);
-      color: white;
+      background: linear-gradient(145deg, #BFDBFE 0%, #93C5FD 100%);
+      border-left: 4px solid #3B82F6;
+      color: #1E3A5F;
       padding: 28px;
     }
 
     .weather-current .card-icon {
-      background: rgba(255,255,255,0.2);
+      background: rgba(59, 130, 246, 0.2);
     }
 
     .weather-current .card-title,
     .weather-current .card-subtitle {
-      color: rgba(255,255,255,0.9);
+      color: #1E3A5F;
     }
 
     .weather-main {
@@ -324,7 +323,7 @@
       gap: 16px;
       margin-top: 24px;
       padding-top: 24px;
-      border-top: 1px solid rgba(255,255,255,0.2);
+      border-top: 1px solid rgba(30, 58, 95, 0.2);
     }
 
     .stat-item {
@@ -354,7 +353,7 @@
     .rain-forecast {
       margin-top: 16px;
       padding-top: 16px;
-      border-top: 1px solid rgba(255,255,255,0.15);
+      border-top: 1px solid rgba(30, 58, 95, 0.15);
     }
 
     .rain-forecast-title {
@@ -379,14 +378,15 @@
       min-width: 50px;
       text-align: center;
       padding: 8px 6px;
-      background: rgba(255,255,255,0.1);
+      background: rgba(30, 58, 95, 0.1);
       border-radius: 8px;
       font-size: 0.75rem;
+      color: #1E3A5F;
     }
 
     .rain-hour-item.has-rain {
-      background: rgba(59, 130, 246, 0.3);
-      border: 1px solid rgba(59, 130, 246, 0.5);
+      background: rgba(59, 130, 246, 0.25);
+      border: 1px solid rgba(59, 130, 246, 0.4);
     }
 
     .rain-hour-time {
@@ -401,7 +401,7 @@
 
     .rain-hour-prob {
       font-weight: 700;
-      color: #60A5FA;
+      color: #2563EB;
     }
 
     .rain-hour-mm {
@@ -415,7 +415,7 @@
       background: rgba(34, 197, 94, 0.15);
       border-radius: 8px;
       font-size: 0.85rem;
-      color: rgba(255,255,255,0.9);
+      color: #166534;
     }
 
     /* Stacked Cards Container (Río + Viento) */
@@ -432,13 +432,14 @@
 
     /* Río Uruguay Card */
     .river-card {
-      background: linear-gradient(145deg, #14B8A6 0%, #0D9488 50%, #0F766E 100%);
-      color: #ffffff !important;
+      background: linear-gradient(145deg, #A7F3D0 0%, #6EE7B7 100%);
+      border-left: 4px solid #10B981;
+      color: #065F46 !important;
       padding: 24px;
     }
 
     .river-card .card-icon {
-      background: rgba(255,255,255,0.2);
+      background: rgba(16, 185, 129, 0.2);
     }
 
     .river-card .card-title,
@@ -447,7 +448,7 @@
     .river-card .river-unit,
     .river-card .river-status,
     .river-card .river-variation {
-      color: #ffffff !important;
+      color: #065F46 !important;
     }
 
     .river-main {
@@ -533,7 +534,7 @@
 
     .river-gauge-fill {
       height: 100%;
-      background: rgba(255,255,255,0.4);
+      background: rgba(6, 95, 70, 0.3);
       border-radius: 5px;
       position: relative;
     }
@@ -545,9 +546,9 @@
       top: -4px;
       width: 6px;
       height: 18px;
-      background: white;
+      background: #065F46;
       border-radius: 3px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
     }
 
     .gauge-legend {
@@ -558,9 +559,9 @@
       font-weight: 600;
     }
 
-    .gauge-legend .normal { color: #34D399; }
-    .gauge-legend .alerta { color: #FCD34D; }
-    .gauge-legend .evac { color: #F87171; }
+    .gauge-legend .normal { color: #059669; }
+    .gauge-legend .alerta { color: #D97706; }
+    .gauge-legend .evac { color: #DC2626; }
 
     .river-temp {
       display: flex;
@@ -568,7 +569,7 @@
       gap: 12px;
       margin-top: 16px;
       padding-top: 14px;
-      border-top: 1px solid rgba(255,255,255,0.2);
+      border-top: 1px solid rgba(6, 95, 70, 0.2);
     }
 
     .river-temp-icon {
@@ -599,12 +600,13 @@
 
     /* Wind Card */
     .wind-card {
-      background: linear-gradient(145deg, #8B5CF6 0%, #7C3AED 50%, #6D28D9 100%);
-      color: #ffffff !important;
+      background: linear-gradient(145deg, #DDD6FE 0%, #C4B5FD 100%);
+      border-left: 4px solid #8B5CF6;
+      color: #4C1D95 !important;
     }
 
     .wind-card .card-icon {
-      background: rgba(255,255,255,0.2);
+      background: rgba(139, 92, 246, 0.2);
     }
 
     .wind-card .card-title,
@@ -612,7 +614,7 @@
     .wind-card .wind-speed,
     .wind-card .wind-direction,
     .wind-card .wind-detail {
-      color: #ffffff !important;
+      color: #4C1D95 !important;
     }
 
     .wind-main {
@@ -632,7 +634,7 @@
       width: 80px;
       height: 80px;
       border-radius: 50%;
-      background: rgba(255,255,255,0.15);
+      background: rgba(139, 92, 246, 0.15);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -644,9 +646,9 @@
       height: 0;
       border-left: 8px solid transparent;
       border-right: 8px solid transparent;
-      border-bottom: 30px solid white;
+      border-bottom: 30px solid #4C1D95;
       transform: rotate(90deg);
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
     }
 
     .wind-direction {
@@ -664,7 +666,7 @@
     .wind-details {
       margin-top: 16px;
       padding-top: 16px;
-      border-top: 1px solid rgba(255,255,255,0.2);
+      border-top: 1px solid rgba(76, 29, 149, 0.15);
       display: flex;
       flex-direction: column;
       gap: 8px;
@@ -688,10 +690,17 @@
     /* 3-Day Forecast - Grande */
     .forecast-3day {
       grid-column: span 7;
+      background: linear-gradient(145deg, #FEF3C7 0%, #FDE68A 100%);
+      border-left: 4px solid #F59E0B;
     }
 
     .forecast-3day .card-icon {
-      background: linear-gradient(135deg, var(--accent-amber) 0%, var(--accent-orange) 100%);
+      background: rgba(245, 158, 11, 0.2);
+    }
+
+    .forecast-3day .card-title,
+    .forecast-3day .card-subtitle {
+      color: #78350F;
     }
 
     .forecast-grid {
@@ -702,7 +711,8 @@
     }
 
     .forecast-day {
-      background: linear-gradient(145deg, #FEF3C7 0%, #FDE68A 100%);
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.25);
       border-radius: var(--radius-md);
       padding: 24px;
       text-align: center;
@@ -714,11 +724,13 @@
 
     .forecast-day:hover {
       transform: scale(1.02);
+      background: rgba(245, 158, 11, 0.18);
     }
 
     .forecast-day.today {
-      background: linear-gradient(145deg, var(--accent-amber) 0%, var(--accent-orange) 100%);
-      color: white;
+      background: rgba(245, 158, 11, 0.2);
+      border-color: #F59E0B;
+      color: #78350F;
     }
 
     .forecast-day-name {
@@ -788,22 +800,34 @@
     /* Extended Forecast */
     .forecast-extended {
       grid-column: span 5;
+      background: linear-gradient(145deg, #E9D5FF 0%, #D8B4FE 100%);
+      border-left: 4px solid #A855F7;
+    }
+
+    .forecast-extended .card-title,
+    .forecast-extended .card-subtitle {
+      color: #581C87;
+    }
+
+    .forecast-extended .card-icon {
+      background: rgba(168, 85, 247, 0.2);
     }
 
     /* Hourly Forecast Card - Pronóstico por Hora */
     .hourly-forecast {
       grid-column: span 12;
-      background: linear-gradient(145deg, #1e3a5f 0%, #0f172a 100%);
-      color: white;
+      background: linear-gradient(145deg, #C7D2FE 0%, #A5B4FC 100%);
+      border-left: 4px solid #6366F1;
+      color: #312E81;
     }
 
     .hourly-forecast .card-icon {
-      background: rgba(255, 255, 255, 0.15);
+      background: rgba(99, 102, 241, 0.2);
     }
 
     .hourly-forecast .card-title,
     .hourly-forecast .card-subtitle {
-      color: rgba(255, 255, 255, 0.9);
+      color: #312E81;
     }
 
     .hourly-tabs {
@@ -814,10 +838,10 @@
 
     .hourly-tab {
       padding: 8px 16px;
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(99, 102, 241, 0.12);
       border: none;
       border-radius: 20px;
-      color: rgba(255, 255, 255, 0.7);
+      color: #4338CA;
       font-size: 0.85rem;
       font-weight: 500;
       cursor: pointer;
@@ -825,12 +849,12 @@
     }
 
     .hourly-tab.active {
-      background: rgba(255, 255, 255, 0.25);
-      color: white;
+      background: rgba(99, 102, 241, 0.25);
+      color: #312E81;
     }
 
     .hourly-tab:hover:not(.active) {
-      background: rgba(255, 255, 255, 0.15);
+      background: rgba(99, 102, 241, 0.18);
     }
 
     .hourly-scroll {
@@ -847,19 +871,19 @@
     }
 
     .hourly-scroll::-webkit-scrollbar-track {
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(99, 102, 241, 0.1);
       border-radius: 3px;
     }
 
     .hourly-scroll::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.3);
+      background: rgba(99, 102, 241, 0.3);
       border-radius: 3px;
     }
 
     .hourly-item {
       flex: 0 0 auto;
       width: 100px;
-      background: rgba(255, 255, 255, 0.08);
+      background: rgba(99, 102, 241, 0.08);
       border-radius: 16px;
       padding: 18px 14px;
       text-align: center;
@@ -867,23 +891,24 @@
     }
 
     .hourly-item:hover {
-      background: rgba(255, 255, 255, 0.15);
+      background: rgba(99, 102, 241, 0.15);
       transform: translateY(-2px);
     }
 
     .hourly-item.now {
-      background: linear-gradient(145deg, #f59e0b 0%, #d97706 100%);
+      background: rgba(245, 158, 11, 0.2);
+      border: 1px solid #F59E0B;
     }
 
     .hourly-time {
       font-size: 1rem;
       font-weight: 600;
-      color: rgba(255, 255, 255, 0.8);
+      color: #312E81;
       margin-bottom: 8px;
     }
 
     .hourly-item.now .hourly-time {
-      color: white;
+      color: #78350F;
     }
 
     .hourly-icon {
@@ -895,17 +920,17 @@
       font-family: 'Space Grotesk', sans-serif;
       font-size: 1.7rem;
       font-weight: 700;
-      color: white;
+      color: #312E81;
     }
 
     .hourly-feels {
       font-size: 0.85rem;
-      color: rgba(255, 255, 255, 0.6);
+      color: #4338CA;
       margin-top: 6px;
     }
 
     .hourly-item.now .hourly-feels {
-      color: rgba(255, 255, 255, 0.85);
+      color: #78350F;
     }
 
     .hourly-rain {
@@ -914,25 +939,32 @@
       justify-content: center;
       gap: 4px;
       font-size: 0.85rem;
-      color: rgba(255, 255, 255, 0.6);
+      color: #4338CA;
       margin-top: 10px;
     }
 
     .hourly-rain.high {
-      color: #60a5fa;
+      color: #2563EB;
     }
 
     .hourly-rain.very-high {
-      color: #f87171;
+      color: #DC2626;
     }
 
     /* Tapas de Diarios */
     .newspapers-card {
       grid-column: span 12;
+      background: linear-gradient(145deg, #E2E8F0 0%, #CBD5E1 100%);
+      border-left: 4px solid #64748B;
     }
 
     .newspapers-card .card-icon {
-      background: linear-gradient(135deg, #1e3a5f 0%, #0f172a 100%);
+      background: rgba(100, 116, 139, 0.2);
+    }
+
+    .newspapers-card .card-title,
+    .newspapers-card .card-subtitle {
+      color: #1E293B;
     }
 
     .newspapers-scroll {
@@ -949,12 +981,12 @@
     }
 
     .newspapers-scroll::-webkit-scrollbar-track {
-      background: var(--border-light);
+      background: rgba(100, 116, 139, 0.12);
       border-radius: 3px;
     }
 
     .newspapers-scroll::-webkit-scrollbar-thumb {
-      background: var(--text-muted);
+      background: rgba(100, 116, 139, 0.3);
       border-radius: 3px;
     }
 
@@ -976,15 +1008,15 @@
       height: 370px;
       object-fit: cover;
       border-radius: 8px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-      border: 1px solid var(--border-light);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(100, 116, 139, 0.2);
     }
 
     .newspaper-name {
       margin-top: 10px;
       font-size: 0.95rem;
       font-weight: 600;
-      color: var(--text-primary);
+      color: #1E293B;
     }
 
     .newspapers-footer {
@@ -1037,7 +1069,7 @@
     }
 
     .forecast-extended .card-icon {
-      background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-purple) 100%);
+      background: rgba(168, 85, 247, 0.2);
     }
 
     .extended-list {
@@ -1051,14 +1083,14 @@
       grid-template-columns: 100px 40px 1fr 80px 85px;
       align-items: center;
       padding: 14px 16px;
-      background: var(--bg-main);
+      background: rgba(168, 85, 247, 0.08);
       border-radius: var(--radius-sm);
       gap: 12px;
     }
 
     .extended-day-name {
       font-weight: 600;
-      color: var(--text-primary);
+      color: #581C87;
     }
 
     .extended-icon {
@@ -1068,7 +1100,7 @@
 
     .extended-bar-container {
       height: 6px;
-      background: #E2E8F0;
+      background: rgba(168, 85, 247, 0.15);
       border-radius: 3px;
       position: relative;
     }
@@ -1076,7 +1108,7 @@
     .extended-bar {
       position: absolute;
       height: 100%;
-      background: linear-gradient(90deg, var(--accent-blue) 0%, var(--accent-orange) 100%);
+      background: linear-gradient(90deg, #6366F1 0%, #F59E0B 100%);
       border-radius: 3px;
     }
 
@@ -1088,12 +1120,12 @@
 
     .extended-max {
       font-weight: 700;
-      color: var(--text-primary);
+      color: #581C87;
     }
 
     .extended-min {
       font-weight: 500;
-      color: var(--text-muted);
+      color: #7C3AED;
     }
 
     .extended-rain {
@@ -1103,29 +1135,48 @@
       font-size: 0.8rem;
       min-width: 80px;
       justify-content: flex-end;
+      color: #581C87;
     }
 
     .extended-rain.high {
-      color: var(--accent-blue);
+      color: #2563EB;
       font-weight: 600;
     }
 
     .extended-rain.low {
-      color: var(--text-muted);
+      color: #7C3AED;
     }
 
     /* River Stations */
     .river-stations {
       grid-column: span 6;
+      background: linear-gradient(145deg, #A7F3D0 0%, #6EE7B7 100%);
+      border-left: 4px solid #10B981;
+    }
+
+    .river-stations .card-icon {
+      background: rgba(16, 185, 129, 0.2);
+    }
+
+    .river-stations .card-title,
+    .river-stations .card-subtitle {
+      color: #065F46;
     }
 
     /* Webcam Card */
     .webcam-card {
       grid-column: span 4;
+      background: linear-gradient(145deg, #FECDD3 0%, #FDA4AF 100%);
+      border-left: 4px solid #F43F5E;
     }
 
     .webcam-card .card-icon {
-      background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+      background: rgba(244, 63, 94, 0.2);
+    }
+
+    .webcam-card .card-title,
+    .webcam-card .card-subtitle {
+      color: #9F1239;
     }
 
     .webcam-preview {
@@ -1134,18 +1185,18 @@
       justify-content: space-between;
       margin-top: 16px;
       padding: 20px;
-      background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
+      background: rgba(244, 63, 94, 0.12);
       border-radius: 16px;
       text-decoration: none;
-      color: white;
+      color: #9F1239;
       transition: all 0.3s ease;
-      border: 2px solid transparent;
+      border: 1px solid rgba(244, 63, 94, 0.25);
     }
 
     .webcam-preview:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 30px rgba(239, 68, 68, 0.3);
-      border-color: #EF4444;
+      background: rgba(244, 63, 94, 0.2);
+      border-color: #F43F5E;
     }
 
     .webcam-preview-content {
@@ -1157,19 +1208,21 @@
     .webcam-play-icon {
       width: 56px;
       height: 56px;
-      background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+      background: rgba(244, 63, 94, 0.2);
+      border: 2px solid #F43F5E;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 1.4rem;
       color: white;
-      box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+      box-shadow: 0 4px 15px rgba(252, 165, 165, 0.3);
       transition: transform 0.2s;
     }
 
     .webcam-preview:hover .webcam-play-icon {
       transform: scale(1.1);
+      background: rgba(252, 165, 165, 0.5);
     }
 
     .webcam-preview-text {
@@ -1236,17 +1289,24 @@
     /* Radar Card */
     .radar-card {
       grid-column: span 6;
+      background: linear-gradient(145deg, #BAE6FD 0%, #7DD3FC 100%);
+      border-left: 4px solid #0EA5E9;
     }
 
     .radar-card .card-icon {
-      background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
+      background: rgba(14, 165, 233, 0.2);
+    }
+
+    .radar-card .card-title,
+    .radar-card .card-subtitle {
+      color: #0C4A6E;
     }
 
     .radar-container {
       margin-top: 16px;
       border-radius: 14px;
       overflow: hidden;
-      background: #0F172A;
+      background: rgba(0, 0, 0, 0.3);
       aspect-ratio: 16/10;
     }
 
@@ -1273,12 +1333,12 @@
       display: flex;
       align-items: center;
       gap: 4px;
-      color: var(--text-secondary);
+      color: #0C4A6E;
     }
 
     .radar-link {
       font-size: 0.8rem;
-      color: var(--accent-blue);
+      color: #0369A1;
       text-decoration: none;
       font-weight: 600;
     }
@@ -1295,7 +1355,7 @@
     }
 
     .stat-clickable:hover {
-      background: rgba(255,255,255,0.1);
+      background: rgba(30, 58, 95, 0.08);
       transform: scale(1.05);
     }
 
@@ -1449,12 +1509,18 @@
     /* Phones Card - Teléfonos Útiles */
     .phones-card {
       grid-column: span 6;
-      background: linear-gradient(145deg, #6366F1 0%, #4F46E5 100%);
-      color: white;
+      background: linear-gradient(145deg, #C7D2FE 0%, #A5B4FC 100%);
+      border-left: 4px solid #6366F1;
+      color: #312E81;
     }
 
     .phones-card .card-icon {
-      background: rgba(255,255,255,0.2);
+      background: rgba(99, 102, 241, 0.2);
+    }
+
+    .phones-card .card-title,
+    .phones-card .card-subtitle {
+      color: #312E81;
     }
 
     .phones-categories {
@@ -1473,21 +1539,21 @@
       font-weight: 600;
       cursor: pointer;
       transition: all 0.3s ease;
-      background: rgba(255,255,255,0.15);
-      color: white;
+      background: rgba(99, 102, 241, 0.15);
+      color: #4338CA;
       display: flex;
       align-items: center;
       gap: 6px;
     }
 
     .phone-category-btn:hover {
-      background: rgba(255,255,255,0.25);
+      background: rgba(99, 102, 241, 0.25);
       transform: translateY(-2px);
     }
 
     .phone-category-btn.active {
-      background: white;
-      color: #4F46E5;
+      background: rgba(99, 102, 241, 0.35);
+      color: #312E81;
     }
 
     .phones-list {
@@ -1505,8 +1571,9 @@
 
     .phone-item {
       padding: 10px 12px;
-      background: rgba(255,255,255,0.1);
+      background: rgba(99, 102, 241, 0.1);
       border-radius: 10px;
+      color: #312E81;
     }
 
     .phone-item-name {
@@ -1533,33 +1600,34 @@
       align-items: center;
       gap: 4px;
       padding: 4px 10px;
-      background: rgba(255,255,255,0.2);
+      background: rgba(99, 102, 241, 0.2);
       border-radius: 20px;
       font-size: 0.8rem;
       font-weight: 600;
-      color: white;
+      color: #4338CA;
       text-decoration: none;
       transition: background 0.2s;
     }
 
     .phone-item-number:hover {
-      background: rgba(255,255,255,0.3);
+      background: rgba(99, 102, 241, 0.35);
     }
 
     /* Finance Card */
     .finance-card {
       grid-column: span 4;
-      background: linear-gradient(145deg, #1E293B 0%, #0F172A 100%);
-      color: white;
+      background: linear-gradient(145deg, #A7F3D0 0%, #6EE7B7 100%);
+      border-left: 4px solid #10B981;
+      color: #065F46;
     }
 
     .finance-card .card-icon {
-      background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+      background: rgba(16, 185, 129, 0.2);
     }
 
     .finance-card .card-title,
     .finance-card .card-subtitle {
-      color: rgba(255,255,255,0.9);
+      color: #065F46;
     }
 
     .finance-card .card-header > div:nth-child(2) {
@@ -1567,7 +1635,7 @@
     }
 
     .share-btn {
-      background: rgba(255,255,255,0.15);
+      background: rgba(16, 185, 129, 0.15);
       border: none;
       width: 40px;
       height: 40px;
@@ -1581,7 +1649,7 @@
     }
 
     .share-btn:hover {
-      background: rgba(37, 211, 102, 0.3);
+      background: rgba(16, 185, 129, 0.3);
       transform: scale(1.1);
     }
 
@@ -1601,13 +1669,13 @@
       justify-content: space-between;
       align-items: center;
       padding: 12px 14px;
-      background: rgba(255,255,255,0.08);
+      background: rgba(16, 185, 129, 0.1);
       border-radius: 12px;
       transition: background 0.2s;
     }
 
     .finance-item:hover {
-      background: rgba(255,255,255,0.12);
+      background: rgba(16, 185, 129, 0.18);
     }
 
     .finance-label {
@@ -1630,24 +1698,24 @@
     }
 
     .finance-buy {
-      color: #10B981;
+      color: #047857;
       font-weight: 700;
       font-size: 1rem;
     }
 
     .finance-sep {
-      color: rgba(255,255,255,0.4);
+      color: rgba(6, 95, 70, 0.4);
       font-size: 0.9rem;
     }
 
     .finance-sell {
-      color: #F59E0B;
+      color: #B45309;
       font-weight: 700;
       font-size: 1rem;
     }
 
     .btc-item {
-      border-top: 1px solid rgba(255,255,255,0.1);
+      border-top: 1px solid rgba(6, 95, 70, 0.15);
       padding-top: 14px;
       margin-top: 4px;
     }
@@ -1733,14 +1801,19 @@
     }
 
     .clothing-text {
-      color: rgba(255,255,255,0.9);
+      color: #065F46;
     }
 
     /* Pharmacy Card */
     .pharmacy-card {
       grid-column: span 6;
-      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-      color: #ffffff !important;
+      background: linear-gradient(145deg, #D1FAE5 0%, #A7F3D0 100%);
+      border-left: 4px solid #059669;
+      color: #065F46 !important;
+    }
+
+    .pharmacy-card .card-icon {
+      background: rgba(5, 150, 105, 0.2);
     }
 
     .pharmacy-card .card-title,
@@ -1749,7 +1822,7 @@
     .pharmacy-card .pharmacy-address,
     .pharmacy-card .pharmacy-phone,
     .pharmacy-card .pharmacy-fallback {
-      color: #ffffff !important;
+      color: #065F46 !important;
     }
 
     .pharmacy-info {
@@ -1761,8 +1834,9 @@
 
     .pharmacy-item {
       padding: 12px;
-      background: rgba(255,255,255,0.1);
+      background: rgba(5, 150, 105, 0.1);
       border-radius: var(--radius-md);
+      border: 1px solid rgba(5, 150, 105, 0.2);
     }
 
     .pharmacy-name {
@@ -1782,7 +1856,7 @@
     }
 
     .pharmacy-phone a {
-      color: white;
+      color: #047857;
       text-decoration: none;
       font-weight: 600;
     }
@@ -1793,15 +1867,20 @@
     }
 
     .pharmacy-fallback a {
-      color: white;
+      color: #047857;
       text-decoration: underline;
     }
 
     /* Sports Card */
     .sports-card {
       grid-column: span 6;
-      background: linear-gradient(145deg, #1a472a 0%, #0d2818 100%);
-      color: #ffffff !important;
+      background: linear-gradient(145deg, #D1FAE5 0%, #BBF7D0 100%);
+      border-left: 4px solid #22C55E;
+      color: #14532D !important;
+    }
+
+    .sports-card .card-icon {
+      background: rgba(34, 197, 94, 0.2);
     }
 
     .sports-card .card-title,
@@ -1812,11 +1891,11 @@
     .sports-card .sports-event-month,
     .sports-card .sports-empty,
     .sports-card .sports-tab {
-      color: #ffffff !important;
+      color: #14532D !important;
     }
 
     .sports-card .card-icon {
-      background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+      background: rgba(34, 197, 94, 0.2);
     }
 
     .sports-events {
@@ -1833,7 +1912,7 @@
     }
 
     .sports-events::-webkit-scrollbar-thumb {
-      background: rgba(255,255,255,0.3);
+      background: rgba(34, 197, 94, 0.4);
       border-radius: 2px;
     }
 
@@ -1842,48 +1921,48 @@
       align-items: center;
       gap: 12px;
       padding: 10px 12px;
-      background: rgba(255,255,255,0.08);
+      background: rgba(34, 197, 94, 0.08);
       border-radius: 8px;
       transition: all 0.2s;
     }
 
     .sports-event:hover {
-      background: rgba(255,255,255,0.12);
+      background: rgba(34, 197, 94, 0.15);
     }
 
     /* Próximo partido (hoy, aún no empezó) - Verde suave */
     .sports-event.is-today {
-      background: linear-gradient(135deg, rgba(34, 197, 94, 0.25) 0%, rgba(22, 163, 74, 0.15) 100%);
-      border-left: 3px solid #22c55e;
+      background: rgba(34, 197, 94, 0.15);
+      border-left: 3px solid #16A34A;
     }
 
     /* En vivo - Rojo pulsante */
     .sports-event.is-live {
-      background: linear-gradient(135deg, rgba(239, 68, 68, 0.35) 0%, rgba(220, 38, 38, 0.25) 100%);
-      border-left: 3px solid #ef4444;
+      background: rgba(239, 68, 68, 0.15);
+      border-left: 3px solid #EF4444;
       animation: pulse-live 2s ease-in-out infinite;
     }
 
     @keyframes pulse-live {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+      0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.3); }
       50% { box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
     }
 
     /* Finalizado - Azul/gris suave */
     .sports-event.is-finished {
-      background: linear-gradient(135deg, rgba(100, 116, 139, 0.2) 0%, rgba(71, 85, 105, 0.15) 100%);
+      background: rgba(100, 116, 139, 0.1);
       border-left: 3px solid #64748b;
     }
 
     .sports-event.is-finished .sports-event-time {
-      color: #22c55e;
+      color: #15803D;
     }
 
     .live-indicator {
       display: inline-block;
       font-size: 0.7rem;
       font-weight: 700;
-      color: #ef4444;
+      color: #DC2626;
       margin-bottom: 4px;
       animation: blink 1s ease-in-out infinite;
     }
@@ -1918,7 +1997,7 @@
     .sports-event-time {
       font-size: 0.75rem;
       font-weight: 600;
-      color: #22c55e;
+      color: #15803D;
       margin-top: 2px;
     }
 
@@ -1955,36 +2034,6 @@
       opacity: 0.7;
     }
 
-    /* Mundial 2026 - Estilos especiales */
-    .mundial-section-header {
-      background: linear-gradient(90deg, rgba(118, 75, 162, 0.4) 0%, transparent 100%);
-      padding: 8px 12px;
-      border-radius: 6px;
-      font-weight: 700;
-      font-size: 0.85rem;
-      letter-spacing: 0.5px;
-      margin-bottom: 4px;
-      border-left: 3px solid #a855f7;
-    }
-
-    .sports-event.mundial-argentina,
-    .sports-event.mundial-destacado {
-      background: linear-gradient(135deg, rgba(117, 212, 243, 0.3) 0%, rgba(255, 255, 255, 0.15) 50%, rgba(117, 212, 243, 0.3) 100%);
-      border-left: 4px solid #75d4f3;
-      animation: argentina-shine 3s ease-in-out infinite;
-    }
-
-    @keyframes argentina-shine {
-      0%, 100% { box-shadow: 0 0 10px rgba(117, 212, 243, 0.3); }
-      50% { box-shadow: 0 0 20px rgba(117, 212, 243, 0.5); }
-    }
-
-    .sports-event-sede {
-      font-size: 0.65rem;
-      opacity: 0.5;
-      margin-top: 2px;
-    }
-
     .sports-tabs {
       display: flex;
       gap: 8px;
@@ -1994,8 +2043,8 @@
     .sports-tab {
       padding: 6px 12px;
       border: none;
-      background: rgba(255,255,255,0.1);
-      color: white;
+      background: rgba(34, 197, 94, 0.12);
+      color: #14532D;
       border-radius: 20px;
       cursor: pointer;
       font-size: 0.75rem;
@@ -2004,11 +2053,12 @@
     }
 
     .sports-tab.active {
-      background: #22c55e;
+      background: #16A34A;
+      color: white;
     }
 
     .sports-tab:hover:not(.active) {
-      background: rgba(255,255,255,0.2);
+      background: rgba(34, 197, 94, 0.2);
     }
 
     /* Settings Button & Modal */
@@ -2203,7 +2253,8 @@
     }
 
     .toggle-switch input:checked + .toggle-slider {
-      background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-purple) 100%);
+      background: rgba(147, 197, 253, 0.5);
+      border: 1px solid #93C5FD;
     }
 
     .toggle-switch input:checked + .toggle-slider:before {
@@ -2233,15 +2284,15 @@
       margin: 24px auto;
       padding: 20px 24px;
       text-align: center;
-      background: linear-gradient(135deg, rgba(99, 102, 241, 0.06) 0%, rgba(168, 85, 247, 0.06) 100%);
+      background: rgba(196, 181, 253, 0.08);
       border-radius: var(--radius-lg);
-      border-left: 3px solid var(--accent-purple);
+      border-left: 3px solid #C4B5FD;
     }
 
     .quote-text {
       font-size: 1rem;
       font-style: italic;
-      color: var(--text-primary);
+      color: rgba(255,255,255,0.9);
       line-height: 1.6;
       margin: 0;
     }
@@ -2268,7 +2319,7 @@
     }
 
     .river-stations .card-icon {
-      background: linear-gradient(135deg, var(--accent-teal) 0%, #0D9488 100%);
+      background: rgba(16, 185, 129, 0.2);
     }
 
     .stations-grid {
@@ -2278,17 +2329,17 @@
     }
 
     .station-item {
-      background: linear-gradient(145deg, #F0FDFA 0%, #CCFBF1 100%);
+      background: rgba(16, 185, 129, 0.1);
       padding: 16px;
       border-radius: var(--radius-sm);
       text-align: center;
-      border: 1px solid #99F6E4;
+      border: 1px solid rgba(16, 185, 129, 0.2);
     }
 
     .station-name {
       font-size: 0.8rem;
       font-weight: 600;
-      color: var(--text-primary);
+      color: #065F46;
       margin-bottom: 8px;
     }
 
@@ -2296,12 +2347,12 @@
       font-family: 'Space Grotesk', sans-serif;
       font-size: 1.6rem;
       font-weight: 700;
-      color: #0D9488;
+      color: #047857;
     }
 
     .station-unit {
       font-size: 0.8rem;
-      color: var(--text-secondary);
+      color: #065F46;
     }
 
     .station-status {
@@ -2330,8 +2381,8 @@
     }
 
     .station-item.highlight {
-      background: linear-gradient(145deg, #0D9488 0%, #0F766E 100%);
-      border: 2px solid #14B8A6;
+      background: linear-gradient(145deg, #10B981 0%, #059669 100%);
+      border: 2px solid #34D399;
     }
 
     .station-item.highlight .station-name,
@@ -2387,10 +2438,17 @@
     /* Holidays Cards */
     .holidays-section {
       grid-column: span 5;
+      background: linear-gradient(145deg, #FEE2E2 0%, #FECACA 100%);
+      border-left: 4px solid #EF4444;
     }
 
     .holidays-section .card-icon {
-      background: linear-gradient(135deg, var(--accent-rose) 0%, #E11D48 100%);
+      background: rgba(239, 68, 68, 0.2);
+    }
+
+    .holidays-section .card-title,
+    .holidays-section .card-subtitle {
+      color: #7F1D1D;
     }
 
     .holidays-tabs {
@@ -2409,12 +2467,12 @@
       font-weight: 600;
       cursor: pointer;
       transition: all 0.3s ease;
-      background: var(--bg-main);
-      color: var(--text-secondary);
+      background: rgba(127, 29, 29, 0.08);
+      color: #7F1D1D;
     }
 
     .holiday-tab.active {
-      background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-purple) 100%);
+      background: linear-gradient(135deg, #3B82F6 0%, #6366F1 100%);
       color: white;
     }
 
@@ -2450,12 +2508,12 @@
     }
 
     .holiday-item.argentina {
-      background: linear-gradient(90deg, #EFF6FF 0%, #DBEAFE 100%);
+      background: rgba(59, 130, 246, 0.12);
       border-left: 4px solid #3B82F6;
     }
 
     .holiday-item.uruguay {
-      background: linear-gradient(90deg, #ECFDF5 0%, #D1FAE5 100%);
+      background: rgba(16, 185, 129, 0.12);
       border-left: 4px solid #10B981;
     }
 
@@ -2481,12 +2539,12 @@
 
     .holiday-item.argentina .holiday-day,
     .holiday-item.argentina .holiday-month {
-      color: #1D4ED8;
+      color: #1E40AF;
     }
 
     .holiday-item.uruguay .holiday-day,
     .holiday-item.uruguay .holiday-month {
-      color: #059669;
+      color: #047857;
     }
 
     .holiday-info {
@@ -2495,13 +2553,13 @@
 
     .holiday-name {
       font-weight: 600;
-      color: var(--text-primary);
+      color: #1E293B;
       margin-bottom: 2px;
     }
 
     .holiday-type {
       font-size: 0.75rem;
-      color: var(--text-muted);
+      color: #64748B;
     }
 
     .holiday-days-left {
@@ -2514,27 +2572,45 @@
     }
 
     .holiday-item.argentina .holiday-days-left {
-      background: #3B82F6;
-      color: white;
+      background: rgba(59, 130, 246, 0.15);
+      color: #1E40AF;
     }
 
     .holiday-item.uruguay .holiday-days-left {
-      background: #10B981;
-      color: white;
+      background: rgba(16, 185, 129, 0.15);
+      color: #047857;
     }
 
     /* Sun/Moon Card */
     .sun-moon-card {
       grid-column: span 3;
+      background: linear-gradient(145deg, #FEF3C7 0%, #FDE68A 100%);
+      border-left: 4px solid #F59E0B;
+    }
+
+    .sun-moon-card .card-icon {
+      background: rgba(245, 158, 11, 0.2);
+    }
+
+    .sun-moon-card .card-title,
+    .sun-moon-card .card-subtitle {
+      color: #78350F;
     }
 
     /* River History Chart */
     .river-history {
       grid-column: span 4;
+      background: linear-gradient(145deg, #A7F3D0 0%, #6EE7B7 100%);
+      border-left: 4px solid #10B981;
     }
 
     .river-history .card-icon {
-      background: linear-gradient(135deg, #14B8A6 0%, #0D9488 100%);
+      background: rgba(16, 185, 129, 0.2);
+    }
+
+    .river-history .card-title,
+    .river-history .card-subtitle {
+      color: #065F46;
     }
 
     .river-chart {
@@ -2551,7 +2627,7 @@
       flex-direction: column;
       justify-content: space-between;
       font-size: 0.7rem;
-      color: var(--text-muted);
+      color: #065F46;
       padding: 4px 0;
       min-width: 24px;
     }
@@ -2565,7 +2641,7 @@
     .chart-svg {
       width: 100%;
       height: 100px;
-      background: linear-gradient(180deg, rgba(20, 184, 166, 0.05) 0%, transparent 100%);
+      background: rgba(16, 185, 129, 0.1);
       border-radius: 8px;
     }
 
@@ -2573,7 +2649,7 @@
       display: flex;
       justify-content: space-between;
       font-size: 0.7rem;
-      color: var(--text-muted);
+      color: #065F46;
       margin-top: 8px;
       padding: 0 4px;
     }
@@ -2614,10 +2690,17 @@
     /* Fishing Index */
     .fishing-index {
       grid-column: span 4;
+      background: linear-gradient(145deg, #D1FAE5 0%, #BBF7D0 100%);
+      border-left: 4px solid #22C55E;
     }
 
     .fishing-index .card-icon {
-      background: linear-gradient(135deg, #22C55E 0%, #16A34A 100%);
+      background: rgba(34, 197, 94, 0.2);
+    }
+
+    .fishing-index .card-title,
+    .fishing-index .card-subtitle {
+      color: #14532D;
     }
 
     .fishing-display {
@@ -2654,19 +2737,19 @@
       font-family: 'Space Grotesk', sans-serif;
       font-size: 1.8rem;
       font-weight: 700;
-      color: var(--accent-green);
+      color: #16A34A;
     }
 
     .fishing-max {
       font-size: 0.8rem;
-      color: var(--text-muted);
+      color: #14532D;
     }
 
     .fishing-label {
       margin-top: 8px;
       font-size: 0.85rem;
       font-weight: 700;
-      color: var(--accent-green);
+      color: #15803D;
       letter-spacing: 0.5px;
     }
 
@@ -2725,10 +2808,6 @@
       gap: 8px;
     }
 
-    .sun-moon-card .card-icon {
-      background: linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%);
-    }
-
     .sun-moon-display {
       display: flex;
       flex-direction: column;
@@ -2744,25 +2823,27 @@
     }
 
     .sun-info {
-      background: linear-gradient(90deg, #FEF3C7 0%, #FDE68A 100%);
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.25);
     }
 
     .moon-info {
-      background: linear-gradient(90deg, #E0E7FF 0%, #C7D2FE 100%);
+      background: rgba(99, 102, 241, 0.1);
+      border: 1px solid rgba(99, 102, 241, 0.2);
     }
 
-    /* Forzar texto oscuro en fondos claros */
+    /* Texto oscuro en fondos pasteles */
     .sun-info .celestial-label,
     .moon-info .celestial-label {
       color: #78350F;
     }
     
     .sun-info .celestial-value {
-      color: #92400E;
+      color: #B45309;
     }
     
     .moon-info .celestial-label {
-      color: #3730A3;
+      color: #4338CA;
     }
     
     .moon-info .celestial-value {
@@ -2785,13 +2866,13 @@
 
     .celestial-label {
       font-size: 0.8rem;
-      color: var(--text-secondary);
+      color: #78350F;
     }
 
     .celestial-value {
       font-family: 'Space Grotesk', sans-serif;
       font-weight: 600;
-      color: var(--text-primary);
+      color: #78350F;
     }
 
     /* Footer */
@@ -4958,12 +5039,17 @@
         <div class="card-header">
           <div class="card-icon">⚽</div>
           <div>
-            <div class="card-title">🏆 Mundial 2026</div>
-            <div class="card-subtitle">Partidos de hoy y mañana • Horario ARG</div>
+            <div class="card-title">Eventos Deportivos</div>
+            <div class="card-subtitle">Próximos 3 días • Fútbol & Tenis</div>
           </div>
         </div>
+        <div class="sports-tabs">
+          <button class="sports-tab active" onclick="filterSports('all')">Todos</button>
+          <button class="sports-tab" onclick="filterSports('futbol')">⚽ Fútbol</button>
+          <button class="sports-tab" onclick="filterSports('tenis')">🎾 Tenis</button>
+        </div>
         <div class="sports-events" id="sportsEvents">
-          <div class="sports-empty">⚽ Cargando partidos...</div>
+          <div class="sports-empty">⚽ Cargando eventos...</div>
         </div>
       </div>
 
@@ -7165,112 +7251,120 @@ _Actualizado: ${fecha} ${hora}_`;
     // CARTELERA CINE SAN MARTÍN
     // ============================================
     // ============================================
-    // MUNDIAL FIFA 2026
+    // EVENTOS DEPORTIVOS
     // ============================================
     const SCRAPER_URL = 'https://script.google.com/macros/s/AKfycbzvLnlLEklkeI3gWCS4-o5CJlUmgiXOUP9VK9Dc4pb66U_Dk5w2TaGENgs6t23Tr1rf/exec';
+    let allSportsEvents = [];
     
     async function fetchSports() {
       const container = document.getElementById('sportsEvents');
       
       try {
-        const response = await fetch(SCRAPER_URL + '?action=mundial');
+        const response = await fetch(SCRAPER_URL + '?action=deportes');
         const data = await response.json();
         
         if (data.success && data.eventos && data.eventos.length > 0) {
-          renderMundial(data);
-          console.log('✅ Mundial 2026:', data.totalHoy, 'hoy,', data.totalManana, 'mañana');
+          allSportsEvents = data.eventos;
+          renderSports(data.eventos);
+          console.log('✅ Deportes cargados:', data.eventos.length, 'eventos');
         } else {
-          container.innerHTML = '<div class="sports-empty">⚽ No hay partidos hoy ni mañana<br><small>El Mundial empieza el 11 de junio</small></div>';
+          container.innerHTML = '<div class="sports-empty">⚽ No hay eventos próximos</div>';
         }
       } catch (error) {
-        console.error('Error cargando Mundial:', error);
-        container.innerHTML = '<div class="sports-empty">⚠️ Error al cargar partidos</div>';
+        console.error('Error cargando deportes:', error);
+        container.innerHTML = '<div class="sports-empty">⚠️ Error al cargar eventos</div>';
       }
     }
     
-    function renderMundial(data) {
+    function renderSports(eventos, filter = 'all') {
       const container = document.getElementById('sportsEvents');
       
-      // Separar partidos de hoy y mañana
-      const partidosHoy = data.eventos.filter(e => e.esHoy);
-      const partidosManana = data.eventos.filter(e => e.esManana);
-      
-      let html = '';
-      
-      // Sección HOY
-      if (partidosHoy.length > 0) {
-        html += '<div class="mundial-section-header">📅 HOY</div>';
-        html += partidosHoy.map(partido => renderPartidoMundial(partido)).join('');
+      let filtered = eventos;
+      if (filter !== 'all') {
+        filtered = eventos.filter(e => e.tipo === filter);
       }
       
-      // Sección MAÑANA
-      if (partidosManana.length > 0) {
-        html += '<div class="mundial-section-header">📅 MAÑANA</div>';
-        html += partidosManana.map(partido => renderPartidoMundial(partido)).join('');
+      if (!filtered || filtered.length === 0) {
+        container.innerHTML = '<div class="sports-empty">⚽ No hay eventos para mostrar</div>';
+        return;
       }
       
-      container.innerHTML = html;
+      container.innerHTML = filtered.map(evento => {
+        const isFutbol = evento.tipo === 'futbol';
+        const icon = isFutbol ? '⚽' : '🎾';
+        
+        // Determinar estado visual
+        let estadoClass = '';
+        let estadoIndicator = '';
+        let horaDisplay = evento.hora;
+        
+        if (evento.estado === 'en_vivo') {
+          estadoClass = 'is-live';
+          estadoIndicator = '<span class="live-indicator">🔴 EN VIVO</span>';
+        } else if (evento.estado === 'finalizado') {
+          estadoClass = 'is-finished';
+          horaDisplay = '✓ Final';
+        } else if (evento.esHoy) {
+          estadoClass = 'is-today';
+        }
+        
+        // Mostrar resultado si existe
+        let teams;
+        let goleadores = '';
+        
+        if (isFutbol) {
+          if (evento.resultado || evento.golesLocal !== undefined) {
+            teams = `${evento.equipo1} <strong>${evento.golesLocal}</strong> - <strong>${evento.golesVisitante}</strong> ${evento.equipo2}`;
+            
+            const golesLocal = evento.goleadoresLocal || [];
+            const golesVisitante = evento.goleadoresVisitante || [];
+            
+            if (golesLocal.length > 0 || golesVisitante.length > 0) {
+              let golesHTML = [];
+              if (golesLocal.length > 0) golesHTML.push(`⚽ ${golesLocal.join(', ')}`);
+              if (golesVisitante.length > 0) golesHTML.push(`⚽ ${golesVisitante.join(', ')}`);
+              goleadores = `<div class="sports-event-scorers">${golesHTML.join('<br>')}</div>`;
+            }
+          } else {
+            teams = `${evento.equipo1} vs ${evento.equipo2}`;
+          }
+        } else {
+          if (evento.jugador1 && evento.jugador2) {
+            if (evento.resultado) {
+              teams = `${evento.evento}<br><small>${evento.jugador1} ${evento.resultado} ${evento.jugador2}</small>`;
+            } else {
+              teams = `${evento.evento}<br><small>${evento.jugador1} vs ${evento.jugador2}</small>`;
+            }
+          } else {
+            teams = evento.evento;
+          }
+        }
+        
+        return `
+          <div class="sports-event ${estadoClass}">
+            <div class="sports-event-date">
+              <div class="sports-event-day">${evento.dia}</div>
+              <div class="sports-event-month">${evento.mes}</div>
+              <div class="sports-event-time">${horaDisplay}</div>
+            </div>
+            <div class="sports-event-info">
+              ${estadoIndicator}
+              <div class="sports-event-teams">${teams}</div>
+              ${goleadores}
+              <div class="sports-event-competition">${evento.competicion}</div>
+            </div>
+            <div class="sports-event-type">${icon}</div>
+          </div>
+        `;
+      }).join('');
     }
     
-    function renderPartidoMundial(partido) {
-      const destacadoClass = partido.destacado ? 'mundial-destacado' : '';
-      const argentinaClass = partido.equipo1.includes('Argentina') || (partido.equipo2 && partido.equipo2.includes('Argentina')) ? 'mundial-argentina' : '';
-      
-      // Estado del partido
-      let estadoClass = '';
-      let estadoIndicator = '';
-      let horaDisplay = partido.hora;
-      
-      if (partido.estado === 'en_vivo') {
-        estadoClass = 'is-live';
-        estadoIndicator = '<span class="live-indicator">🔴 EN VIVO</span>';
-      } else if (partido.estado === 'finalizado') {
-        estadoClass = 'is-finished';
-        horaDisplay = '✓ Final';
-      } else if (partido.esHoy) {
-        estadoClass = 'is-today';
-      }
-      
-      // Mostrar resultado si existe
-      let teamsDisplay;
-      if (partido.golesLocal !== undefined && partido.golesVisitante !== undefined) {
-        teamsDisplay = `${partido.equipo1} <strong>${partido.golesLocal}</strong> - <strong>${partido.golesVisitante}</strong> ${partido.equipo2 || ''}`;
-      } else {
-        const vsText = partido.equipo2 ? `vs ${partido.equipo2}` : '';
-        teamsDisplay = `${partido.equipo1} ${vsText}`;
-      }
-      
-      // Goleadores
-      let goleadores = '';
-      const golesLocal = partido.goleadoresLocal || [];
-      const golesVisitante = partido.goleadoresVisitante || [];
-      if (golesLocal.length > 0 || golesVisitante.length > 0) {
-        let golesHTML = [];
-        if (golesLocal.length > 0) golesHTML.push(`⚽ ${golesLocal.join(', ')}`);
-        if (golesVisitante.length > 0) golesHTML.push(`⚽ ${golesVisitante.join(', ')}`);
-        goleadores = `<div class="sports-event-scorers">${golesHTML.join('<br>')}</div>`;
-      }
-      
-      // Sede (solo si no hay resultado aún)
-      const sedeHTML = partido.sede && !partido.golesLocal ? `<div class="sports-event-sede">📍 ${partido.sede}</div>` : '';
-      
-      return `
-        <div class="sports-event ${estadoClass} ${destacadoClass} ${argentinaClass}">
-          <div class="sports-event-date">
-            <div class="sports-event-day">${partido.dia}</div>
-            <div class="sports-event-month">${partido.mes}</div>
-            <div class="sports-event-time">${horaDisplay}</div>
-          </div>
-          <div class="sports-event-info">
-            ${estadoIndicator}
-            <div class="sports-event-teams">${teamsDisplay}</div>
-            ${goleadores}
-            <div class="sports-event-competition">${partido.competicion}</div>
-            ${sedeHTML}
-          </div>
-          <div class="sports-event-type">⚽</div>
-        </div>
-      `;
+    function filterSports(tipo) {
+      document.querySelectorAll('.sports-tab').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      event.target.classList.add('active');
+      renderSports(allSportsEvents, tipo);
     }
 
     // ============================================
